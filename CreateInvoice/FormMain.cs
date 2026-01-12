@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BotCommon;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -13,17 +16,30 @@ namespace CreateInvoice {
         private bool customerGroupHidden = false;
 
         // Persist views so you can place controls in each page and keep their state
-        private readonly CustomersControl customersControl = new CustomersControl();
+        private readonly CustomerListControl customerListControl = null;
         private readonly CashControl cashControl = new CashControl();
         private readonly CompanyListControl companyControl = new CompanyListControl();
         private readonly CreateSaleControl createSaleControl = null;
-        private readonly ProductControl productControl = new ProductControl();
-        private readonly EmployeeGroupControl employeeGroupControl = new EmployeeGroupControl();
+        private readonly ProductControl productControl = null;
+        private readonly EmployeeGroupListControl employeeGroupControl = null;
+        private readonly ProductTypeListControl productTypeControl = null;
+
+        public DataTable ProductTypesTable {
+            get; private set;
+        }
+        public DataTable ProductsTable {
+            get; private set;
+        }
+        // ... ตารางอื่นๆ
 
         public FormMain() {
             InitializeComponent();
 
             createSaleControl = new CreateSaleControl((FormMain)this);
+            customerListControl = new CustomerListControl((FormMain)this);
+            employeeGroupControl = new EmployeeGroupListControl((FormMain)this);
+            productControl = new ProductControl((FormMain)this);
+            productTypeControl = new ProductTypeListControl((FormMain)this);
             // Start with expanded menu
             menuExpanded = true;
             panelMenu.Width = MenuExpandedWidth;
@@ -31,7 +47,9 @@ namespace CreateInvoice {
 
             InitToolTips();
             InitContentViews();
-            ShowView(customersControl);
+            ShowView(customerListControl);
+
+            LoadAllMasterData();
         }
 
 
@@ -66,6 +84,8 @@ namespace CreateInvoice {
                 btnCreateSale.TextAlign = ContentAlignment.MiddleCenter;
                 btnProducts.TextAlign = ContentAlignment.MiddleCenter;
                 btnMaster.TextAlign = ContentAlignment.MiddleCenter;
+                btnProductType.TextAlign = ContentAlignment.MiddleCenter;
+                btnCash.TextAlign = ContentAlignment.MiddleCenter;
             }
 
             // อัปเดตการแสดงผลปุ่มกลุ่มลูกค้าตาม flag ปัจจุบัน
@@ -107,13 +127,14 @@ namespace CreateInvoice {
             //productControl.Dock = DockStyle.Fill;
             //employeeGroupControl.Dock = DockStyle.Fill;
 
-            panelContent.Controls.Add(customersControl);
+            panelContent.Controls.Add(customerListControl);
             panelContent.Controls.Add(createSaleControl);
             panelContent.Controls.Add(productControl);
             panelContent.Controls.Add(employeeGroupControl);
+            panelContent.Controls.Add(productTypeControl);
         }
 
-        private void ShowView(UserControl view) {
+        public void ShowView(UserControl view) {
             foreach (Control ctrl in panelContent.Controls) {
                 ctrl.Visible = false;
             }
@@ -128,7 +149,7 @@ namespace CreateInvoice {
         }
 
         private void btnCustomers_Click(object sender, EventArgs e) {
-            ShowView(customersControl);
+            ShowView(customerListControl);
         }
 
         private void btnCreateSale_Click(object sender, EventArgs e) {
@@ -148,6 +169,7 @@ namespace CreateInvoice {
             btnCustomerGroup.Visible = !customerGroupHidden;
             btnProducts.Visible = !customerGroupHidden;
             btnCompany.Visible = !customerGroupHidden;
+            btnProductType.Visible = !customerGroupHidden;
 
             //// เมื่อปุ่มยังมองเห็น ให้แสดงหน้าข้อมูลทั่วไปด้วย
             //if (!customerGroupHidden) {
@@ -182,6 +204,83 @@ namespace CreateInvoice {
 
         private void btnCompany_Click(object sender, EventArgs e) {
             ShowView(companyControl);
+        }
+
+        private void btnProductType_Click(object sender, EventArgs e) {
+            ShowView(productTypeControl);
+        }
+
+        private void LoadAllMasterData() {
+            LoadProductTypes();
+            //LoadProducts();
+            // ... ตารางอื่นๆ
+        }
+
+        public void LoadProductTypes() {
+            var response = ConstantCommon.client.Get("product_types");
+
+            // พยายามอ่านแบบ Dictionary ก่อน
+            Dictionary<string, product_types> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, product_types>>();
+            } catch {
+                dict = null;
+            }
+
+            var dt = new DataTable();
+            dt.Columns.Add("ProductTypeID", typeof(int));
+            dt.Columns.Add("ProductTypeCode", typeof(string));
+            dt.Columns.Add("ProductTypeName", typeof(string));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            if (dict != null) {
+                // กรณีเก็บแบบ object: { "1": {...}, "2": {...} }
+                foreach (var kv in dict) {
+                    var g = kv.Value;
+                    if (g == null)
+                        continue;
+
+                    var row = dt.NewRow();
+                    if (g.ProductTypeID.HasValue)
+                        row["ProductTypeID"] = g.ProductTypeID.Value;
+                    row["ProductTypeCode"] = g.ProductTypeCode;
+                    row["ProductTypeName"] = g.ProductTypeName;
+                    row["CreateTime"] = g.CreateTime;
+                    row["CreateBy"] = g.CreateBy;
+                    row["UpdateTime"] = g.UpdateTime;
+                    row["UpdateBy"] = g.UpdateBy;
+                    dt.Rows.Add(row);
+                }
+            } else {
+                // กรณีเก็บแบบ array: [ {...}, {...} ]
+                try {
+                    var list = response.ResultAs<List<product_types>>();
+                    if (list != null) {
+                        foreach (var g in list) {
+                            if (g == null)
+                                continue;
+
+                            var row = dt.NewRow();
+                            if (g.ProductTypeID.HasValue)
+                                row["ProductTypeID"] = g.ProductTypeID.Value;
+                            row["ProductTypeCode"] = g.ProductTypeCode;
+                            row["ProductTypeName"] = g.ProductTypeName;
+                            row["CreateTime"] = g.CreateTime;
+                            row["CreateBy"] = g.CreateBy;
+                            row["UpdateTime"] = g.UpdateTime;
+                            row["UpdateBy"] = g.UpdateBy;
+                            dt.Rows.Add(row);
+                        }
+                    }
+                } catch {
+                    // ถ้าอ่านไม่ได้เลย ปล่อย dt ว่าง
+                }
+            }
+
+            ProductTypesTable = dt;
         }
     }
 }

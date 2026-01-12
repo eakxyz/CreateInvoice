@@ -16,9 +16,12 @@ namespace CreateInvoice {
         private Button btnSearch;
         private Label label2;
         private ComboBox comboBox3;
+        private Button btnAddCustomer;
         private DataGridView dataGridView1;
+        public FormMain formMain = null;
+        public CustomersControl customersControl = new CustomersControl();
 
-        public CustomerListControl() {
+        public CustomerListControl(FormMain pFormMain) {
             Dock = DockStyle.Fill;
             BackColor = Color.White;
             var lbl = new Label {
@@ -34,6 +37,8 @@ namespace CreateInvoice {
 
             InitCustomerGridColumns();
             dataGridView1.DataSource = null;
+
+            formMain = pFormMain;
         }
 
         private void InitializeComponent() {
@@ -49,12 +54,15 @@ namespace CreateInvoice {
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.btnAddCustomer = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -65,11 +73,13 @@ namespace CreateInvoice {
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(35, 310);
+            this.dataGridView1.Location = new System.Drawing.Point(35, 267);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 32;
-            this.dataGridView1.Size = new System.Drawing.Size(1474, 445);
+            this.dataGridView1.Size = new System.Drawing.Size(1474, 477);
             this.dataGridView1.TabIndex = 0;
             // 
             // colEdit
@@ -91,14 +101,14 @@ namespace CreateInvoice {
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(35, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1474, 248);
+            this.groupBox1.Size = new System.Drawing.Size(1474, 184);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "เงื่อนไขการค้นหา";
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(424, 187);
+            this.btnSearch.Location = new System.Drawing.Point(813, 124);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(120, 35);
             this.btnSearch.TabIndex = 20;
@@ -125,7 +135,7 @@ namespace CreateInvoice {
             "ไม่ใช้งาน"});
             this.comboBox3.Location = new System.Drawing.Point(394, 59);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(209, 44);
+            this.comboBox3.Size = new System.Drawing.Size(209, 37);
             this.comboBox3.TabIndex = 18;
             // 
             // textBox3
@@ -135,7 +145,7 @@ namespace CreateInvoice {
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.Location = new System.Drawing.Point(394, 124);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(400, 41);
+            this.textBox3.Size = new System.Drawing.Size(400, 35);
             this.textBox3.TabIndex = 17;
             // 
             // label1
@@ -154,7 +164,7 @@ namespace CreateInvoice {
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(18, 124);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(360, 44);
+            this.comboBox1.Size = new System.Drawing.Size(360, 37);
             this.comboBox1.TabIndex = 14;
             // 
             // label7
@@ -163,7 +173,7 @@ namespace CreateInvoice {
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Location = new System.Drawing.Point(30, 34);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(116, 25);
+            this.label7.Size = new System.Drawing.Size(99, 20);
             this.label7.TabIndex = 13;
             this.label7.Text = "กลุ่มบัญชีลูกค้า";
             // 
@@ -174,11 +184,23 @@ namespace CreateInvoice {
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(18, 59);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(360, 44);
+            this.comboBox2.Size = new System.Drawing.Size(360, 37);
             this.comboBox2.TabIndex = 12;
+            // 
+            // btnAddCustomer
+            // 
+            this.btnAddCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddCustomer.Location = new System.Drawing.Point(35, 226);
+            this.btnAddCustomer.Name = "btnAddCustomer";
+            this.btnAddCustomer.Size = new System.Drawing.Size(120, 35);
+            this.btnAddCustomer.TabIndex = 21;
+            this.btnAddCustomer.Text = "+ เพิ่มลูกค้า";
+            this.btnAddCustomer.UseVisualStyleBackColor = true;
+            this.btnAddCustomer.Click += new System.EventHandler(this.btnAddCustomer_Click);
             // 
             // CustomerListControl
             // 
+            this.Controls.Add(this.btnAddCustomer);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "CustomerListControl";
@@ -194,6 +216,9 @@ namespace CreateInvoice {
             dataGridView1.Columns.Clear();
             dataGridView1.AutoGenerateColumns = false;
 
+            // ให้คอลัมน์ยืดเต็มความกว้างของ grid
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
                 DataPropertyName = "CustomerCode",
                 HeaderText = "รหัสลูกค้า",
@@ -204,7 +229,8 @@ namespace CreateInvoice {
                 DataPropertyName = "PrefixT",
                 HeaderText = "คำนำหน้า",
                 Name = "colPrefixT",
-                ReadOnly = true
+                ReadOnly = true,
+                Visible = false
             });
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
                 DataPropertyName = "FullName",
@@ -231,19 +257,38 @@ namespace CreateInvoice {
                 ReadOnly = true
             });
 
-            // History buttons
-            dataGridView1.Columns.Add(new DataGridViewButtonColumn {
-                HeaderText = "ประวัติการซื้อ",
-                Name = "colPurchaseHistory",
-                Text = "ดู",
-                UseColumnTextForButtonValue = true
-            });
-            dataGridView1.Columns.Add(new DataGridViewButtonColumn {
-                HeaderText = "ประวัติการแก้ไข",
-                Name = "colEditHistory",
-                Text = "ดู",
-                UseColumnTextForButtonValue = true
-            });
+            //// History buttons
+            //dataGridView1.Columns.Add(new DataGridViewButtonColumn {
+            //    HeaderText = "ประวัติการซื้อ",
+            //    Name = "colPurchaseHistory",
+            //    Text = "ดู",
+            //    UseColumnTextForButtonValue = true
+            //});
+            //dataGridView1.Columns.Add(new DataGridViewButtonColumn {
+            //    HeaderText = "ประวัติการแก้ไข",
+            //    Name = "colEditHistory",
+            //    Text = "ดู",
+            //    UseColumnTextForButtonValue = true
+            //});
+
+            // คอลัมน์ Edit icon
+            var colEdit = new DataGridViewImageColumn {
+                Name = "colEdit",
+                HeaderText = "แก้ไข",
+                Image = Properties.Resources.Edit.ToBitmap(),   // ไฟล์ไอคอนใน Resources
+                Width = 50
+            };
+            dataGridView1.Columns.Add(colEdit);
+
+            // คอลัมน์ Delete icon
+            var colDelete = new DataGridViewImageColumn {
+                Name = "colDelete",
+                HeaderText = "ลบ",
+                Image = Properties.Resources.Remove.ToBitmap(), // ไฟล์ไอคอนใน Resources
+                Width = 50
+            };
+            dataGridView1.Columns.Add(colDelete);
+
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
@@ -289,6 +334,10 @@ namespace CreateInvoice {
             } catch (Exception ex) {
                 MessageBox.Show("โหลดข้อมูลลูกค้าไม่สำเร็จ: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnAddCustomer_Click(object sender, EventArgs e) {
+            formMain.ShowView(customersControl);
         }
     }
 }

@@ -134,6 +134,7 @@
     <Compile Include="map_guarantees.cs" />
     <Compile Include="map_products.cs" />
     <Compile Include="products.cs" />
+    <Compile Include="product_types.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registers.cs" />
     <Compile Include="SaveFormulas.cs" />

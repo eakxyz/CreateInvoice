@@ -1,0 +1,180 @@
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csprojResolveAssemblyReference.cache
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+C:\ProjectITCAT\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csprojResolveAssemblyReference.cache
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+C:\Project\BotMakeMoney\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Project\BotCasino\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Project\BotCasino\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Project\BotCasino\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+C:\Project\BotCasino\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Project\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Project\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Project\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Project\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CopyComplete
+C:\Project\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+C:\Project\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Firebase.Storage.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\FirebaseSharp.Portable.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csprojAssemblyReference.cache
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CopyComplete
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+D:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\BotCommon.pdb
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Firebase.Storage.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\FirebaseSharp.Portable.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\FireSharp.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.AssemblyReference.cache
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.csproj.Up2Date
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.dll
+C:\Bot khotr-seiyn\BotCleverPlay\BotCommon\obj\Debug\BotCommon.pdb
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\BotCommon.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\BotCommon.pdb
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Firebase.Storage.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\FirebaseSharp.Portable.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\FireSharp.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.AssemblyReference.cache
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.Up2Date
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.dll
+C:\Project\ออกใบเสร็จ\CreateInvoice\BotCommon\obj\Debug\BotCommon.pdb
+C:\Project\CreateInvoice\BotCommon\bin\Debug\BotCommon.dll.config
+C:\Project\CreateInvoice\BotCommon\bin\Debug\BotCommon.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\BotCommon.pdb
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Firebase.Storage.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\FirebaseSharp.Portable.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\FireSharp.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Newtonsoft.Json.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Extensions.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Primitives.dll
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Project\CreateInvoice\BotCommon\bin\Debug\Newtonsoft.Json.xml
+C:\Project\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Extensions.xml
+C:\Project\CreateInvoice\BotCommon\bin\Debug\System.Net.Http.Primitives.xml
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.App.config
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.AssemblyReference.cache
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.CoreCompileInputs.cache
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.csproj.Up2Date
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.dll
+C:\Project\CreateInvoice\BotCommon\obj\Debug\BotCommon.pdb

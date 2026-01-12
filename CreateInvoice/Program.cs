@@ -18,7 +18,8 @@ namespace CreateInvoice {
                 //AuthSecret = "Y6o5IkvpUtaiS6m51mNa4VWXdh16Uf8ZB9K3DZDI",
                 //BasePath = "https://invoice-22921-default-rtdb.firebaseio.com"
                 // TODO: fill your Firebase base path and secret, or load from config
-                ConstantCommon.Initial("https://invoice-22921-default-rtdb.firebaseio.com", "Y6o5IkvpUtaiS6m51mNa4VWXdh16Uf8ZB9K3DZDI");
+                ConstantCommon.Initial("https://invoice-22921-default-rtdb.firebaseio.com"
+                                     , "Y6o5IkvpUtaiS6m51mNa4VWXdh16Uf8ZB9K3DZDI");
             } catch { }
 
             //using (var login = new LoginForm()) {

@@ -28,8 +28,10 @@ namespace CreateInvoice {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnSummary = new System.Windows.Forms.Button();
             this.btnCash = new System.Windows.Forms.Button();
             this.btnCompany = new System.Windows.Forms.Button();
+            this.btnProductType = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnCustomerGroup = new System.Windows.Forms.Button();
             this.btnMaster = new System.Windows.Forms.Button();
@@ -38,7 +40,6 @@ namespace CreateInvoice {
             this.btnToggleMenu = new System.Windows.Forms.Button();
             this.menuTimer = new System.Windows.Forms.Timer(this.components);
             this.panelContent = new System.Windows.Forms.Panel();
-            this.btnSummary = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,6 +49,7 @@ namespace CreateInvoice {
             this.panelMenu.Controls.Add(this.btnSummary);
             this.panelMenu.Controls.Add(this.btnCash);
             this.panelMenu.Controls.Add(this.btnCompany);
+            this.panelMenu.Controls.Add(this.btnProductType);
             this.panelMenu.Controls.Add(this.btnProducts);
             this.panelMenu.Controls.Add(this.btnCustomerGroup);
             this.panelMenu.Controls.Add(this.btnMaster);
@@ -56,11 +58,28 @@ namespace CreateInvoice {
             this.panelMenu.Controls.Add(this.btnToggleMenu);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
-            this.panelMenu.Margin = new System.Windows.Forms.Padding(2);
+            this.panelMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(110, 786);
+            this.panelMenu.Size = new System.Drawing.Size(147, 967);
             this.panelMenu.TabIndex = 0;
             this.panelMenu.Paint += new System.Windows.Forms.PaintEventHandler(this.panelMenu_Paint);
+            // 
+            // btnSummary
+            // 
+            this.btnSummary.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnSummary.FlatAppearance.BorderSize = 0;
+            this.btnSummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSummary.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSummary.ForeColor = System.Drawing.Color.White;
+            this.btnSummary.Location = new System.Drawing.Point(0, 439);
+            this.btnSummary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnSummary.Name = "btnSummary";
+            this.btnSummary.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnSummary.Size = new System.Drawing.Size(147, 50);
+            this.btnSummary.TabIndex = 8;
+            this.btnSummary.Text = "สรุปยอด";
+            this.btnSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSummary.UseVisualStyleBackColor = true;
             // 
             // btnCash
             // 
@@ -69,11 +88,11 @@ namespace CreateInvoice {
             this.btnCash.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCash.ForeColor = System.Drawing.Color.White;
-            this.btnCash.Location = new System.Drawing.Point(0, 278);
-            this.btnCash.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCash.Location = new System.Drawing.Point(0, 389);
+            this.btnCash.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCash.Name = "btnCash";
-            this.btnCash.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnCash.Size = new System.Drawing.Size(110, 41);
+            this.btnCash.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnCash.Size = new System.Drawing.Size(147, 50);
             this.btnCash.TabIndex = 7;
             this.btnCash.Text = "การรับชำระ";
             this.btnCash.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -87,15 +106,32 @@ namespace CreateInvoice {
             this.btnCompany.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCompany.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCompany.ForeColor = System.Drawing.Color.White;
-            this.btnCompany.Location = new System.Drawing.Point(0, 237);
-            this.btnCompany.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCompany.Location = new System.Drawing.Point(0, 339);
+            this.btnCompany.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCompany.Name = "btnCompany";
-            this.btnCompany.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnCompany.Size = new System.Drawing.Size(110, 41);
+            this.btnCompany.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnCompany.Size = new System.Drawing.Size(147, 50);
             this.btnCompany.TabIndex = 6;
             this.btnCompany.Text = "ที่อยู่บริษัท";
             this.btnCompany.UseVisualStyleBackColor = true;
             this.btnCompany.Click += new System.EventHandler(this.btnCompany_Click);
+            // 
+            // btnProductType
+            // 
+            this.btnProductType.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnProductType.FlatAppearance.BorderSize = 0;
+            this.btnProductType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProductType.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProductType.ForeColor = System.Drawing.Color.White;
+            this.btnProductType.Location = new System.Drawing.Point(0, 289);
+            this.btnProductType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnProductType.Name = "btnProductType";
+            this.btnProductType.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnProductType.Size = new System.Drawing.Size(147, 50);
+            this.btnProductType.TabIndex = 9;
+            this.btnProductType.Text = "ประเภทสินค้า";
+            this.btnProductType.UseVisualStyleBackColor = true;
+            this.btnProductType.Click += new System.EventHandler(this.btnProductType_Click);
             // 
             // btnProducts
             // 
@@ -104,11 +140,11 @@ namespace CreateInvoice {
             this.btnProducts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProducts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProducts.ForeColor = System.Drawing.Color.White;
-            this.btnProducts.Location = new System.Drawing.Point(0, 196);
-            this.btnProducts.Margin = new System.Windows.Forms.Padding(2);
+            this.btnProducts.Location = new System.Drawing.Point(0, 239);
+            this.btnProducts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnProducts.Name = "btnProducts";
-            this.btnProducts.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnProducts.Size = new System.Drawing.Size(110, 41);
+            this.btnProducts.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnProducts.Size = new System.Drawing.Size(147, 50);
             this.btnProducts.TabIndex = 3;
             this.btnProducts.Text = "สินค้า";
             this.btnProducts.UseVisualStyleBackColor = true;
@@ -121,11 +157,11 @@ namespace CreateInvoice {
             this.btnCustomerGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCustomerGroup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCustomerGroup.ForeColor = System.Drawing.Color.White;
-            this.btnCustomerGroup.Location = new System.Drawing.Point(0, 155);
-            this.btnCustomerGroup.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCustomerGroup.Location = new System.Drawing.Point(0, 189);
+            this.btnCustomerGroup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCustomerGroup.Name = "btnCustomerGroup";
-            this.btnCustomerGroup.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnCustomerGroup.Size = new System.Drawing.Size(110, 41);
+            this.btnCustomerGroup.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnCustomerGroup.Size = new System.Drawing.Size(147, 50);
             this.btnCustomerGroup.TabIndex = 5;
             this.btnCustomerGroup.Text = "กลุ่มลูกค้า";
             this.btnCustomerGroup.UseVisualStyleBackColor = true;
@@ -138,11 +174,11 @@ namespace CreateInvoice {
             this.btnMaster.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMaster.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMaster.ForeColor = System.Drawing.Color.White;
-            this.btnMaster.Location = new System.Drawing.Point(0, 114);
-            this.btnMaster.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMaster.Location = new System.Drawing.Point(0, 139);
+            this.btnMaster.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnMaster.Name = "btnMaster";
-            this.btnMaster.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnMaster.Size = new System.Drawing.Size(110, 41);
+            this.btnMaster.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnMaster.Size = new System.Drawing.Size(147, 50);
             this.btnMaster.TabIndex = 4;
             this.btnMaster.Text = "ข้อมูลทั่วไป";
             this.btnMaster.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -156,11 +192,11 @@ namespace CreateInvoice {
             this.btnCustomers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCustomers.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCustomers.ForeColor = System.Drawing.Color.White;
-            this.btnCustomers.Location = new System.Drawing.Point(0, 73);
-            this.btnCustomers.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCustomers.Location = new System.Drawing.Point(0, 89);
+            this.btnCustomers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCustomers.Name = "btnCustomers";
-            this.btnCustomers.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnCustomers.Size = new System.Drawing.Size(110, 41);
+            this.btnCustomers.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnCustomers.Size = new System.Drawing.Size(147, 50);
             this.btnCustomers.TabIndex = 1;
             this.btnCustomers.Text = "ลูกค้า";
             this.btnCustomers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -174,11 +210,11 @@ namespace CreateInvoice {
             this.btnCreateSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCreateSale.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreateSale.ForeColor = System.Drawing.Color.White;
-            this.btnCreateSale.Location = new System.Drawing.Point(0, 32);
-            this.btnCreateSale.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCreateSale.Location = new System.Drawing.Point(0, 39);
+            this.btnCreateSale.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCreateSale.Name = "btnCreateSale";
-            this.btnCreateSale.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnCreateSale.Size = new System.Drawing.Size(110, 41);
+            this.btnCreateSale.Padding = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.btnCreateSale.Size = new System.Drawing.Size(147, 50);
             this.btnCreateSale.TabIndex = 2;
             this.btnCreateSale.Text = "สร้างการขาย";
             this.btnCreateSale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -193,9 +229,9 @@ namespace CreateInvoice {
             this.btnToggleMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnToggleMenu.ForeColor = System.Drawing.Color.White;
             this.btnToggleMenu.Location = new System.Drawing.Point(0, 0);
-            this.btnToggleMenu.Margin = new System.Windows.Forms.Padding(2);
+            this.btnToggleMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnToggleMenu.Name = "btnToggleMenu";
-            this.btnToggleMenu.Size = new System.Drawing.Size(110, 32);
+            this.btnToggleMenu.Size = new System.Drawing.Size(147, 39);
             this.btnToggleMenu.TabIndex = 0;
             this.btnToggleMenu.Text = "≡";
             this.btnToggleMenu.UseVisualStyleBackColor = true;
@@ -210,37 +246,21 @@ namespace CreateInvoice {
             // 
             this.panelContent.AutoScroll = true;
             this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(110, 0);
+            this.panelContent.Location = new System.Drawing.Point(147, 0);
+            this.panelContent.Margin = new System.Windows.Forms.Padding(4);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(1403, 786);
+            this.panelContent.Size = new System.Drawing.Size(1870, 967);
             this.panelContent.TabIndex = 0;
-            // 
-            // btnSummary
-            // 
-            this.btnSummary.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnSummary.FlatAppearance.BorderSize = 0;
-            this.btnSummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSummary.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSummary.ForeColor = System.Drawing.Color.White;
-            this.btnSummary.Location = new System.Drawing.Point(0, 319);
-            this.btnSummary.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSummary.Name = "btnSummary";
-            this.btnSummary.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.btnSummary.Size = new System.Drawing.Size(110, 41);
-            this.btnSummary.TabIndex = 8;
-            this.btnSummary.Text = "สรุปยอด";
-            this.btnSummary.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSummary.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1513, 786);
+            this.ClientSize = new System.Drawing.Size(2017, 967);
             this.Controls.Add(this.panelContent);
             this.Controls.Add(this.panelMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "โปรแกรมออกใบเสร็จ";
@@ -264,5 +284,6 @@ namespace CreateInvoice {
         private System.Windows.Forms.Button btnCash;
         public System.Windows.Forms.Panel panelContent;
         private Button btnSummary;
+        private Button btnProductType;
     }
 }

@@ -19,10 +19,13 @@ namespace CreateInvoice {
         private Label label2;
         private NumericUpDown numericUpDown1;
         private Button btnSearch;
-        private Button button1;
         private DataGridViewButtonColumn colEdit;
+        private Button btnCancel;
+        public FormMain formMain = null;
+        public ProductControl productControl = null;
 
-        public ProductDetailControl() {
+        public ProductDetailControl(FormMain pFormMain) {
+            this.formMain = pFormMain;
             Dock = DockStyle.Fill;
             BackColor = Color.White;
             var lbl = new Label {
@@ -42,6 +45,11 @@ namespace CreateInvoice {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,12 +57,7 @@ namespace CreateInvoice {
             this.label3 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -92,7 +95,7 @@ namespace CreateInvoice {
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.btnCancel);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.numericUpDown1);
             this.groupBox2.Controls.Add(this.btnSearch);
@@ -111,6 +114,59 @@ namespace CreateInvoice {
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "1. ชื่อ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(490, 182);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 25);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "ราคาสินค้า";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
+            this.numericUpDown1.Location = new System.Drawing.Point(478, 210);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(400, 41);
+            this.numericUpDown1.TabIndex = 22;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(571, 504);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(120, 41);
+            this.btnSearch.TabIndex = 21;
+            this.btnSearch.Text = "เพิ่ม";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(491, 103);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 25);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "รหัสสินค้า";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(478, 128);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(400, 41);
+            this.textBox1.TabIndex = 13;
             // 
             // label7
             // 
@@ -175,73 +231,20 @@ namespace CreateInvoice {
             this.tabPage2.Location = new System.Drawing.Point(4, 38);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1547, 941);
+            this.tabPage2.Size = new System.Drawing.Size(1547, 617);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "ข้อมูลส่วนบุคคล";
+            this.tabPage2.Text = "ข้อมูล";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // btnCancel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(491, 103);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 25);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "รหัสสินค้า";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(478, 128);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(400, 41);
-            this.textBox1.TabIndex = 13;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(571, 504);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(120, 41);
-            this.btnSearch.TabIndex = 21;
-            this.btnSearch.Text = "เพิ่ม";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.numericUpDown1.DecimalPlaces = 2;
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.numericUpDown1.Location = new System.Drawing.Point(478, 210);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(400, 41);
-            this.numericUpDown1.TabIndex = 22;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(490, 182);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 25);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "ราคาสินค้า";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(398, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 41);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "เพิ่ม";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnCancel.Location = new System.Drawing.Point(697, 504);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(120, 41);
+            this.btnCancel.TabIndex = 25;
+            this.btnCancel.Text = "ยกเลิก";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // ProductDetailControl
             // 
@@ -259,6 +262,11 @@ namespace CreateInvoice {
 
         private void button1_Click(object sender, EventArgs e) {
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e) {
+            productControl = new ProductControl(formMain);
+            formMain.ShowView(productControl);
         }
     }
 }
