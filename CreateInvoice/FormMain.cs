@@ -30,7 +30,32 @@ namespace CreateInvoice {
         public DataTable ProductsTable {
             get; private set;
         }
-        // ... ตารางอื่นๆ
+        public DataTable CustomerGroupsTable {
+            get; private set;
+        }
+
+        // DataTable อื่น ๆ ที่ต้องการใช้งานจาก invoice_DB
+        public DataTable MapProductsTable {
+            get; private set;
+        }
+        public DataTable MapGuaranteesTable {
+            get; private set;
+        }
+        public DataTable InvoicesTable {
+            get; private set;
+        }
+        public DataTable CustomersTable {
+            get; private set;
+        }
+        public DataTable LogPeriadsTable {
+            get; private set;
+        }
+        public DataTable CompanysTable {
+            get; private set;
+        }
+        public DataTable AddressTable {
+            get; private set;
+        }
 
         public FormMain() {
             InitializeComponent();
@@ -161,17 +186,17 @@ namespace CreateInvoice {
         }
 
         private void btnMaster_Click(object sender, EventArgs e) {
-            // toggle สถานะ ซ่อน/แสดง ปุ่มกลุ่มลูกค้า เมื่อกดปุ่มนี้
+            // toggle สถานะ ซ่อน/แสดง ปุ่มกลุ่มลูกค้า เมื่อกดปbuttonนี้
             customerGroupHidden = !customerGroupHidden;
 
-            // ถ้า flag เป็น true = ต้องการซ่อนปุ่ม -> ซ่อนตัวเอง
-            // ถ้า flag เป็น false = ต้องการแสดงปุ่ม -> แสดงตัวเอง
+            // ถ้า flag เป็น true = ต้องการซ่อนปbutton -> ซ่อนตัวเอง
+            // ถ้า flag เป็น false = ต้องการแสดงปbutton -> แสดงตัวเอง
             btnCustomerGroup.Visible = !customerGroupHidden;
             btnProducts.Visible = !customerGroupHidden;
             btnCompany.Visible = !customerGroupHidden;
             btnProductType.Visible = !customerGroupHidden;
 
-            //// เมื่อปุ่มยังมองเห็น ให้แสดงหน้าข้อมูลทั่วไปด้วย
+            //// เมื่อปbuttonยังมองเห็น ให้แสดงหน้าข้อมูลทั่วไปด้วย
             //if (!customerGroupHidden) {
 
             //    ShowView(employeeGroupControl);
@@ -212,8 +237,15 @@ namespace CreateInvoice {
 
         private void LoadAllMasterData() {
             LoadProductTypes();
-            //LoadProducts();
-            // ... ตารางอื่นๆ
+            LoadCustomerGroups();
+            LoadProducts();
+            LoadCustomers();
+            LoadInvoices();
+            LoadLogPeriads();
+            LoadCompanys();
+            LoadAddress();
+            LoadMapProducts();
+            LoadMapGuarantees();
         }
 
         public void LoadProductTypes() {
@@ -281,6 +313,610 @@ namespace CreateInvoice {
             }
 
             ProductTypesTable = dt;
+        }
+
+        public void LoadCustomerGroups() {
+            var response = ConstantCommon.client.Get("customer_groups");
+
+            Dictionary<string, customer_groups> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, customer_groups>>();
+            } catch {
+                dict = null;
+            }
+
+            var dt = new DataTable();
+            dt.Columns.Add("CustomerGroupID", typeof(int));
+            dt.Columns.Add("CustomerGroupCode", typeof(string));
+            dt.Columns.Add("CustomerGroupName", typeof(string));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            if (dict != null) {
+                foreach (var kv in dict) {
+                    var g = kv.Value;
+                    if (g == null)
+                        continue;
+                    var row = dt.NewRow();
+                    if (g.CustomerGroupID.HasValue)
+                        row["CustomerGroupID"] = g.CustomerGroupID.Value;
+                    row["CustomerGroupCode"] = g.CustomerGroupCode;
+                    row["CustomerGroupName"] = g.CustomerGroupName;
+                    row["CreateTime"] = g.CreateTime;
+                    row["CreateBy"] = g.CreateBy;
+                    row["UpdateTime"] = g.UpdateTime;
+                    row["UpdateBy"] = g.UpdateBy;
+                    dt.Rows.Add(row);
+                }
+            } else {
+                try {
+                    var list = response.ResultAs<List<customer_groups>>();
+                    if (list != null) {
+                        foreach (var g in list) {
+                            if (g == null)
+                                continue;
+                            var row = dt.NewRow();
+                            if (g.CustomerGroupID.HasValue)
+                                row["CustomerGroupID"] = g.CustomerGroupID.Value;
+                            row["CustomerGroupCode"] = g.CustomerGroupCode;
+                            row["CustomerGroupName"] = g.CustomerGroupName;
+                            row["CreateTime"] = g.CreateTime;
+                            row["CreateBy"] = g.CreateBy;
+                            row["UpdateTime"] = g.UpdateTime;
+                            row["UpdateBy"] = g.UpdateBy;
+                            dt.Rows.Add(row);
+                        }
+                    }
+                } catch { }
+            }
+
+            CustomerGroupsTable = dt;
+        }
+
+        public void LoadProducts() {
+            var response = ConstantCommon.client.Get("products");
+            Dictionary<string, products> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, products>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("ProductID", typeof(int));
+            dt.Columns.Add("ProductCode", typeof(string));
+            dt.Columns.Add("ProductName", typeof(string));
+            dt.Columns.Add("Price", typeof(string));
+            dt.Columns.Add("Net", typeof(string));
+            dt.Columns.Add("RefID", typeof(string));
+            dt.Columns.Add("GainPrice", typeof(string));
+            dt.Columns.Add("GainPercentage", typeof(string));
+            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            if (dict != null) {
+                foreach (var kv in dict) {
+                    var p = kv.Value;
+                    if (p == null)
+                        continue;
+                    var row = dt.NewRow();
+                    if (p.ProductID.HasValue)
+                        row["ProductID"] = p.ProductID.Value;
+                    row["ProductCode"] = p.ProductCode;
+                    row["ProductName"] = p.ProductName;
+                    row["Price"] = p.Price;
+                    row["Net"] = p.Net;
+                    row["RefID"] = p.RefID;
+                    row["GainPrice"] = p.GainPrice;
+                    row["GainPercentage"] = p.GainPercentage;
+                    if (p.CompanyID.HasValue)
+                        row["CompanyID"] = p.CompanyID.Value;
+                    row["CreateTime"] = p.CreateTime;
+                    row["CreateBy"] = p.CreateBy;
+                    row["UpdateTime"] = p.UpdateTime;
+                    row["UpdateBy"] = p.UpdateBy;
+                    dt.Rows.Add(row);
+                }
+            } else {
+                try {
+                    var list = response.ResultAs<List<products>>();
+                    if (list != null) {
+                        foreach (var p in list) {
+                            if (p == null)
+                                continue;
+                            var row = dt.NewRow();
+                            if (p.ProductID.HasValue)
+                                row["ProductID"] = p.ProductID.Value;
+                            row["ProductCode"] = p.ProductCode;
+                            row["ProductName"] = p.ProductName;
+                            row["Price"] = p.Price;
+                            row["Net"] = p.Net;
+                            row["RefID"] = p.RefID;
+                            row["GainPrice"] = p.GainPrice;
+                            row["GainPercentage"] = p.GainPercentage;
+                            if (p.CompanyID.HasValue)
+                                row["CompanyID"] = p.CompanyID.Value;
+                            row["CreateTime"] = p.CreateTime;
+                            row["CreateBy"] = p.CreateBy;
+                            row["UpdateTime"] = p.UpdateTime;
+                            row["UpdateBy"] = p.UpdateBy;
+                            dt.Rows.Add(row);
+                        }
+                    }
+                } catch { }
+            }
+
+            ProductsTable = dt;
+        }
+
+        public void LoadCustomers() {
+            var response = ConstantCommon.client.Get("customers");
+            Dictionary<string, customers> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, customers>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("CustomerCode", typeof(string));
+            dt.Columns.Add("CustomerName", typeof(string));
+
+            dt.Columns.Add("FNameT", typeof(string));
+            dt.Columns.Add("LNameT", typeof(string));
+            dt.Columns.Add("Sex", typeof(string));
+            dt.Columns.Add("PrefixT", typeof(string));
+            dt.Columns.Add("ShortNameT", typeof(string));
+
+            dt.Columns.Add("FNameE", typeof(string));
+            dt.Columns.Add("LNameE", typeof(string));
+            dt.Columns.Add("PrefixE", typeof(string));
+            dt.Columns.Add("ShortNameE", typeof(string));
+
+            dt.Columns.Add("FindName1", typeof(string));
+            dt.Columns.Add("FindName2", typeof(string));
+            dt.Columns.Add("Address", typeof(string));
+            dt.Columns.Add("RefCode", typeof(string));
+            dt.Columns.Add("IdentityCard", typeof(string));
+
+            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("AddressID", typeof(int));
+            dt.Columns.Add("CustomerGroupID", typeof(int));
+
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<customers> addRow = c => {
+                if (c == null)
+                    return;
+                var row = dt.NewRow();
+                if (c.CustomerID.HasValue)
+                    row["CustomerID"] = c.CustomerID.Value;
+                row["CustomerCode"] = c.CustomerCode;
+                row["CustomerName"] = c.CustomerName;
+
+                row["FNameT"] = c.FNameT;
+                row["LNameT"] = c.LNameT;
+                row["Sex"] = c.Sex;
+                row["PrefixT"] = c.PrefixT;
+                row["ShortNameT"] = c.ShortNameT;
+
+                row["FNameE"] = c.FNameE;
+                row["LNameE"] = c.LNameE;
+                row["PrefixE"] = c.PrefixE;
+                row["ShortNameE"] = c.ShortNameE;
+
+                row["FindName1"] = c.FindName1;
+                row["FindName2"] = c.FindName2;
+                row["Address"] = c.Address;
+                row["RefCode"] = c.RefCode;
+                row["IdentityCard"] = c.IdentityCard;
+
+                if (c.CompanyID.HasValue)
+                    row["CompanyID"] = c.CompanyID.Value;
+                if (c.AddressID.HasValue)
+                    row["AddressID"] = c.AddressID.Value;
+                if (c.CustomerGroupID.HasValue)
+                    row["CustomerGroupID"] = c.CustomerGroupID.Value;
+
+                row["CreateTime"] = c.CreateTime;
+                row["CreateBy"] = c.CreateBy;
+                row["UpdateTime"] = c.UpdateTime;
+                row["UpdateBy"] = c.UpdateBy;
+
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict) {
+                    addRow(kv.Value);
+                }
+            } else {
+                try {
+                    var list = response.ResultAs<List<customers>>();
+                    if (list != null) {
+                        foreach (var c in list) {
+                            addRow(c);
+                        }
+                    }
+                } catch { }
+            }
+
+            CustomersTable = dt;
+        }
+
+        public void LoadInvoices() {
+            var response = ConstantCommon.client.Get("invoices");
+            Dictionary<string, invoices> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, invoices>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("InvoiceCode", typeof(string));
+            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("PeriodNo", typeof(string));
+            dt.Columns.Add("PayStatus", typeof(string));
+            dt.Columns.Add("Balance", typeof(string));
+            dt.Columns.Add("PayFinePercentage", typeof(string));
+            dt.Columns.Add("StartDate", typeof(string));
+            dt.Columns.Add("EndDate", typeof(string));
+            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<invoices> addRow = inv => {
+                if (inv == null) return;
+                var row = dt.NewRow();
+                if (inv.InvoiceID.HasValue)
+                    row["InvoiceID"] = inv.InvoiceID.Value;
+                row["InvoiceCode"] = inv.InvoiceCode;
+                if (inv.CustomerID.HasValue)
+                    row["CustomerID"] = inv.CustomerID.Value;
+                row["PeriodNo"] = inv.PeriodNo;
+                row["PayStatus"] = inv.PayStatus;
+                row["Balance"] = inv.Balance;
+                row["PayFinePercentage"] = inv.PayFinePercentage;
+                row["StartDate"] = inv.StartDate;
+                row["EndDate"] = inv.EndDate;
+                if (inv.CompanyID.HasValue)
+                    row["CompanyID"] = inv.CompanyID.Value;
+                row["CreateTime"] = inv.CreateTime;
+                row["CreateBy"] = inv.CreateBy;
+                row["UpdateTime"] = inv.UpdateTime;
+                row["UpdateBy"] = inv.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<invoices>>();
+                    if (list != null) {
+                        foreach (var inv in list)
+                            addRow(inv);
+                    }
+                } catch { }
+            }
+
+            InvoicesTable = dt;
+        }
+
+        public void LoadLogPeriads() {
+            var response = ConstantCommon.client.Get("log_periads");
+            Dictionary<string, log_periads> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, log_periads>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("LogPeriadID", typeof(int));
+            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("PeriadNo", typeof(string));
+            dt.Columns.Add("Remark", typeof(string));
+            dt.Columns.Add("Price", typeof(string));
+            dt.Columns.Add("GainPrice", typeof(string));
+            dt.Columns.Add("GainPercentage", typeof(string));
+            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("PayFine", typeof(string));
+            dt.Columns.Add("PayDate", typeof(string));
+            dt.Columns.Add("PeriadDateFrom", typeof(string));
+            dt.Columns.Add("PeriadDateTo", typeof(string));
+            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<log_periads> addRow = l => {
+                if (l == null) return;
+                var row = dt.NewRow();
+                row["LogPeriadID"] = l.LogPeriadID;
+                if (l.InvoiceID.HasValue)
+                    row["InvoiceID"] = l.InvoiceID.Value;
+                row["PeriadNo"] = l.PeriadNo;
+                row["Remark"] = l.Remark;
+                row["Price"] = l.Price;
+                row["GainPrice"] = l.GainPrice;
+                row["GainPercentage"] = l.GainPercentage;
+                if (l.CustomerID.HasValue)
+                    row["CustomerID"] = l.CustomerID.Value;
+                row["PayFine"] = l.PayFine;
+                row["PayDate"] = l.PayDate;
+                row["PeriadDateFrom"] = l.PeriadDateFrom;
+                row["PeriadDateTo"] = l.PeriadDateTo;
+                if (l.CompanyID.HasValue)
+                    row["CompanyID"] = l.CompanyID.Value;
+                row["CreateTime"] = l.CreateTime;
+                row["CreateBy"] = l.CreateBy;
+                row["UpdateTime"] = l.UpdateTime;
+                row["UpdateBy"] = l.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<log_periads>>();
+                    if (list != null) {
+                        foreach (var l in list)
+                            addRow(l);
+                    }
+                } catch { }
+            }
+
+            LogPeriadsTable = dt;
+        }
+
+        public void LoadCompanys() {
+            var response = ConstantCommon.client.Get("companys");
+            Dictionary<string, companys> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, companys>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CompanyName", typeof(string));
+            dt.Columns.Add("CompanyCode", typeof(string));
+            dt.Columns.Add("Logo", typeof(string));
+            dt.Columns.Add("AddressID", typeof(int));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<companys> addRow = c => {
+                if (c == null) return;
+                var row = dt.NewRow();
+                row["CompanyID"] = c.CompanyID;
+                row["CompanyName"] = c.CompanyName;
+                row["CompanyCode"] = c.CompanyCode;
+                row["Logo"] = c.Logo;
+                if (c.AddressID.HasValue)
+                    row["AddressID"] = c.AddressID.Value;
+                row["CreateTime"] = c.CreateTime;
+                row["CreateBy"] = c.CreateBy;
+                row["UpdateTime"] = c.UpdateTime;
+                row["UpdateBy"] = c.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<companys>>();
+                    if (list != null) {
+                        foreach (var c in list)
+                            addRow(c);
+                    }
+                } catch { }
+            }
+
+            CompanysTable = dt;
+        }
+
+        public void LoadAddress() {
+            var response = ConstantCommon.client.Get("address");
+            Dictionary<string, address> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, address>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("AddressID", typeof(int));
+            dt.Columns.Add("AddressDetail", typeof(string));
+            dt.Columns.Add("RoomNo", typeof(string));
+            dt.Columns.Add("Flood", typeof(string));
+            dt.Columns.Add("HouseNo", typeof(string));
+            dt.Columns.Add("Moo", typeof(string));
+            dt.Columns.Add("Soi", typeof(string));
+            dt.Columns.Add("Road", typeof(string));
+            dt.Columns.Add("SubDistrict", typeof(string));
+            dt.Columns.Add("District", typeof(string));
+            dt.Columns.Add("Province", typeof(string));
+            dt.Columns.Add("GPS", typeof(string));
+            dt.Columns.Add("Lang", typeof(string));
+            dt.Columns.Add("Phone", typeof(string));
+            dt.Columns.Add("Mobile", typeof(string));
+            dt.Columns.Add("PhoneTo", typeof(string));
+            dt.Columns.Add("Fax", typeof(string));
+            dt.Columns.Add("FaxTo", typeof(string));
+            dt.Columns.Add("RefCode", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("LineID", typeof(string));
+            dt.Columns.Add("LineContract", typeof(string));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<address> addRow = a => {
+                if (a == null) return;
+                var row = dt.NewRow();
+                if (a.AddressID.HasValue)
+                    row["AddressID"] = a.AddressID.Value;
+                row["AddressDetail"] = a.AddressDetail;
+                row["RoomNo"] = a.RoomNo;
+                row["Flood"] = a.Flood;
+                row["HouseNo"] = a.HouseNo;
+                row["Moo"] = a.Moo;
+                row["Soi"] = a.Soi;
+                row["Road"] = a.Road;
+                row["SubDistrict"] = a.SubDistrict;
+                row["District"] = a.District;
+                row["Province"] = a.Province;
+                row["GPS"] = a.GPS;
+                row["Lang"] = a.Lang;
+                row["Phone"] = a.Phone;
+                row["Mobile"] = a.Mobile;
+                row["PhoneTo"] = a.PhoneTo;
+                row["Fax"] = a.Fax;
+                row["FaxTo"] = a.FaxTo;
+                row["RefCode"] = a.RefCode;
+                row["Email"] = a.Email;
+                row["LineID"] = a.LineID;
+                row["LineContract"] = a.LineContract;
+                row["CreateTime"] = a.CreateTime;
+                row["CreateBy"] = a.CreateBy;
+                row["UpdateTime"] = a.UpdateTime;
+                row["UpdateBy"] = a.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<address>>();
+                    if (list != null) {
+                        foreach (var a in list)
+                            addRow(a);
+                    }
+                } catch { }
+            }
+
+            AddressTable = dt;
+        }
+
+        public void LoadMapProducts() {
+            var response = ConstantCommon.client.Get("map_products");
+            Dictionary<string, map_products> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, map_products>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("MapProductID", typeof(int));
+            dt.Columns.Add("ProductID", typeof(int));
+            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("Qty", typeof(int));
+            dt.Columns.Add("Price", typeof(string));
+            dt.Columns.Add("Net", typeof(string));
+            dt.Columns.Add("GainPrice", typeof(string));
+            dt.Columns.Add("GainPercentage", typeof(string));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<map_products> addRow = m => {
+                if (m == null) return;
+                var row = dt.NewRow();
+                row["MapProductID"] = m.MapProductID;
+                row["ProductID"] = m.ProductID;
+                row["InvoiceID"] = m.InvoiceID;
+                if (m.Qty.HasValue)
+                    row["Qty"] = m.Qty.Value;
+                row["Price"] = m.Price;
+                row["Net"] = m.Net;
+                row["GainPrice"] = m.GainPrice;
+                row["GainPercentage"] = m.GainPercentage;
+                row["CreateTime"] = m.CreateTime;
+                row["CreateBy"] = m.CreateBy;
+                row["UpdateTime"] = m.UpdateTime;
+                row["UpdateBy"] = m.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<map_products>>();
+                    if (list != null) {
+                        foreach (var m in list)
+                            addRow(m);
+                    }
+                } catch { }
+            }
+
+            MapProductsTable = dt;
+        }
+
+        public void LoadMapGuarantees() {
+            var response = ConstantCommon.client.Get("map_guarantees");
+            Dictionary<string, map_guarantees> dict = null;
+            try {
+                dict = response.ResultAs<Dictionary<string, map_guarantees>>();
+            } catch { dict = null; }
+
+            var dt = new DataTable();
+            dt.Columns.Add("MapGuaranteeID", typeof(int));
+            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("GuaranteeCusID", typeof(int));
+            dt.Columns.Add("CreateTime", typeof(string));
+            dt.Columns.Add("CreateBy", typeof(string));
+            dt.Columns.Add("UpdateTime", typeof(string));
+            dt.Columns.Add("UpdateBy", typeof(string));
+
+            Action<map_guarantees> addRow = m => {
+                if (m == null) return;
+                var row = dt.NewRow();
+                row["MapGuaranteeID"] = m.MapGuaranteeID;
+                if (m.CustomerID.HasValue)
+                    row["CustomerID"] = m.CustomerID.Value;
+                if (m.InvoiceID.HasValue)
+                    row["InvoiceID"] = m.InvoiceID.Value;
+                if (m.GuaranteeCusID.HasValue)
+                    row["GuaranteeCusID"] = m.GuaranteeCusID.Value;
+                row["CreateTime"] = m.CreateTime;
+                row["CreateBy"] = m.CreateBy;
+                row["UpdateTime"] = m.UpdateTime;
+                row["UpdateBy"] = m.UpdateBy;
+                dt.Rows.Add(row);
+            };
+
+            if (dict != null) {
+                foreach (var kv in dict)
+                    addRow(kv.Value);
+            } else {
+                try {
+                    var list = response.ResultAs<List<map_guarantees>>();
+                    if (list != null) {
+                        foreach (var m in list)
+                            addRow(m);
+                    }
+                } catch { }
+            }
+
+            MapGuaranteesTable = dt;
         }
     }
 }

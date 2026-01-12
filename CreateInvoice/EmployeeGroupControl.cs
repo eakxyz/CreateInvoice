@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BotCommon;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +18,9 @@ namespace CreateInvoice {
         public FormMain formMain = null;
 
         public EmployeeGroupListControl employeeControl = null;
+
+        private int? currentId = null;
+        private bool isEdit = false;
 
         public EmployeeGroupControl(FormMain pFormMain) {
             Dock = DockStyle.Fill;
@@ -137,8 +143,92 @@ namespace CreateInvoice {
 
         }
 
+        public void LoadForAdd() {
+            isEdit = false;
+            currentId = null;
+            btnAdd.Text = "เพิ่ม";
+            textBox3.Text = string.Empty; // รหัสกลุ่ม
+            textBox1.Text = string.Empty; // ชื่อกลุ่ม
+        }
+
+        public void LoadForEdit(int id, string code, string name) {
+            isEdit = true;
+            currentId = id;
+            btnAdd.Text = "แก้ไข";
+            textBox3.Text = code;
+            textBox1.Text = name;
+        }
+
         private void btnAdd_Click(object sender, EventArgs e) {
-            // add
+            var code = textBox3.Text.Trim();
+            var name = textBox1.Text.Trim();
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(name)) {
+                MessageBox.Show("กรุณากรอกรหัสและชื่อกลุ่มลูกค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var cg = new customer_groups {
+                CustomerGroupCode = code,
+                CustomerGroupName = name,
+                UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                UpdateBy = Environment.UserName
+            };
+
+            if (isEdit && currentId.HasValue) {
+                cg.CustomerGroupID = currentId.Value;
+                customer_groups.CustomerGroupsMgr(cg, "EDIT");
+
+                // อัปเดตแถวใน DataTable cache
+                if (formMain != null && formMain.CustomerGroupsTable != null) {
+                    DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = {cg.CustomerGroupID}");
+                    foreach (var dr in rows) {
+                        dr["CustomerGroupCode"] = cg.CustomerGroupCode;
+                        dr["CustomerGroupName"] = cg.CustomerGroupName;
+                        dr["UpdateTime"] = cg.UpdateTime;
+                        dr["UpdateBy"] = cg.UpdateBy;
+                    }
+                    formMain.CustomerGroupsTable.AcceptChanges();
+                }
+            } else {
+                int maxId = 0;
+
+                if (formMain != null && formMain.CustomerGroupsTable != null) {
+                    foreach (DataRow row in formMain.CustomerGroupsTable.Rows) {
+                        if (row["CustomerGroupID"] != DBNull.Value) {
+                            int id;
+                            if (int.TryParse(row["CustomerGroupID"].ToString(), out id)) {
+                                if (id > maxId) maxId = id;
+                            }
+                        }
+                    }
+                }
+
+                cg.CustomerGroupID = maxId + 1;
+                cg.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                cg.CreateBy = Environment.UserName;
+                customer_groups.CustomerGroupsMgr(cg, "ADD");
+
+                // เพิ่มแถวใหม่ใน DataTable cache
+                if (formMain != null && formMain.CustomerGroupsTable != null) {
+                    var dt = formMain.CustomerGroupsTable;
+                    var newRow = dt.NewRow();
+                    newRow["CustomerGroupID"] = cg.CustomerGroupID;
+                    newRow["CustomerGroupCode"] = cg.CustomerGroupCode;
+                    newRow["CustomerGroupName"] = cg.CustomerGroupName;
+                    newRow["CreateTime"] = cg.CreateTime;
+                    newRow["CreateBy"] = cg.CreateBy;
+                    newRow["UpdateTime"] = cg.UpdateTime;
+                    newRow["UpdateBy"] = cg.UpdateBy;
+                    dt.Rows.Add(newRow);
+                    dt.AcceptChanges();
+                }
+            }
+
+            MessageBox.Show("บันทึกข้อมูลเรียบร้อย", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // ไม่ต้อง LoadCustomerGroups อีก แค่กลับไปหน้า list ซึ่งจะใช้ DataTable ที่อัปเดตแล้ว
+            employeeControl = new EmployeeGroupListControl(formMain);
+            formMain.ShowView(employeeControl);
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {

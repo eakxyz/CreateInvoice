@@ -2,6 +2,9 @@
 
 
     partial class Invoice_DB {
+        partial class productsDataTable {
+        }
+
         partial class log_periadsDataTable {
         }
 

@@ -1,6 +1,5 @@
 ﻿using BotCommon;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,7 +9,7 @@ namespace CreateInvoice {
         private DataGridViewButtonColumn colEdit;
         private GroupBox groupBox1;
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox cboEmployeeGroup;
         private TextBox textBox3;
         private Button btnSearch;
         private Button btnAddGroup;
@@ -37,17 +36,18 @@ namespace CreateInvoice {
 
             InitCustomerGroupGridColumns();
             dataGridView1.DataSource = null;
+
+            dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboEmployeeGroup = new System.Windows.Forms.ComboBox();
             this.btnAddGroup = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -58,22 +58,14 @@ namespace CreateInvoice {
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(35, 248);
+            this.dataGridView1.Location = new System.Drawing.Point(35, 243);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 32;
-            this.dataGridView1.Size = new System.Drawing.Size(1474, 507);
+            this.dataGridView1.Size = new System.Drawing.Size(1474, 512);
             this.dataGridView1.TabIndex = 0;
             // 
             // colEdit
@@ -87,7 +79,7 @@ namespace CreateInvoice {
             this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cboEmployeeGroup);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(35, 36);
             this.groupBox1.Name = "groupBox1";
@@ -98,7 +90,7 @@ namespace CreateInvoice {
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(816, 77);
+            this.btnSearch.Location = new System.Drawing.Point(807, 75);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(120, 41);
             this.btnSearch.TabIndex = 20;
@@ -111,9 +103,9 @@ namespace CreateInvoice {
             this.textBox3.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(393, 77);
+            this.textBox3.Location = new System.Drawing.Point(393, 78);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(400, 41);
+            this.textBox3.Size = new System.Drawing.Size(400, 35);
             this.textBox3.TabIndex = 17;
             // 
             // label1
@@ -125,15 +117,16 @@ namespace CreateInvoice {
             this.label1.TabIndex = 15;
             this.label1.Text = "ค้นหาโดย";
             // 
-            // comboBox1
+            // cboEmployeeGroup
             // 
-            this.comboBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(17, 77);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(360, 44);
-            this.comboBox1.TabIndex = 14;
+            this.cboEmployeeGroup.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.cboEmployeeGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboEmployeeGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboEmployeeGroup.FormattingEnabled = true;
+            this.cboEmployeeGroup.Location = new System.Drawing.Point(17, 77);
+            this.cboEmployeeGroup.Name = "cboEmployeeGroup";
+            this.cboEmployeeGroup.Size = new System.Drawing.Size(360, 37);
+            this.cboEmployeeGroup.TabIndex = 14;
             // 
             // btnAddGroup
             // 
@@ -151,8 +144,10 @@ namespace CreateInvoice {
             this.Controls.Add(this.btnAddGroup);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "EmployeeGroupListControl";
             this.Size = new System.Drawing.Size(1714, 950);
+            this.Load += new System.EventHandler(this.EmployeeGroupListControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -164,7 +159,6 @@ namespace CreateInvoice {
             dataGridView1.Columns.Clear();
             dataGridView1.AutoGenerateColumns = false;
 
-            // ให้คอลัมน์ยืดเต็มความกว้างของ grid
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
@@ -190,110 +184,145 @@ namespace CreateInvoice {
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "CreateTime",
-                HeaderText = "สร้างเมื่อ",
-                Name = "colCreateTime",
+                DataPropertyName = "UpdateTime",
+                HeaderText = "แก้ไขล่าสุดเมื่อ",
+                Name = "colUpdateTime",
                 ReadOnly = true,
                 Width = 150
             });
 
             try {
+                int iconSize = 16;
+                var editSrc = global::CreateInvoice.Properties.Resources.Edit.ToBitmap();
+                var deleteSrc = global::CreateInvoice.Properties.Resources.Remove.ToBitmap();
 
-                // คอลัมน์ Edit icon
-                var colEdit = new DataGridViewImageColumn {
+                Image editSmall = new Bitmap(editSrc, new Size(iconSize, iconSize));
+                Image deleteSmall = new Bitmap(deleteSrc, new Size(iconSize, iconSize));
+
+                var colEditImg = new DataGridViewImageColumn {
                     Name = "colEdit",
                     HeaderText = "แก้ไข",
-                    Image = global::CreateInvoice.Properties.Resources.Edit.ToBitmap(),
-                    Width = 50
+                    Image = editSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
                 };
-                dataGridView1.Columns.Add(colEdit);
+                colEditImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colEditImg);
 
-                // คอลัมน์ Delete icon
-                var colDelete = new DataGridViewImageColumn {
+                var colDeleteImg = new DataGridViewImageColumn {
                     Name = "colDelete",
                     HeaderText = "ลบ",
-                    Image = global::CreateInvoice.Properties.Resources.Remove.ToBitmap(), // ไฟล์ไอคอนใน Resources
-                    Width = 50
+                    Image = deleteSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
                 };
-                dataGridView1.Columns.Add(colDelete);
-            } catch { }
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-            //    DataPropertyName = "CreateBy",
-            //    HeaderText = "สร้างโดย",
-            //    Name = "colCreateBy",
-            //    ReadOnly = true,
-            //    Width = 120
-            //});
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-            //    DataPropertyName = "UpdateTime",
-            //    HeaderText = "แก้ไขล่าสุด",
-            //    Name = "colUpdateTime",
-            //    ReadOnly = true,
-            //    Visible = false,
-            //    Width = 150
-            //});
-            //dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-            //    DataPropertyName = "UpdateBy",
-            //    HeaderText = "แก้ไขโดย",
-            //    Name = "colUpdateBy",
-            //    ReadOnly = true,
-            //    Visible = false,
-            //    Width = 120
-            //});
-
-            //// ปุ่มแก้ไขกลุ่ม
-            //dataGridView1.Columns.Add(new DataGridViewButtonColumn {
-            //    HeaderText = "จัดการ",
-            //    Name = "colEditGroup",
-            //    Text = "แก้ไข",
-            //    UseColumnTextForButtonValue = true,
-            //    Width = 100
-            //});
+                colDeleteImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colDeleteImg);
+            } catch (Exception ex) {
+                MessageBox.Show("เกิดข้อผิดพลาดในการกำหนดค่าคอลัมน์: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
             try {
-                // ดึงข้อมูล customer_groups จาก Firebase
-                var response = ConstantCommon.client.Get("customer_groups");
-                var dict = response.ResultAs<Dictionary<string, customer_groups>>();
+                if (DesignMode || formMain == null)
+                    return;
 
-                var dt = new DataTable();
-                dt.Columns.Add("CustomerGroupID", typeof(int));
-                dt.Columns.Add("CustomerGroupCode", typeof(string));
-                dt.Columns.Add("CustomerGroupName", typeof(string));
-                dt.Columns.Add("CreateTime", typeof(string));
-                dt.Columns.Add("CreateBy", typeof(string));
-                dt.Columns.Add("UpdateTime", typeof(string));
-                dt.Columns.Add("UpdateBy", typeof(string));
+                var dt = formMain.CustomerGroupsTable;
+                if (dt == null) {
+                    formMain.LoadCustomerGroups();
+                    dt = formMain.CustomerGroupsTable;
+                }
 
-                if (dict != null) {
-                    foreach (var kv in dict) {
-                        var g = kv.Value;
-                        var row = dt.NewRow();
-                        if (g.CustomerGroupID.HasValue)
-                            row["CustomerGroupID"] = g.CustomerGroupID.Value;
-                        row["CustomerGroupCode"] = g.CustomerGroupCode;
-                        row["CustomerGroupName"] = g.CustomerGroupName;
-                        row["CreateTime"] = g.CreateTime;
-                        row["CreateBy"] = g.CreateBy;
-                        row["UpdateTime"] = g.UpdateTime;
-                        row["UpdateBy"] = g.UpdateBy;
-                        dt.Rows.Add(row);
+                DataView view = dt.DefaultView;
+                string keyword = textBox3.Text.Trim();
+
+                // escape สำหรับ RowFilter: '  %  [  ]
+                string EscapeLike(string value) {
+                    if (string.IsNullOrEmpty(value))
+                        return value;
+                    var s = value.Replace("'", "''");
+                    s = s.Replace("[", "[[]");   // escape [
+                    s = s.Replace("%", "[%]");   // treat % เป็นตัวอักษรปกติ
+                    s = s.Replace("_", "[_]");   // treat _ เป็นตัวอักษรปกติ
+                    return s;
+                }
+
+                string filter = string.Empty;
+                if (!string.IsNullOrEmpty(keyword)) {
+                    var safe = EscapeLike(keyword);
+                    if (cboEmployeeGroup.SelectedIndex == 1) {
+                        // ชื่อกลุ่ม
+                        filter = $"CustomerGroupName LIKE '%{safe}%'";
+                    } else {
+                        // รหัสกลุ่ม (default)
+                        filter = $"CustomerGroupCode LIKE '%{safe}%'";
                     }
                 }
 
-                if (dt.Rows.Count > 0) {
-                    // Init columns (field headers)
-                    InitCustomerGroupGridColumns();
-
-                    dataGridView1.DataSource = dt;
-                } else {
-                    dataGridView1.DataSource = null;
-                }
-
+                view.RowFilter = filter;
+                dataGridView1.DataSource = view.ToTable();
             } catch (Exception ex) {
-                MessageBox.Show("โหลดข้อมูลกลุ่มลูกค้าไม่สำเร็จ: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("โหลดข้อมูลกลุ่มลูกค้าไม่สำเร็จ: " + ex.Message,
+                                "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0)
+                return;
+            var grid = dataGridView1;
+            var colName = grid.Columns[e.ColumnIndex].Name;
+            var row = grid.Rows[e.RowIndex];
+
+            if (colName == "colEdit") {
+                var idObj = row.Cells["colCustomerGroupID"].Value;
+                if (idObj == null)
+                    return;
+                if (!int.TryParse(idObj.ToString(), out int id))
+                    return;
+
+                string code = row.Cells["colCustomerGroupCode"].Value?.ToString();
+                string name = row.Cells["colCustomerGroupName"].Value?.ToString();
+
+                employeeControl = new EmployeeGroupControl(formMain);
+                employeeControl.LoadForEdit(id, code, name);
+                formMain.ShowView(employeeControl);
+            } else if (colName == "colDelete") {
+                var idObj = row.Cells["colCustomerGroupID"].Value;
+                if (idObj == null)
+                    return;
+                if (!int.TryParse(idObj.ToString(), out int id))
+                    return;
+
+                string name = row.Cells["colCustomerGroupName"].Value?.ToString();
+                var confirm = MessageBox.Show($"ยืนยันการลบกลุ่มลูกค้า '{name}' ?", "ยืนยัน", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes) {
+                    var cg = new customer_groups { CustomerGroupID = id };
+                    customer_groups.CustomerGroupsMgr(cg, "DELETE");
+
+                    // ปรับข้อมูลใน DataTable cache แทนการโหลดจาก Firebase ใหม่
+                    if (formMain != null && formMain.CustomerGroupsTable != null) {
+                        DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = {id}");
+                        foreach (var dr in rows) {
+                            formMain.CustomerGroupsTable.Rows.Remove(dr);
+                        }
+                        formMain.CustomerGroupsTable.AcceptChanges();
+                    }
+
+                    // refresh grid จาก cache ที่อัปเดตแล้ว
+                    btnSearch_Click(null, null);
+                }
+            }
+        }
+
+        private void EmployeeGroupListControl_Load(object sender, EventArgs e) {
+            cboEmployeeGroup.Items.Clear();
+            cboEmployeeGroup.Items.Add("รหัสกลุ่ม");
+            cboEmployeeGroup.Items.Add("ชื่อกลุ่ม");
+            cboEmployeeGroup.SelectedIndex = 0;
+            dataGridView1.DataSource = null;
+            btnSearch_Click(null, null);
         }
 
         private void btnAddGroup_Click(object sender, EventArgs e) {

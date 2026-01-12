@@ -300,7 +300,6 @@ namespace CreateInvoice {
             var row = grid.Rows[e.RowIndex];
 
             if (colName == "colEdit") {
-                // ดึงค่า ID / Code / Name จากแถวปัจจุบัน
                 var idObj = row.Cells["colProductTypeID"].Value;
                 if (idObj == null) return;
                 if (!int.TryParse(idObj.ToString(), out int id)) return;
@@ -308,13 +307,11 @@ namespace CreateInvoice {
                 string code = row.Cells["colProductTypeCode"].Value?.ToString();
                 string name = row.Cells["colProductTypeName"].Value?.ToString();
 
-                // เปิดหน้าแก้ไข
                 productTypeControl = new ProductTypeControl(formMain);
                 productTypeControl.LoadForEdit(id, code, name);
                 formMain.ShowView(productTypeControl);
             }
             else if (colName == "colDelete") {
-                // ลบ
                 var idObj = row.Cells["colProductTypeID"].Value;
                 if (idObj == null) return;
                 if (!int.TryParse(idObj.ToString(), out int id)) return;
@@ -325,8 +322,16 @@ namespace CreateInvoice {
                     var pt = new BotCommon.product_types { ProductTypeID = id };
                     BotCommon.product_types.ProductTypesMgr(pt, "DELETE");
 
-                    // reload data ใน FormMain แล้ว refresh grid
-                    formMain.LoadProductTypes();
+                    // ปรับข้อมูลใน DataTable cache แทนการโหลดจาก Firebase ใหม่
+                    if (formMain != null && formMain.ProductTypesTable != null) {
+                        DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = {id}");
+                        foreach (var dr in rows) {
+                            formMain.ProductTypesTable.Rows.Remove(dr);
+                        }
+                        formMain.ProductTypesTable.AcceptChanges();
+                    }
+
+                    // refresh grid จาก cache ที่อัปเดตแล้ว
                     btnSearch_Click(null, null);
                 }
             }

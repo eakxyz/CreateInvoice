@@ -37,8 +37,6 @@ namespace CreateInvoice {
 
             formMain = pFormMain;
 
-            employeeControl = new ProductTypeListControl(formMain);
-
         }
 
         private void InitializeComponent() {
@@ -178,6 +176,18 @@ namespace CreateInvoice {
             if (isEdit && currentId.HasValue) {
                 pt.ProductTypeID = currentId.Value;
                 product_types.ProductTypesMgr(pt, "EDIT");
+
+                // อัปเดตแถวใน DataTable cache
+                if (formMain != null && formMain.ProductTypesTable != null) {
+                    DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = {pt.ProductTypeID}");
+                    foreach (var dr in rows) {
+                        dr["ProductTypeCode"] = pt.ProductTypeCode;
+                        dr["ProductTypeName"] = pt.ProductTypeName;
+                        dr["UpdateTime"] = pt.UpdateTime;
+                        dr["UpdateBy"] = pt.UpdateBy;
+                    }
+                    formMain.ProductTypesTable.AcceptChanges();
+                }
             } else {
                 // generate new id: max existing + 1 จาก DataTable กลางใน FormMain
                 int maxId = 0;
@@ -197,16 +207,31 @@ namespace CreateInvoice {
                 pt.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 pt.CreateBy = Environment.UserName;
                 product_types.ProductTypesMgr(pt, "ADD");
+
+                // เพิ่มแถวใหม่ใน DataTable cache
+                if (formMain != null && formMain.ProductTypesTable != null) {
+                    var dt = formMain.ProductTypesTable;
+                    var newRow = dt.NewRow();
+                    newRow["ProductTypeID"] = pt.ProductTypeID;
+                    newRow["ProductTypeCode"] = pt.ProductTypeCode;
+                    newRow["ProductTypeName"] = pt.ProductTypeName;
+                    newRow["CreateTime"] = pt.CreateTime;
+                    newRow["CreateBy"] = pt.CreateBy;
+                    newRow["UpdateTime"] = pt.UpdateTime;
+                    newRow["UpdateBy"] = pt.UpdateBy;
+                    dt.Rows.Add(newRow);
+                    dt.AcceptChanges();
+                }
             }
 
             MessageBox.Show("บันทึกข้อมูลเรียบร้อย", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            // refresh datatable กลางจาก Firebase
-            formMain.LoadProductTypes();
-            // กลับไปหน้า list (ซึ่งจะ bind จาก datatable ที่สดใหม่แล้ว)
+
+            // ไม่ต้อง LoadProductTypes อีก แค่กลับไปหน้า list ซึ่งจะใช้ DataTable ที่อัปเดตแล้ว
             formMain.ShowView(employeeControl);
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
+            employeeControl = new ProductTypeListControl(formMain);
             formMain.ShowView(employeeControl);
         }
     }
