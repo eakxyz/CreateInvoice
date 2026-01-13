@@ -19,7 +19,7 @@ namespace CreateInvoice {
 
         public EmployeeGroupListControl employeeControl = null;
 
-        private int? currentId = null;
+        private string currentId = null;
         private bool isEdit = false;
 
         public EmployeeGroupControl(FormMain pFormMain) {
@@ -151,7 +151,7 @@ namespace CreateInvoice {
             textBox1.Text = string.Empty; // ชื่อกลุ่ม
         }
 
-        public void LoadForEdit(int id, string code, string name) {
+        public void LoadForEdit(string id, string code, string name) {
             isEdit = true;
             currentId = id;
             btnAdd.Text = "แก้ไข";
@@ -174,13 +174,13 @@ namespace CreateInvoice {
                 UpdateBy = Environment.UserName
             };
 
-            if (isEdit && currentId.HasValue) {
-                cg.CustomerGroupID = currentId.Value;
+            if (isEdit && !string.IsNullOrEmpty(currentId)) {
+                cg.CustomerGroupID = currentId;
                 customer_groups.CustomerGroupsMgr(cg, "EDIT");
 
                 // อัปเดตแถวใน DataTable cache
                 if (formMain != null && formMain.CustomerGroupsTable != null) {
-                    DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = {cg.CustomerGroupID}");
+                    DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = '{cg.CustomerGroupID}'");
                     foreach (var dr in rows) {
                         dr["CustomerGroupCode"] = cg.CustomerGroupCode;
                         dr["CustomerGroupName"] = cg.CustomerGroupName;
@@ -203,7 +203,7 @@ namespace CreateInvoice {
                     }
                 }
 
-                cg.CustomerGroupID = maxId + 1;
+                cg.CustomerGroupID = (maxId + 1).ToString();
                 cg.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 cg.CreateBy = Environment.UserName;
                 customer_groups.CustomerGroupsMgr(cg, "ADD");

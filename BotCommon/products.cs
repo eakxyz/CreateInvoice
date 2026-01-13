@@ -1,6 +1,6 @@
 namespace BotCommon {
     public class products {
-        public int? ProductID {
+        public string ProductID {
             get; set;
         }
         public string ProductName {
@@ -9,22 +9,22 @@ namespace BotCommon {
         public string ProductCode {
             get; set;
         }
-        public string Price {
+        public decimal Price {
             get; set;
         }
-        public string Net {
+        public decimal Net {
             get; set;
         }
         public string RefID {
             get; set;
         }
-        public string GainPrice {
+        public decimal GainPrice {
             get; set;
         }
-        public string GainPercentage {
+        public decimal GainPercentage {
             get; set;
         }
-        public int? CompanyID {
+        public string CompanyID {
             get; set;
         }
         public string CreateTime {
@@ -37,6 +37,9 @@ namespace BotCommon {
             get; set;
         }
         public string UpdateBy {
+            get; set;
+        }
+        public string ProductTypeID {
             get; set;
         }
 

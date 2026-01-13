@@ -302,19 +302,20 @@ namespace CreateInvoice {
             if (colName == "colEdit") {
                 var idObj = row.Cells["colProductTypeID"].Value;
                 if (idObj == null) return;
-                if (!int.TryParse(idObj.ToString(), out int id)) return;
+                string id = idObj.ToString();
 
                 string code = row.Cells["colProductTypeCode"].Value?.ToString();
                 string name = row.Cells["colProductTypeName"].Value?.ToString();
 
                 productTypeControl = new ProductTypeControl(formMain);
+                productTypeControl.employeeControl = this;
                 productTypeControl.LoadForEdit(id, code, name);
                 formMain.ShowView(productTypeControl);
             }
             else if (colName == "colDelete") {
                 var idObj = row.Cells["colProductTypeID"].Value;
                 if (idObj == null) return;
-                if (!int.TryParse(idObj.ToString(), out int id)) return;
+                string id = idObj.ToString();
 
                 string name = row.Cells["colProductTypeName"].Value?.ToString();
                 var confirm = MessageBox.Show($"ยืนยันการลบกลุ่ม '{name}' ?", "ยืนยัน", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -324,7 +325,7 @@ namespace CreateInvoice {
 
                     // ปรับข้อมูลใน DataTable cache แทนการโหลดจาก Firebase ใหม่
                     if (formMain != null && formMain.ProductTypesTable != null) {
-                        DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = {id}");
+                        DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = '{id}'");
                         foreach (var dr in rows) {
                             formMain.ProductTypesTable.Rows.Remove(dr);
                         }

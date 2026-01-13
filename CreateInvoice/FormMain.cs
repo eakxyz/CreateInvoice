@@ -260,7 +260,7 @@ namespace CreateInvoice {
             }
 
             var dt = new DataTable();
-            dt.Columns.Add("ProductTypeID", typeof(int));
+            dt.Columns.Add("ProductTypeID", typeof(string));
             dt.Columns.Add("ProductTypeCode", typeof(string));
             dt.Columns.Add("ProductTypeName", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
@@ -276,14 +276,13 @@ namespace CreateInvoice {
                         continue;
 
                     var row = dt.NewRow();
-                    if (g.ProductTypeID.HasValue)
-                        row["ProductTypeID"] = g.ProductTypeID.Value;
-                    row["ProductTypeCode"] = g.ProductTypeCode;
-                    row["ProductTypeName"] = g.ProductTypeName;
-                    row["CreateTime"] = g.CreateTime;
-                    row["CreateBy"] = g.CreateBy;
-                    row["UpdateTime"] = g.UpdateTime;
-                    row["UpdateBy"] = g.UpdateBy;
+                    row["ProductTypeID"] = g.ProductTypeID ?? "";
+                    row["ProductTypeCode"] = g.ProductTypeCode ?? "";
+                    row["ProductTypeName"] = g.ProductTypeName ?? "";
+                    row["CreateTime"] = g.CreateTime ?? "";
+                    row["CreateBy"] = g.CreateBy ?? "";
+                    row["UpdateTime"] = g.UpdateTime ?? "";
+                    row["UpdateBy"] = g.UpdateBy ?? "";
                     dt.Rows.Add(row);
                 }
             } else {
@@ -296,14 +295,13 @@ namespace CreateInvoice {
                                 continue;
 
                             var row = dt.NewRow();
-                            if (g.ProductTypeID.HasValue)
-                                row["ProductTypeID"] = g.ProductTypeID.Value;
-                            row["ProductTypeCode"] = g.ProductTypeCode;
-                            row["ProductTypeName"] = g.ProductTypeName;
-                            row["CreateTime"] = g.CreateTime;
-                            row["CreateBy"] = g.CreateBy;
-                            row["UpdateTime"] = g.UpdateTime;
-                            row["UpdateBy"] = g.UpdateBy;
+                            row["ProductTypeID"] = g.ProductTypeID ?? "";
+                            row["ProductTypeCode"] = g.ProductTypeCode ?? "";
+                            row["ProductTypeName"] = g.ProductTypeName ?? "";
+                            row["CreateTime"] = g.CreateTime ?? "";
+                            row["CreateBy"] = g.CreateBy ?? "";
+                            row["UpdateTime"] = g.UpdateTime ?? "";
+                            row["UpdateBy"] = g.UpdateBy ?? "";
                             dt.Rows.Add(row);
                         }
                     }
@@ -326,7 +324,7 @@ namespace CreateInvoice {
             }
 
             var dt = new DataTable();
-            dt.Columns.Add("CustomerGroupID", typeof(int));
+            dt.Columns.Add("CustomerGroupID", typeof(string));
             dt.Columns.Add("CustomerGroupCode", typeof(string));
             dt.Columns.Add("CustomerGroupName", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
@@ -340,14 +338,13 @@ namespace CreateInvoice {
                     if (g == null)
                         continue;
                     var row = dt.NewRow();
-                    if (g.CustomerGroupID.HasValue)
-                        row["CustomerGroupID"] = g.CustomerGroupID.Value;
-                    row["CustomerGroupCode"] = g.CustomerGroupCode;
-                    row["CustomerGroupName"] = g.CustomerGroupName;
-                    row["CreateTime"] = g.CreateTime;
-                    row["CreateBy"] = g.CreateBy;
-                    row["UpdateTime"] = g.UpdateTime;
-                    row["UpdateBy"] = g.UpdateBy;
+                    row["CustomerGroupID"] = g.CustomerGroupID ?? "";
+                    row["CustomerGroupCode"] = g.CustomerGroupCode ?? "";
+                    row["CustomerGroupName"] = g.CustomerGroupName ?? "";
+                    row["CreateTime"] = g.CreateTime ?? "";
+                    row["CreateBy"] = g.CreateBy ?? "";
+                    row["UpdateTime"] = g.UpdateTime ?? "";
+                    row["UpdateBy"] = g.UpdateBy ?? "";
                     dt.Rows.Add(row);
                 }
             } else {
@@ -358,14 +355,13 @@ namespace CreateInvoice {
                             if (g == null)
                                 continue;
                             var row = dt.NewRow();
-                            if (g.CustomerGroupID.HasValue)
-                                row["CustomerGroupID"] = g.CustomerGroupID.Value;
-                            row["CustomerGroupCode"] = g.CustomerGroupCode;
-                            row["CustomerGroupName"] = g.CustomerGroupName;
-                            row["CreateTime"] = g.CreateTime;
-                            row["CreateBy"] = g.CreateBy;
-                            row["UpdateTime"] = g.UpdateTime;
-                            row["UpdateBy"] = g.UpdateBy;
+                            row["CustomerGroupID"] = g.CustomerGroupID ?? "";
+                            row["CustomerGroupCode"] = g.CustomerGroupCode ?? "";
+                            row["CustomerGroupName"] = g.CustomerGroupName ?? "";
+                            row["CreateTime"] = g.CreateTime ?? "";
+                            row["CreateBy"] = g.CreateBy ?? "";
+                            row["UpdateTime"] = g.UpdateTime ?? "";
+                            row["UpdateBy"] = g.UpdateBy ?? "";
                             dt.Rows.Add(row);
                         }
                     }
@@ -383,15 +379,15 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("ProductID", typeof(int));
+            dt.Columns.Add("ProductID", typeof(string));
             dt.Columns.Add("ProductCode", typeof(string));
             dt.Columns.Add("ProductName", typeof(string));
-            dt.Columns.Add("Price", typeof(string));
-            dt.Columns.Add("Net", typeof(string));
+            dt.Columns.Add("Price", typeof(decimal));
+            dt.Columns.Add("Net", typeof(decimal));
             dt.Columns.Add("RefID", typeof(string));
-            dt.Columns.Add("GainPrice", typeof(string));
-            dt.Columns.Add("GainPercentage", typeof(string));
-            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("GainPrice", typeof(decimal));
+            dt.Columns.Add("GainPercentage", typeof(decimal));
+            dt.Columns.Add("CompanyID", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
@@ -403,21 +399,19 @@ namespace CreateInvoice {
                     if (p == null)
                         continue;
                     var row = dt.NewRow();
-                    if (p.ProductID.HasValue)
-                        row["ProductID"] = p.ProductID.Value;
-                    row["ProductCode"] = p.ProductCode;
-                    row["ProductName"] = p.ProductName;
+                    row["ProductID"] = p.ProductID ?? "";
+                    row["ProductCode"] = p.ProductCode ?? "";
+                    row["ProductName"] = p.ProductName ?? "";
                     row["Price"] = p.Price;
                     row["Net"] = p.Net;
-                    row["RefID"] = p.RefID;
+                    row["RefID"] = p.RefID ?? "";
                     row["GainPrice"] = p.GainPrice;
                     row["GainPercentage"] = p.GainPercentage;
-                    if (p.CompanyID.HasValue)
-                        row["CompanyID"] = p.CompanyID.Value;
-                    row["CreateTime"] = p.CreateTime;
-                    row["CreateBy"] = p.CreateBy;
-                    row["UpdateTime"] = p.UpdateTime;
-                    row["UpdateBy"] = p.UpdateBy;
+                    row["CompanyID"] = p.CompanyID ?? "";
+                    row["CreateTime"] = p.CreateTime ?? "";
+                    row["CreateBy"] = p.CreateBy ?? "";
+                    row["UpdateTime"] = p.UpdateTime ?? "";
+                    row["UpdateBy"] = p.UpdateBy ?? "";
                     dt.Rows.Add(row);
                 }
             } else {
@@ -428,21 +422,19 @@ namespace CreateInvoice {
                             if (p == null)
                                 continue;
                             var row = dt.NewRow();
-                            if (p.ProductID.HasValue)
-                                row["ProductID"] = p.ProductID.Value;
-                            row["ProductCode"] = p.ProductCode;
-                            row["ProductName"] = p.ProductName;
-                            row["Price"] = p.Price;
-                            row["Net"] = p.Net;
-                            row["RefID"] = p.RefID;
-                            row["GainPrice"] = p.GainPrice;
-                            row["GainPercentage"] = p.GainPercentage;
-                            if (p.CompanyID.HasValue)
-                                row["CompanyID"] = p.CompanyID.Value;
-                            row["CreateTime"] = p.CreateTime;
-                            row["CreateBy"] = p.CreateBy;
-                            row["UpdateTime"] = p.UpdateTime;
-                            row["UpdateBy"] = p.UpdateBy;
+                            row["ProductID"] = p.ProductID ?? "";
+                            row["ProductCode"] = p.ProductCode ?? "";
+                            row["ProductName"] = p.ProductName ?? "";
+                            row["Price"] = p.Price.ToString();
+                            row["Net"] = p.Net.ToString();
+                            row["RefID"] = p.RefID ?? "";
+                            row["GainPrice"] = p.GainPrice.ToString();
+                            row["GainPercentage"] = p.GainPercentage.ToString();
+                            row["CompanyID"] = p.CompanyID ?? "";
+                            row["CreateTime"] = p.CreateTime ?? "";
+                            row["CreateBy"] = p.CreateBy ?? "";
+                            row["UpdateTime"] = p.UpdateTime ?? "";
+                            row["UpdateBy"] = p.UpdateBy ?? "";
                             dt.Rows.Add(row);
                         }
                     }
@@ -460,7 +452,7 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("CustomerID", typeof(string));
             dt.Columns.Add("CustomerCode", typeof(string));
             dt.Columns.Add("CustomerName", typeof(string));
 
@@ -481,10 +473,11 @@ namespace CreateInvoice {
             dt.Columns.Add("RefCode", typeof(string));
             dt.Columns.Add("IdentityCard", typeof(string));
 
-            dt.Columns.Add("CompanyID", typeof(int));
-            dt.Columns.Add("AddressID", typeof(int));
-            dt.Columns.Add("CustomerGroupID", typeof(int));
+            dt.Columns.Add("CompanyID", typeof(string));
+            dt.Columns.Add("AddressID", typeof(string));
+            dt.Columns.Add("CustomerGroupID", typeof(string));
 
+            dt.Columns.Add("Email", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
@@ -494,39 +487,36 @@ namespace CreateInvoice {
                 if (c == null)
                     return;
                 var row = dt.NewRow();
-                if (c.CustomerID.HasValue)
-                    row["CustomerID"] = c.CustomerID.Value;
-                row["CustomerCode"] = c.CustomerCode;
-                row["CustomerName"] = c.CustomerName;
+                row["CustomerID"] = c.CustomerID ?? "";
+                row["CustomerCode"] = c.CustomerCode ?? "";
+                row["CustomerName"] = c.CustomerName ?? "";
 
-                row["FNameT"] = c.FNameT;
-                row["LNameT"] = c.LNameT;
-                row["Sex"] = c.Sex;
-                row["PrefixT"] = c.PrefixT;
-                row["ShortNameT"] = c.ShortNameT;
+                row["FNameT"] = c.FNameT ?? "";
+                row["LNameT"] = c.LNameT ?? "";
+                row["Sex"] = c.Sex ?? "";
+                row["PrefixT"] = c.PrefixT ?? "";
+                row["ShortNameT"] = c.ShortNameT ?? "";
 
-                row["FNameE"] = c.FNameE;
-                row["LNameE"] = c.LNameE;
-                row["PrefixE"] = c.PrefixE;
-                row["ShortNameE"] = c.ShortNameE;
+                row["FNameE"] = c.FNameE ?? "";
+                row["LNameE"] = c.LNameE ?? "";
+                row["PrefixE"] = c.PrefixE ?? "";
+                row["ShortNameE"] = c.ShortNameE ?? "";
 
-                row["FindName1"] = c.FindName1;
-                row["FindName2"] = c.FindName2;
-                row["Address"] = c.Address;
-                row["RefCode"] = c.RefCode;
-                row["IdentityCard"] = c.IdentityCard;
+                row["FindName1"] = c.FindName1 ?? "";
+                row["FindName2"] = c.FindName2 ?? "";
+                row["Address"] = c.Address ?? "";
+                row["RefCode"] = c.RefCode ?? "";
+                row["IdentityCard"] = c.IdentityCard ?? "";
 
-                if (c.CompanyID.HasValue)
-                    row["CompanyID"] = c.CompanyID.Value;
-                if (c.AddressID.HasValue)
-                    row["AddressID"] = c.AddressID.Value;
-                if (c.CustomerGroupID.HasValue)
-                    row["CustomerGroupID"] = c.CustomerGroupID.Value;
+                row["CompanyID"] = c.CompanyID ?? "";
+                row["AddressID"] = c.AddressID ?? "";
+                row["CustomerGroupID"] = c.CustomerGroupID ?? "";
 
-                row["CreateTime"] = c.CreateTime;
-                row["CreateBy"] = c.CreateBy;
-                row["UpdateTime"] = c.UpdateTime;
-                row["UpdateBy"] = c.UpdateBy;
+                row["Email"] = c.Email ?? "";
+                row["CreateTime"] = c.CreateTime ?? "";
+                row["CreateBy"] = c.CreateBy ?? "";
+                row["UpdateTime"] = c.UpdateTime ?? "";
+                row["UpdateBy"] = c.UpdateBy ?? "";
 
                 dt.Rows.Add(row);
             };
@@ -557,41 +547,39 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("InvoiceID", typeof(string));
             dt.Columns.Add("InvoiceCode", typeof(string));
-            dt.Columns.Add("CustomerID", typeof(int));
+            dt.Columns.Add("CustomerID", typeof(string));
             dt.Columns.Add("PeriodNo", typeof(string));
             dt.Columns.Add("PayStatus", typeof(string));
-            dt.Columns.Add("Balance", typeof(string));
-            dt.Columns.Add("PayFinePercentage", typeof(string));
+            dt.Columns.Add("Balance", typeof(decimal));
+            dt.Columns.Add("PayFinePercentage", typeof(decimal));
             dt.Columns.Add("StartDate", typeof(string));
             dt.Columns.Add("EndDate", typeof(string));
-            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CompanyID", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<invoices> addRow = inv => {
-                if (inv == null) return;
+                if (inv == null)
+                    return;
                 var row = dt.NewRow();
-                if (inv.InvoiceID.HasValue)
-                    row["InvoiceID"] = inv.InvoiceID.Value;
-                row["InvoiceCode"] = inv.InvoiceCode;
-                if (inv.CustomerID.HasValue)
-                    row["CustomerID"] = inv.CustomerID.Value;
-                row["PeriodNo"] = inv.PeriodNo;
-                row["PayStatus"] = inv.PayStatus;
+                row["InvoiceID"] = inv.InvoiceID ?? "";
+                row["InvoiceCode"] = inv.InvoiceCode ?? "";
+                row["CustomerID"] = inv.CustomerID ?? "";
+                row["PeriodNo"] = inv.PeriodNo ?? "";
+                row["PayStatus"] = inv.PayStatus ?? "";
                 row["Balance"] = inv.Balance;
                 row["PayFinePercentage"] = inv.PayFinePercentage;
-                row["StartDate"] = inv.StartDate;
-                row["EndDate"] = inv.EndDate;
-                if (inv.CompanyID.HasValue)
-                    row["CompanyID"] = inv.CompanyID.Value;
-                row["CreateTime"] = inv.CreateTime;
-                row["CreateBy"] = inv.CreateBy;
-                row["UpdateTime"] = inv.UpdateTime;
-                row["UpdateBy"] = inv.UpdateBy;
+                row["StartDate"] = inv.StartDate ?? "";
+                row["EndDate"] = inv.EndDate ?? "";
+                row["CompanyID"] = inv.CompanyID ?? "";
+                row["CreateTime"] = inv.CreateTime ?? "";
+                row["CreateBy"] = inv.CreateBy ?? "";
+                row["UpdateTime"] = inv.UpdateTime ?? "";
+                row["UpdateBy"] = inv.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 
@@ -619,47 +607,45 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("LogPeriadID", typeof(int));
-            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("LogPeriadID", typeof(string));
+            dt.Columns.Add("InvoiceID", typeof(string));
             dt.Columns.Add("PeriadNo", typeof(string));
             dt.Columns.Add("Remark", typeof(string));
-            dt.Columns.Add("Price", typeof(string));
-            dt.Columns.Add("GainPrice", typeof(string));
-            dt.Columns.Add("GainPercentage", typeof(string));
-            dt.Columns.Add("CustomerID", typeof(int));
-            dt.Columns.Add("PayFine", typeof(string));
+            dt.Columns.Add("Price", typeof(decimal));
+            dt.Columns.Add("GainPrice", typeof(decimal));
+            dt.Columns.Add("GainPercentage", typeof(decimal));
+            dt.Columns.Add("CustomerID", typeof(string));
+            dt.Columns.Add("PayFine", typeof(decimal));
             dt.Columns.Add("PayDate", typeof(string));
             dt.Columns.Add("PeriadDateFrom", typeof(string));
             dt.Columns.Add("PeriadDateTo", typeof(string));
-            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CompanyID", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<log_periads> addRow = l => {
-                if (l == null) return;
+                if (l == null)
+                    return;
                 var row = dt.NewRow();
-                row["LogPeriadID"] = l.LogPeriadID;
-                if (l.InvoiceID.HasValue)
-                    row["InvoiceID"] = l.InvoiceID.Value;
-                row["PeriadNo"] = l.PeriadNo;
-                row["Remark"] = l.Remark;
+                row["LogPeriadID"] = l.LogPeriadID ?? "";
+                row["InvoiceID"] = l.InvoiceID ?? "";
+                row["PeriadNo"] = l.PeriadNo ?? "";
+                row["Remark"] = l.Remark ?? "";
                 row["Price"] = l.Price;
                 row["GainPrice"] = l.GainPrice;
                 row["GainPercentage"] = l.GainPercentage;
-                if (l.CustomerID.HasValue)
-                    row["CustomerID"] = l.CustomerID.Value;
+                row["CustomerID"] = l.CustomerID ?? "";
                 row["PayFine"] = l.PayFine;
-                row["PayDate"] = l.PayDate;
-                row["PeriadDateFrom"] = l.PeriadDateFrom;
-                row["PeriadDateTo"] = l.PeriadDateTo;
-                if (l.CompanyID.HasValue)
-                    row["CompanyID"] = l.CompanyID.Value;
-                row["CreateTime"] = l.CreateTime;
-                row["CreateBy"] = l.CreateBy;
-                row["UpdateTime"] = l.UpdateTime;
-                row["UpdateBy"] = l.UpdateBy;
+                row["PayDate"] = l.PayDate ?? "";
+                row["PeriadDateFrom"] = l.PeriadDateFrom ?? "";
+                row["PeriadDateTo"] = l.PeriadDateTo ?? "";
+                row["CompanyID"] = l.CompanyID ?? "";
+                row["CreateTime"] = l.CreateTime ?? "";
+                row["CreateBy"] = l.CreateBy ?? "";
+                row["UpdateTime"] = l.UpdateTime ?? "";
+                row["UpdateBy"] = l.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 
@@ -687,29 +673,29 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("CompanyID", typeof(int));
+            dt.Columns.Add("CompanyID", typeof(string));
             dt.Columns.Add("CompanyName", typeof(string));
             dt.Columns.Add("CompanyCode", typeof(string));
             dt.Columns.Add("Logo", typeof(string));
-            dt.Columns.Add("AddressID", typeof(int));
+            dt.Columns.Add("AddressID", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<companys> addRow = c => {
-                if (c == null) return;
+                if (c == null)
+                    return;
                 var row = dt.NewRow();
-                row["CompanyID"] = c.CompanyID;
-                row["CompanyName"] = c.CompanyName;
-                row["CompanyCode"] = c.CompanyCode;
-                row["Logo"] = c.Logo;
-                if (c.AddressID.HasValue)
-                    row["AddressID"] = c.AddressID.Value;
-                row["CreateTime"] = c.CreateTime;
-                row["CreateBy"] = c.CreateBy;
-                row["UpdateTime"] = c.UpdateTime;
-                row["UpdateBy"] = c.UpdateBy;
+                row["CompanyID"] = c.CompanyID ?? "";
+                row["CompanyName"] = c.CompanyName ?? "";
+                row["CompanyCode"] = c.CompanyCode ?? "";
+                row["Logo"] = c.Logo ?? "";
+                row["AddressID"] = c.AddressID ?? "";
+                row["CreateTime"] = c.CreateTime ?? "";
+                row["CreateBy"] = c.CreateBy ?? "";
+                row["UpdateTime"] = c.UpdateTime ?? "";
+                row["UpdateBy"] = c.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 
@@ -737,7 +723,7 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("AddressID", typeof(int));
+            dt.Columns.Add("AddressID", typeof(string));
             dt.Columns.Add("AddressDetail", typeof(string));
             dt.Columns.Add("RoomNo", typeof(string));
             dt.Columns.Add("Flood", typeof(string));
@@ -748,6 +734,7 @@ namespace CreateInvoice {
             dt.Columns.Add("SubDistrict", typeof(string));
             dt.Columns.Add("District", typeof(string));
             dt.Columns.Add("Province", typeof(string));
+            dt.Columns.Add("PostCode", typeof(string));
             dt.Columns.Add("GPS", typeof(string));
             dt.Columns.Add("Lang", typeof(string));
             dt.Columns.Add("Phone", typeof(string));
@@ -756,7 +743,6 @@ namespace CreateInvoice {
             dt.Columns.Add("Fax", typeof(string));
             dt.Columns.Add("FaxTo", typeof(string));
             dt.Columns.Add("RefCode", typeof(string));
-            dt.Columns.Add("Email", typeof(string));
             dt.Columns.Add("LineID", typeof(string));
             dt.Columns.Add("LineContract", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
@@ -765,35 +751,35 @@ namespace CreateInvoice {
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<address> addRow = a => {
-                if (a == null) return;
+                if (a == null)
+                    return;
                 var row = dt.NewRow();
-                if (a.AddressID.HasValue)
-                    row["AddressID"] = a.AddressID.Value;
-                row["AddressDetail"] = a.AddressDetail;
-                row["RoomNo"] = a.RoomNo;
-                row["Flood"] = a.Flood;
-                row["HouseNo"] = a.HouseNo;
-                row["Moo"] = a.Moo;
-                row["Soi"] = a.Soi;
-                row["Road"] = a.Road;
-                row["SubDistrict"] = a.SubDistrict;
-                row["District"] = a.District;
-                row["Province"] = a.Province;
-                row["GPS"] = a.GPS;
-                row["Lang"] = a.Lang;
-                row["Phone"] = a.Phone;
-                row["Mobile"] = a.Mobile;
-                row["PhoneTo"] = a.PhoneTo;
-                row["Fax"] = a.Fax;
-                row["FaxTo"] = a.FaxTo;
-                row["RefCode"] = a.RefCode;
-                row["Email"] = a.Email;
-                row["LineID"] = a.LineID;
-                row["LineContract"] = a.LineContract;
-                row["CreateTime"] = a.CreateTime;
-                row["CreateBy"] = a.CreateBy;
-                row["UpdateTime"] = a.UpdateTime;
-                row["UpdateBy"] = a.UpdateBy;
+                row["AddressID"] = a.AddressID ?? "";
+                row["AddressDetail"] = a.AddressDetail ?? "";
+                row["RoomNo"] = a.RoomNo ?? "";
+                row["Flood"] = a.Flood ?? "";
+                row["HouseNo"] = a.HouseNo ?? "";
+                row["Moo"] = a.Moo ?? "";
+                row["Soi"] = a.Soi ?? "";
+                row["Road"] = a.Road ?? "";
+                row["SubDistrict"] = a.SubDistrict ?? "";
+                row["District"] = a.District ?? "";
+                row["Province"] = a.Province ?? "";
+                row["PostCode"] = a.PostCode ?? "";
+                row["GPS"] = a.GPS ?? "";
+                row["Lang"] = a.Lang ?? "";
+                row["Phone"] = a.Phone ?? "";
+                row["Mobile"] = a.Mobile ?? "";
+                row["PhoneTo"] = a.PhoneTo ?? "";
+                row["Fax"] = a.Fax ?? "";
+                row["FaxTo"] = a.FaxTo ?? "";
+                row["RefCode"] = a.RefCode ?? "";
+                row["LineID"] = a.LineID ?? "";
+                row["LineContract"] = a.LineContract ?? "";
+                row["CreateTime"] = a.CreateTime ?? "";
+                row["CreateBy"] = a.CreateBy ?? "";
+                row["UpdateTime"] = a.UpdateTime ?? "";
+                row["UpdateBy"] = a.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 
@@ -821,35 +807,35 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("MapProductID", typeof(int));
-            dt.Columns.Add("ProductID", typeof(int));
-            dt.Columns.Add("InvoiceID", typeof(int));
+            dt.Columns.Add("MapProductID", typeof(string));
+            dt.Columns.Add("ProductID", typeof(string));
+            dt.Columns.Add("InvoiceID", typeof(string));
             dt.Columns.Add("Qty", typeof(int));
-            dt.Columns.Add("Price", typeof(string));
-            dt.Columns.Add("Net", typeof(string));
-            dt.Columns.Add("GainPrice", typeof(string));
-            dt.Columns.Add("GainPercentage", typeof(string));
+            dt.Columns.Add("Price", typeof(decimal));
+            dt.Columns.Add("Net", typeof(decimal));
+            dt.Columns.Add("GainPrice", typeof(decimal));
+            dt.Columns.Add("GainPercentage", typeof(decimal));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<map_products> addRow = m => {
-                if (m == null) return;
+                if (m == null)
+                    return;
                 var row = dt.NewRow();
-                row["MapProductID"] = m.MapProductID;
-                row["ProductID"] = m.ProductID;
-                row["InvoiceID"] = m.InvoiceID;
-                if (m.Qty.HasValue)
-                    row["Qty"] = m.Qty.Value;
+                row["MapProductID"] = m.MapProductID ?? "";
+                row["ProductID"] = m.ProductID ?? "";
+                row["InvoiceID"] = m.InvoiceID ?? "";
+                row["Qty"] = m.Qty;
                 row["Price"] = m.Price;
                 row["Net"] = m.Net;
                 row["GainPrice"] = m.GainPrice;
                 row["GainPercentage"] = m.GainPercentage;
-                row["CreateTime"] = m.CreateTime;
-                row["CreateBy"] = m.CreateBy;
-                row["UpdateTime"] = m.UpdateTime;
-                row["UpdateBy"] = m.UpdateBy;
+                row["CreateTime"] = m.CreateTime ?? "";
+                row["CreateBy"] = m.CreateBy ?? "";
+                row["UpdateTime"] = m.UpdateTime ?? "";
+                row["UpdateBy"] = m.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 
@@ -877,29 +863,27 @@ namespace CreateInvoice {
             } catch { dict = null; }
 
             var dt = new DataTable();
-            dt.Columns.Add("MapGuaranteeID", typeof(int));
-            dt.Columns.Add("CustomerID", typeof(int));
-            dt.Columns.Add("InvoiceID", typeof(int));
-            dt.Columns.Add("GuaranteeCusID", typeof(int));
+            dt.Columns.Add("MapGuaranteeID", typeof(string));
+            dt.Columns.Add("CustomerID", typeof(string));
+            dt.Columns.Add("InvoiceID", typeof(string));
+            dt.Columns.Add("GuaranteeCusID", typeof(string));
             dt.Columns.Add("CreateTime", typeof(string));
             dt.Columns.Add("CreateBy", typeof(string));
             dt.Columns.Add("UpdateTime", typeof(string));
             dt.Columns.Add("UpdateBy", typeof(string));
 
             Action<map_guarantees> addRow = m => {
-                if (m == null) return;
+                if (m == null)
+                    return;
                 var row = dt.NewRow();
-                row["MapGuaranteeID"] = m.MapGuaranteeID;
-                if (m.CustomerID.HasValue)
-                    row["CustomerID"] = m.CustomerID.Value;
-                if (m.InvoiceID.HasValue)
-                    row["InvoiceID"] = m.InvoiceID.Value;
-                if (m.GuaranteeCusID.HasValue)
-                    row["GuaranteeCusID"] = m.GuaranteeCusID.Value;
-                row["CreateTime"] = m.CreateTime;
-                row["CreateBy"] = m.CreateBy;
-                row["UpdateTime"] = m.UpdateTime;
-                row["UpdateBy"] = m.UpdateBy;
+                row["MapGuaranteeID"] = m.MapGuaranteeID ?? "";
+                row["CustomerID"] = m.CustomerID ?? "";
+                row["InvoiceID"] = m.InvoiceID ?? "";
+                row["GuaranteeCusID"] = m.GuaranteeCusID ?? "";
+                row["CreateTime"] = m.CreateTime ?? "";
+                row["CreateBy"] = m.CreateBy ?? "";
+                row["UpdateTime"] = m.UpdateTime ?? "";
+                row["UpdateBy"] = m.UpdateBy ?? "";
                 dt.Rows.Add(row);
             };
 

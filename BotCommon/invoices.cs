@@ -1,12 +1,12 @@
 namespace BotCommon {
     public class invoices {
-        public int? InvoiceID {
+        public string InvoiceID {
             get; set;
         }
         public string InvoiceCode {
             get; set;
         }
-        public int? CustomerID {
+        public string CustomerID {
             get; set;
         }
         public string PeriodNo {
@@ -15,10 +15,10 @@ namespace BotCommon {
         public string PayStatus {
             get; set;
         }
-        public string Balance {
+        public decimal Balance {
             get; set;
         }
-        public string PayFinePercentage {
+        public decimal PayFinePercentage {
             get; set;
         }
         public string StartDate {
@@ -27,7 +27,7 @@ namespace BotCommon {
         public string EndDate {
             get; set;
         }
-        public int? CompanyID {
+        public string CompanyID {
             get; set;
         }
         public string CreateTime {

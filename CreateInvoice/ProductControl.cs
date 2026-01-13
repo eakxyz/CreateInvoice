@@ -39,7 +39,7 @@ namespace CreateInvoice {
         }
 
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colEdit = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -55,21 +55,21 @@ namespace CreateInvoice {
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(35, 243);
+            this.dataGridView1.Location = new System.Drawing.Point(39, 232);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 32;
-            this.dataGridView1.Size = new System.Drawing.Size(1474, 512);
+            this.dataGridView1.Size = new System.Drawing.Size(1184, 525);
             this.dataGridView1.TabIndex = 0;
             // 
             // colEdit
@@ -85,18 +85,18 @@ namespace CreateInvoice {
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(35, 36);
+            this.groupBox1.Location = new System.Drawing.Point(39, 45);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1474, 154);
+            this.groupBox1.Size = new System.Drawing.Size(1184, 134);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "เงื่อนไขการค้นหา";
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(809, 72);
+            this.btnSearch.Location = new System.Drawing.Point(609, 68);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(120, 41);
+            this.btnSearch.Size = new System.Drawing.Size(120, 39);
             this.btnSearch.TabIndex = 20;
             this.btnSearch.Text = "ค้นหา";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -107,15 +107,15 @@ namespace CreateInvoice {
             this.textBox3.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(393, 77);
+            this.textBox3.Location = new System.Drawing.Point(243, 70);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(400, 35);
+            this.textBox3.Size = new System.Drawing.Size(360, 35);
             this.textBox3.TabIndex = 17;
             // 
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(29, 52);
+            this.label1.Location = new System.Drawing.Point(49, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 21);
             this.label1.TabIndex = 15;
@@ -130,15 +130,15 @@ namespace CreateInvoice {
             this.comboBox1.Items.AddRange(new object[] {
             "ประเภทสินค้า",
             "ชื่อสินค้า"});
-            this.comboBox1.Location = new System.Drawing.Point(17, 76);
+            this.comboBox1.Location = new System.Drawing.Point(37, 68);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(360, 37);
+            this.comboBox1.Size = new System.Drawing.Size(200, 37);
             this.comboBox1.TabIndex = 14;
             // 
             // btnAddProduct
             // 
             this.btnAddProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddProduct.Location = new System.Drawing.Point(35, 196);
+            this.btnAddProduct.Location = new System.Drawing.Point(39, 185);
             this.btnAddProduct.Name = "btnAddProduct";
             this.btnAddProduct.Size = new System.Drawing.Size(120, 41);
             this.btnAddProduct.TabIndex = 21;
@@ -247,7 +247,7 @@ namespace CreateInvoice {
                 var dict = response.ResultAs<Dictionary<string, products>>();
 
                 var dt = new DataTable();
-                dt.Columns.Add("ProductID", typeof(int));
+                dt.Columns.Add("ProductID", typeof(string));
                 dt.Columns.Add("ProductCode", typeof(string));
                 dt.Columns.Add("ProductName", typeof(string));
                 dt.Columns.Add("Price", typeof(string));
@@ -255,7 +255,7 @@ namespace CreateInvoice {
                 dt.Columns.Add("RefID", typeof(string));
                 dt.Columns.Add("GainPrice", typeof(string));
                 dt.Columns.Add("GainPercentage", typeof(string));
-                dt.Columns.Add("CompanyID", typeof(int));
+                dt.Columns.Add("CompanyID", typeof(string));
                 dt.Columns.Add("CreateTime", typeof(string));
                 dt.Columns.Add("CreateBy", typeof(string));
                 dt.Columns.Add("UpdateTime", typeof(string));
@@ -272,20 +272,19 @@ namespace CreateInvoice {
                             continue;
 
                         var row = dt.NewRow();
-                        row["ProductID"] = p.ProductID;
-                        row["ProductCode"] = p.ProductCode;
-                        row["ProductName"] = p.ProductName;
-                        row["Price"] = p.Price;
-                        row["Net"] = p.Net;
-                        row["RefID"] = p.RefID;
-                        row["GainPrice"] = p.GainPrice;
-                        row["GainPercentage"] = p.GainPercentage;
-                        if (p.CompanyID.HasValue)
-                            row["CompanyID"] = p.CompanyID.Value;
-                        row["CreateTime"] = p.CreateTime;
-                        row["CreateBy"] = p.CreateBy;
-                        row["UpdateTime"] = p.UpdateTime;
-                        row["UpdateBy"] = p.UpdateBy;
+                        row["ProductID"] = p.ProductID ?? "";
+                        row["ProductCode"] = p.ProductCode ?? "";
+                        row["ProductName"] = p.ProductName ?? "";
+                        row["Price"] = p.Price.ToString();
+                        row["Net"] = p.Net.ToString();
+                        row["RefID"] = p.RefID ?? "";
+                        row["GainPrice"] = p.GainPrice.ToString();
+                        row["GainPercentage"] = p.GainPercentage.ToString();
+                        row["CompanyID"] = p.CompanyID ?? "";
+                        row["CreateTime"] = p.CreateTime ?? "";
+                        row["CreateBy"] = p.CreateBy ?? "";
+                        row["UpdateTime"] = p.UpdateTime ?? "";
+                        row["UpdateBy"] = p.UpdateBy ?? "";
                         row["_Action"] = "แก้ไข";
                         dt.Rows.Add(row);
                     }

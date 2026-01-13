@@ -44,37 +44,37 @@ namespace BotCommon {
         
         private product_typesDataTable tableproduct_types;
         
-        private global::System.Data.DataRelation relationcustomers_log_periads;
-        
-        private global::System.Data.DataRelation relationcustomers_map_guarantees;
-        
         private global::System.Data.DataRelation relationaddress_customers;
-        
-        private global::System.Data.DataRelation relationaddress_companys;
         
         private global::System.Data.DataRelation relationcompanys_customers;
         
-        private global::System.Data.DataRelation relationinvoices_log_periads;
-        
         private global::System.Data.DataRelation relationcompanys_log_periads;
         
-        private global::System.Data.DataRelation relationinvoices_map_guarantees;
+        private global::System.Data.DataRelation relationinvoices_log_periads;
         
-        private global::System.Data.DataRelation relationcustomers_map_guarantees1;
+        private global::System.Data.DataRelation relationcustomers_log_periads;
         
-        private global::System.Data.DataRelation relationcustomers_invoices;
+        private global::System.Data.DataRelation relationaddress_companys;
+        
+        private global::System.Data.DataRelation relationproducts_products;
+        
+        private global::System.Data.DataRelation relationcompanys_products;
+        
+        private global::System.Data.DataRelation relationproduct_types_products;
         
         private global::System.Data.DataRelation relationcompanys_invoices;
-        
-        private global::System.Data.DataRelation relationproducts_companys;
         
         private global::System.Data.DataRelation relationproducts_map_products;
         
         private global::System.Data.DataRelation relationinvoices_map_products;
         
-        private global::System.Data.DataRelation relationcustomer_groups_customers;
+        private global::System.Data.DataRelation relationcustomers_map_guarantees;
         
-        private global::System.Data.DataRelation relationproduct_types_products;
+        private global::System.Data.DataRelation relationinvoices_map_guarantees;
+        
+        private global::System.Data.DataRelation relationcustomers_map_guarantees1;
+        
+        private global::System.Data.DataRelation relationcustomer_groups_customers;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -442,22 +442,22 @@ namespace BotCommon {
                     this.tableproduct_types.InitVars();
                 }
             }
-            this.relationcustomers_log_periads = this.Relations["customers_log_periads"];
-            this.relationcustomers_map_guarantees = this.Relations["customers_map_guarantees"];
             this.relationaddress_customers = this.Relations["address_customers"];
-            this.relationaddress_companys = this.Relations["address_companys"];
             this.relationcompanys_customers = this.Relations["companys_customers"];
-            this.relationinvoices_log_periads = this.Relations["invoices_log_periads"];
             this.relationcompanys_log_periads = this.Relations["companys_log_periads"];
-            this.relationinvoices_map_guarantees = this.Relations["invoices_map_guarantees"];
-            this.relationcustomers_map_guarantees1 = this.Relations["customers_map_guarantees1"];
-            this.relationcustomers_invoices = this.Relations["customers_invoices"];
+            this.relationinvoices_log_periads = this.Relations["invoices_log_periads"];
+            this.relationcustomers_log_periads = this.Relations["customers_log_periads"];
+            this.relationaddress_companys = this.Relations["address_companys"];
+            this.relationproducts_products = this.Relations["products_products"];
+            this.relationcompanys_products = this.Relations["companys_products"];
+            this.relationproduct_types_products = this.Relations["product_types_products"];
             this.relationcompanys_invoices = this.Relations["companys_invoices"];
-            this.relationproducts_companys = this.Relations["products_companys"];
             this.relationproducts_map_products = this.Relations["products_map_products"];
             this.relationinvoices_map_products = this.Relations["invoices_map_products"];
+            this.relationcustomers_map_guarantees = this.Relations["customers_map_guarantees"];
+            this.relationinvoices_map_guarantees = this.Relations["invoices_map_guarantees"];
+            this.relationcustomers_map_guarantees1 = this.Relations["customers_map_guarantees1"];
             this.relationcustomer_groups_customers = this.Relations["customer_groups_customers"];
-            this.relationproduct_types_products = this.Relations["product_types_products"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -488,54 +488,46 @@ namespace BotCommon {
             base.Tables.Add(this.tablecustomer_groups);
             this.tableproduct_types = new product_typesDataTable();
             base.Tables.Add(this.tableproduct_types);
-            this.relationcustomers_log_periads = new global::System.Data.DataRelation("customers_log_periads", new global::System.Data.DataColumn[] {
-                        this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablelog_periads.CustomerIDColumn}, false);
-            this.Relations.Add(this.relationcustomers_log_periads);
-            this.relationcustomers_map_guarantees = new global::System.Data.DataRelation("customers_map_guarantees", new global::System.Data.DataColumn[] {
-                        this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablemap_guarantees.CustomerIDColumn}, false);
-            this.Relations.Add(this.relationcustomers_map_guarantees);
             this.relationaddress_customers = new global::System.Data.DataRelation("address_customers", new global::System.Data.DataColumn[] {
                         this.tableaddress.AddressIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablecustomers.AddressIDColumn}, false);
             this.Relations.Add(this.relationaddress_customers);
-            this.relationaddress_companys = new global::System.Data.DataRelation("address_companys", new global::System.Data.DataColumn[] {
-                        this.tableaddress.AddressIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablecompanys.AddressIDColumn}, false);
-            this.Relations.Add(this.relationaddress_companys);
             this.relationcompanys_customers = new global::System.Data.DataRelation("companys_customers", new global::System.Data.DataColumn[] {
                         this.tablecompanys.CompanyIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablecustomers.CompanyIDColumn}, false);
             this.Relations.Add(this.relationcompanys_customers);
-            this.relationinvoices_log_periads = new global::System.Data.DataRelation("invoices_log_periads", new global::System.Data.DataColumn[] {
-                        this.tableinvoices.InvoiceIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablelog_periads.InvoiceIDColumn}, false);
-            this.Relations.Add(this.relationinvoices_log_periads);
             this.relationcompanys_log_periads = new global::System.Data.DataRelation("companys_log_periads", new global::System.Data.DataColumn[] {
                         this.tablecompanys.CompanyIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablelog_periads.CompanyIDColumn}, false);
             this.Relations.Add(this.relationcompanys_log_periads);
-            this.relationinvoices_map_guarantees = new global::System.Data.DataRelation("invoices_map_guarantees", new global::System.Data.DataColumn[] {
+            this.relationinvoices_log_periads = new global::System.Data.DataRelation("invoices_log_periads", new global::System.Data.DataColumn[] {
                         this.tableinvoices.InvoiceIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablemap_guarantees.InvoiceIDColumn}, false);
-            this.Relations.Add(this.relationinvoices_map_guarantees);
-            this.relationcustomers_map_guarantees1 = new global::System.Data.DataRelation("customers_map_guarantees1", new global::System.Data.DataColumn[] {
+                        this.tablelog_periads.InvoiceIDColumn}, false);
+            this.Relations.Add(this.relationinvoices_log_periads);
+            this.relationcustomers_log_periads = new global::System.Data.DataRelation("customers_log_periads", new global::System.Data.DataColumn[] {
                         this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablemap_guarantees.GuaranteeCusIDColumn}, false);
-            this.Relations.Add(this.relationcustomers_map_guarantees1);
-            this.relationcustomers_invoices = new global::System.Data.DataRelation("customers_invoices", new global::System.Data.DataColumn[] {
-                        this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableinvoices.CustomerIDColumn}, false);
-            this.Relations.Add(this.relationcustomers_invoices);
+                        this.tablelog_periads.CustomerIDColumn}, false);
+            this.Relations.Add(this.relationcustomers_log_periads);
+            this.relationaddress_companys = new global::System.Data.DataRelation("address_companys", new global::System.Data.DataColumn[] {
+                        this.tableaddress.AddressIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tablecompanys.AddressIDColumn}, false);
+            this.Relations.Add(this.relationaddress_companys);
+            this.relationproducts_products = new global::System.Data.DataRelation("products_products", new global::System.Data.DataColumn[] {
+                        this.tableproducts.ProductIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableproducts.RefIDColumn}, false);
+            this.Relations.Add(this.relationproducts_products);
+            this.relationcompanys_products = new global::System.Data.DataRelation("companys_products", new global::System.Data.DataColumn[] {
+                        this.tablecompanys.CompanyIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableproducts.CompanyIDColumn}, false);
+            this.Relations.Add(this.relationcompanys_products);
+            this.relationproduct_types_products = new global::System.Data.DataRelation("product_types_products", new global::System.Data.DataColumn[] {
+                        this.tableproduct_types.ProductTypeIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableproducts.ProductTypeIDColumn}, false);
+            this.Relations.Add(this.relationproduct_types_products);
             this.relationcompanys_invoices = new global::System.Data.DataRelation("companys_invoices", new global::System.Data.DataColumn[] {
                         this.tablecompanys.CompanyIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableinvoices.CompanyIDColumn}, false);
             this.Relations.Add(this.relationcompanys_invoices);
-            this.relationproducts_companys = new global::System.Data.DataRelation("products_companys", new global::System.Data.DataColumn[] {
-                        this.tableproducts.CompanyIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tablecompanys.CompanyIDColumn}, false);
-            this.Relations.Add(this.relationproducts_companys);
             this.relationproducts_map_products = new global::System.Data.DataRelation("products_map_products", new global::System.Data.DataColumn[] {
                         this.tableproducts.ProductIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablemap_products.ProductIDColumn}, false);
@@ -544,14 +536,22 @@ namespace BotCommon {
                         this.tableinvoices.InvoiceIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablemap_products.InvoiceIDColumn}, false);
             this.Relations.Add(this.relationinvoices_map_products);
+            this.relationcustomers_map_guarantees = new global::System.Data.DataRelation("customers_map_guarantees", new global::System.Data.DataColumn[] {
+                        this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tablemap_guarantees.CustomerIDColumn}, false);
+            this.Relations.Add(this.relationcustomers_map_guarantees);
+            this.relationinvoices_map_guarantees = new global::System.Data.DataRelation("invoices_map_guarantees", new global::System.Data.DataColumn[] {
+                        this.tableinvoices.InvoiceIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tablemap_guarantees.InvoiceIDColumn}, false);
+            this.Relations.Add(this.relationinvoices_map_guarantees);
+            this.relationcustomers_map_guarantees1 = new global::System.Data.DataRelation("customers_map_guarantees1", new global::System.Data.DataColumn[] {
+                        this.tablecustomers.CustomerIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tablemap_guarantees.GuaranteeCusIDColumn}, false);
+            this.Relations.Add(this.relationcustomers_map_guarantees1);
             this.relationcustomer_groups_customers = new global::System.Data.DataRelation("customer_groups_customers", new global::System.Data.DataColumn[] {
                         this.tablecustomer_groups.CustomerGroupIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablecustomers.CustomerGroupIDColumn}, false);
             this.Relations.Add(this.relationcustomer_groups_customers);
-            this.relationproduct_types_products = new global::System.Data.DataRelation("product_types_products", new global::System.Data.DataColumn[] {
-                        this.tableproduct_types.ProductTypeIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableproducts.ProductTypeIDColumn}, false);
-            this.Relations.Add(this.relationproduct_types_products);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -916,7 +916,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public productsRow AddproductsRow(int ProductID, string ProductName, string ProductCode, string Price, string Net, string RefID, string GainPrice, string GainPercentage, int CompanyID, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy, product_typesRow parentproduct_typesRowByproduct_types_products) {
+            public productsRow AddproductsRow(string ProductID, string ProductName, string ProductCode, decimal Price, decimal Net, productsRow parentproductsRowByproducts_products, decimal GainPrice, decimal GainPercentage, companysRow parentcompanysRowBycompanys_products, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy, product_typesRow parentproduct_typesRowByproduct_types_products) {
                 productsRow rowproductsRow = ((productsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ProductID,
@@ -924,15 +924,21 @@ namespace BotCommon {
                         ProductCode,
                         Price,
                         Net,
-                        RefID,
+                        null,
                         GainPrice,
                         GainPercentage,
-                        CompanyID,
+                        null,
                         CreateTime,
                         CreateBy,
                         UpdateTime,
                         UpdateBy,
                         null};
+                if ((parentproductsRowByproducts_products != null)) {
+                    columnValuesArray[5] = parentproductsRowByproducts_products[0];
+                }
+                if ((parentcompanysRowBycompanys_products != null)) {
+                    columnValuesArray[8] = parentcompanysRowBycompanys_products[0];
+                }
                 if ((parentproduct_typesRowByproduct_types_products != null)) {
                     columnValuesArray[13] = parentproduct_typesRowByproduct_types_products[0];
                 }
@@ -943,7 +949,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public productsRow FindByProductID(int ProductID) {
+            public productsRow FindByProductID(string ProductID) {
                 return ((productsRow)(this.Rows.Find(new object[] {
                             ProductID})));
             }
@@ -984,23 +990,23 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnProductID = new global::System.Data.DataColumn("ProductID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnProductID = new global::System.Data.DataColumn("ProductID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProductID);
                 this.columnProductName = new global::System.Data.DataColumn("ProductName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProductName);
                 this.columnProductCode = new global::System.Data.DataColumn("ProductCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProductCode);
-                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPrice);
-                this.columnNet = new global::System.Data.DataColumn("Net", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnNet = new global::System.Data.DataColumn("Net", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNet);
                 this.columnRefID = new global::System.Data.DataColumn("RefID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRefID);
-                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPrice);
-                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPercentage);
-                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -1196,6 +1202,8 @@ namespace BotCommon {
             private global::System.Data.DataColumn columnUpdateTime;
             
             private global::System.Data.DataColumn columnUpdateBy;
+            
+            private global::System.Data.DataColumn columnEmail;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -1424,6 +1432,14 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmailColumn {
+                get {
+                    return this.columnEmail;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1460,7 +1476,7 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public customersRow AddcustomersRow(
-                        int CustomerID, 
+                        string CustomerID, 
                         string CustomerCode, 
                         string CustomerName, 
                         string FNameT, 
@@ -1483,7 +1499,8 @@ namespace BotCommon {
                         string CreateTime, 
                         string CreateBy, 
                         string UpdateTime, 
-                        string UpdateBy) {
+                        string UpdateBy, 
+                        string Email) {
                 customersRow rowcustomersRow = ((customersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CustomerID,
@@ -1509,7 +1526,8 @@ namespace BotCommon {
                         CreateTime,
                         CreateBy,
                         UpdateTime,
-                        UpdateBy};
+                        UpdateBy,
+                        Email};
                 if ((parentcompanysRowBycompanys_customers != null)) {
                     columnValuesArray[17] = parentcompanysRowBycompanys_customers[0];
                 }
@@ -1526,7 +1544,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public customersRow FindByCustomerID(int CustomerID) {
+            public customersRow FindByCustomerID(string CustomerID) {
                 return ((customersRow)(this.Rows.Find(new object[] {
                             CustomerID})));
             }
@@ -1572,12 +1590,13 @@ namespace BotCommon {
                 this.columnCreateBy = base.Columns["CreateBy"];
                 this.columnUpdateTime = base.Columns["UpdateTime"];
                 this.columnUpdateBy = base.Columns["UpdateBy"];
+                this.columnEmail = base.Columns["Email"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerID);
                 this.columnCustomerCode = new global::System.Data.DataColumn("CustomerCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerCode);
@@ -1611,11 +1630,11 @@ namespace BotCommon {
                 base.Columns.Add(this.columnRefCode);
                 this.columnIdentityCard = new global::System.Data.DataColumn("IdentityCard", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnIdentityCard);
-                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyID);
-                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddressID);
-                this.columnCustomerGroupID = new global::System.Data.DataColumn("CustomerGroupID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerGroupID = new global::System.Data.DataColumn("CustomerGroupID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerGroupID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -1625,6 +1644,8 @@ namespace BotCommon {
                 base.Columns.Add(this.columnUpdateTime);
                 this.columnUpdateBy = new global::System.Data.DataColumn("UpdateBy", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUpdateBy);
+                this.columnEmail = new global::System.Data.DataColumn("Email", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmail);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnCustomerID}, true));
                 this.columnCustomerID.AllowDBNull = false;
@@ -1972,12 +1993,12 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public invoicesRow AddinvoicesRow(int InvoiceID, string InvoiceCode, customersRow parentcustomersRowBycustomers_invoices, string PeriodNo, string PayStatus, string Balance, string PayFinePercentage, string StartDate, string EndDate, companysRow parentcompanysRowBycompanys_invoices, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
+            public invoicesRow AddinvoicesRow(string InvoiceID, string InvoiceCode, string CustomerID, string PeriodNo, string PayStatus, decimal Balance, decimal PayFinePercentage, string StartDate, string EndDate, companysRow parentcompanysRowBycompanys_invoices, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
                 invoicesRow rowinvoicesRow = ((invoicesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         InvoiceID,
                         InvoiceCode,
-                        null,
+                        CustomerID,
                         PeriodNo,
                         PayStatus,
                         Balance,
@@ -1989,9 +2010,6 @@ namespace BotCommon {
                         CreateBy,
                         UpdateTime,
                         UpdateBy};
-                if ((parentcustomersRowBycustomers_invoices != null)) {
-                    columnValuesArray[2] = parentcustomersRowBycustomers_invoices[0];
-                }
                 if ((parentcompanysRowBycompanys_invoices != null)) {
                     columnValuesArray[9] = parentcompanysRowBycompanys_invoices[0];
                 }
@@ -2002,7 +2020,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public invoicesRow FindByInvoiceID(int InvoiceID) {
+            public invoicesRow FindByInvoiceID(string InvoiceID) {
                 return ((invoicesRow)(this.Rows.Find(new object[] {
                             InvoiceID})));
             }
@@ -2043,25 +2061,25 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceID);
                 this.columnInvoiceCode = new global::System.Data.DataColumn("InvoiceCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceCode);
-                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerID);
                 this.columnPeriodNo = new global::System.Data.DataColumn("PeriodNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPeriodNo);
                 this.columnPayStatus = new global::System.Data.DataColumn("PayStatus", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPayStatus);
-                this.columnBalance = new global::System.Data.DataColumn("Balance", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnBalance = new global::System.Data.DataColumn("Balance", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnBalance);
-                this.columnPayFinePercentage = new global::System.Data.DataColumn("PayFinePercentage", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPayFinePercentage = new global::System.Data.DataColumn("PayFinePercentage", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPayFinePercentage);
                 this.columnStartDate = new global::System.Data.DataColumn("StartDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStartDate);
                 this.columnEndDate = new global::System.Data.DataColumn("EndDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEndDate);
-                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -2449,15 +2467,15 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public log_periadsRow Addlog_periadsRow(
-                        int LogPeriadID, 
+                        string LogPeriadID, 
                         invoicesRow parentinvoicesRowByinvoices_log_periads, 
                         string PeriadNo, 
                         string Remark, 
-                        string Price, 
-                        string GainPrice, 
-                        string GainPercentage, 
+                        decimal Price, 
+                        decimal GainPrice, 
+                        decimal GainPercentage, 
                         customersRow parentcustomersRowBycustomers_log_periads, 
-                        string PayFine, 
+                        decimal PayFine, 
                         string PayDate, 
                         string PeriadDateFrom, 
                         string PeriadDateTo, 
@@ -2501,7 +2519,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public log_periadsRow FindByLogPeriadID(int LogPeriadID) {
+            public log_periadsRow FindByLogPeriadID(string LogPeriadID) {
                 return ((log_periadsRow)(this.Rows.Find(new object[] {
                             LogPeriadID})));
             }
@@ -2545,23 +2563,23 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnLogPeriadID = new global::System.Data.DataColumn("LogPeriadID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnLogPeriadID = new global::System.Data.DataColumn("LogPeriadID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLogPeriadID);
-                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceID);
                 this.columnPeriadNo = new global::System.Data.DataColumn("PeriadNo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPeriadNo);
                 this.columnRemark = new global::System.Data.DataColumn("Remark", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRemark);
-                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPrice);
-                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPrice);
-                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPercentage);
-                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerID);
-                this.columnPayFine = new global::System.Data.DataColumn("PayFine", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPayFine = new global::System.Data.DataColumn("PayFine", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPayFine);
                 this.columnPayDate = new global::System.Data.DataColumn("PayDate", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPayDate);
@@ -2569,7 +2587,7 @@ namespace BotCommon {
                 base.Columns.Add(this.columnPeriadDateFrom);
                 this.columnPeriadDateTo = new global::System.Data.DataColumn("PeriadDateTo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPeriadDateTo);
-                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -2866,7 +2884,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public map_guaranteesRow Addmap_guaranteesRow(int MapGuaranteeID, customersRow parentcustomersRowBycustomers_map_guarantees, invoicesRow parentinvoicesRowByinvoices_map_guarantees, customersRow parentcustomersRowBycustomers_map_guarantees1, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
+            public map_guaranteesRow Addmap_guaranteesRow(string MapGuaranteeID, customersRow parentcustomersRowBycustomers_map_guarantees, invoicesRow parentinvoicesRowByinvoices_map_guarantees, customersRow parentcustomersRowBycustomers_map_guarantees1, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
                 map_guaranteesRow rowmap_guaranteesRow = ((map_guaranteesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MapGuaranteeID,
@@ -2893,7 +2911,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public map_guaranteesRow FindByMapGuaranteeID(int MapGuaranteeID) {
+            public map_guaranteesRow FindByMapGuaranteeID(string MapGuaranteeID) {
                 return ((map_guaranteesRow)(this.Rows.Find(new object[] {
                             MapGuaranteeID})));
             }
@@ -2928,13 +2946,13 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnMapGuaranteeID = new global::System.Data.DataColumn("MapGuaranteeID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnMapGuaranteeID = new global::System.Data.DataColumn("MapGuaranteeID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMapGuaranteeID);
-                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerID = new global::System.Data.DataColumn("CustomerID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerID);
-                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceID);
-                this.columnGuaranteeCusID = new global::System.Data.DataColumn("GuaranteeCusID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnGuaranteeCusID = new global::System.Data.DataColumn("GuaranteeCusID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGuaranteeCusID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -3241,10 +3259,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public companysRow AddcompanysRow(productsRow parentproductsRowByproducts_companys, string CompanyName, string CompanyCode, string Logo, addressRow parentaddressRowByaddress_companys, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
+            public companysRow AddcompanysRow(string CompanyID, string CompanyName, string CompanyCode, string Logo, addressRow parentaddressRowByaddress_companys, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
                 companysRow rowcompanysRow = ((companysRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        null,
+                        CompanyID,
                         CompanyName,
                         CompanyCode,
                         Logo,
@@ -3253,9 +3271,6 @@ namespace BotCommon {
                         CreateBy,
                         UpdateTime,
                         UpdateBy};
-                if ((parentproductsRowByproducts_companys != null)) {
-                    columnValuesArray[0] = parentproductsRowByproducts_companys[8];
-                }
                 if ((parentaddressRowByaddress_companys != null)) {
                     columnValuesArray[4] = parentaddressRowByaddress_companys[0];
                 }
@@ -3266,7 +3281,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public companysRow FindByCompanyID(int CompanyID) {
+            public companysRow FindByCompanyID(string CompanyID) {
                 return ((companysRow)(this.Rows.Find(new object[] {
                             CompanyID})));
             }
@@ -3302,7 +3317,7 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCompanyID = new global::System.Data.DataColumn("CompanyID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyID);
                 this.columnCompanyName = new global::System.Data.DataColumn("CompanyName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCompanyName);
@@ -3310,7 +3325,7 @@ namespace BotCommon {
                 base.Columns.Add(this.columnCompanyCode);
                 this.columnLogo = new global::System.Data.DataColumn("Logo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLogo);
-                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddressID);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -3495,8 +3510,6 @@ namespace BotCommon {
             
             private global::System.Data.DataColumn columnRefCode;
             
-            private global::System.Data.DataColumn columnEmail;
-            
             private global::System.Data.DataColumn columnLineID;
             
             private global::System.Data.DataColumn columnLineContract;
@@ -3508,6 +3521,8 @@ namespace BotCommon {
             private global::System.Data.DataColumn columnUpdateTime;
             
             private global::System.Data.DataColumn columnUpdateBy;
+            
+            private global::System.Data.DataColumn columnPostCode;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -3696,14 +3711,6 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn EmailColumn {
-                get {
-                    return this.columnEmail;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn LineIDColumn {
                 get {
                     return this.columnLineID;
@@ -3752,6 +3759,14 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PostCodeColumn {
+                get {
+                    return this.columnPostCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3788,7 +3803,7 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public addressRow AddaddressRow(
-                        int AddressID, 
+                        string AddressID, 
                         string AddressDetail, 
                         string RoomNo, 
                         string Flood, 
@@ -3807,13 +3822,13 @@ namespace BotCommon {
                         string Fax, 
                         string FaxTo, 
                         string RefCode, 
-                        string Email, 
                         string LineID, 
                         string LineContract, 
                         string CreateTime, 
                         string CreateBy, 
                         string UpdateTime, 
-                        string UpdateBy) {
+                        string UpdateBy, 
+                        string PostCode) {
                 addressRow rowaddressRow = ((addressRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         AddressID,
@@ -3835,13 +3850,13 @@ namespace BotCommon {
                         Fax,
                         FaxTo,
                         RefCode,
-                        Email,
                         LineID,
                         LineContract,
                         CreateTime,
                         CreateBy,
                         UpdateTime,
-                        UpdateBy};
+                        UpdateBy,
+                        PostCode};
                 rowaddressRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowaddressRow);
                 return rowaddressRow;
@@ -3849,7 +3864,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public addressRow FindByAddressID(int AddressID) {
+            public addressRow FindByAddressID(string AddressID) {
                 return ((addressRow)(this.Rows.Find(new object[] {
                             AddressID})));
             }
@@ -3890,19 +3905,19 @@ namespace BotCommon {
                 this.columnFax = base.Columns["Fax"];
                 this.columnFaxTo = base.Columns["FaxTo"];
                 this.columnRefCode = base.Columns["RefCode"];
-                this.columnEmail = base.Columns["Email"];
                 this.columnLineID = base.Columns["LineID"];
                 this.columnLineContract = base.Columns["LineContract"];
                 this.columnCreateTime = base.Columns["CreateTime"];
                 this.columnCreateBy = base.Columns["CreateBy"];
                 this.columnUpdateTime = base.Columns["UpdateTime"];
                 this.columnUpdateBy = base.Columns["UpdateBy"];
+                this.columnPostCode = base.Columns["PostCode"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnAddressID = new global::System.Data.DataColumn("AddressID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddressID);
                 this.columnAddressDetail = new global::System.Data.DataColumn("AddressDetail", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddressDetail);
@@ -3940,8 +3955,6 @@ namespace BotCommon {
                 base.Columns.Add(this.columnFaxTo);
                 this.columnRefCode = new global::System.Data.DataColumn("RefCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRefCode);
-                this.columnEmail = new global::System.Data.DataColumn("Email", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmail);
                 this.columnLineID = new global::System.Data.DataColumn("LineID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLineID);
                 this.columnLineContract = new global::System.Data.DataColumn("LineContract", typeof(string), null, global::System.Data.MappingType.Element);
@@ -3954,6 +3967,8 @@ namespace BotCommon {
                 base.Columns.Add(this.columnUpdateTime);
                 this.columnUpdateBy = new global::System.Data.DataColumn("UpdateBy", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUpdateBy);
+                this.columnPostCode = new global::System.Data.DataColumn("PostCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPostCode);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnAddressID}, true));
                 this.columnAddressID.AllowDBNull = false;
@@ -4281,7 +4296,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public map_productsRow Addmap_productsRow(int MapProductID, productsRow parentproductsRowByproducts_map_products, invoicesRow parentinvoicesRowByinvoices_map_products, int Qty, string Price, string Net, string GainPrice, string GainPercentage, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
+            public map_productsRow Addmap_productsRow(string MapProductID, productsRow parentproductsRowByproducts_map_products, invoicesRow parentinvoicesRowByinvoices_map_products, int Qty, decimal Price, decimal Net, decimal GainPrice, decimal GainPercentage, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
                 map_productsRow rowmap_productsRow = ((map_productsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MapProductID,
@@ -4309,7 +4324,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public map_productsRow FindByMapProductID(int MapProductID) {
+            public map_productsRow FindByMapProductID(string MapProductID) {
                 return ((map_productsRow)(this.Rows.Find(new object[] {
                             MapProductID})));
             }
@@ -4348,21 +4363,21 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnMapProductID = new global::System.Data.DataColumn("MapProductID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnMapProductID = new global::System.Data.DataColumn("MapProductID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMapProductID);
-                this.columnProductID = new global::System.Data.DataColumn("ProductID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnProductID = new global::System.Data.DataColumn("ProductID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnProductID);
-                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnInvoiceID = new global::System.Data.DataColumn("InvoiceID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInvoiceID);
                 this.columnQty = new global::System.Data.DataColumn("Qty", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQty);
-                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnPrice = new global::System.Data.DataColumn("Price", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPrice);
-                this.columnNet = new global::System.Data.DataColumn("Net", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnNet = new global::System.Data.DataColumn("Net", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNet);
-                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPrice = new global::System.Data.DataColumn("GainPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPrice);
-                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnGainPercentage = new global::System.Data.DataColumn("GainPercentage", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnGainPercentage);
                 this.columnCreateTime = new global::System.Data.DataColumn("CreateTime", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreateTime);
@@ -4651,7 +4666,7 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public customer_groupsRow Addcustomer_groupsRow(int CustomerGroupID, string CustomerGroupCode, string CustomerGroupName, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
+            public customer_groupsRow Addcustomer_groupsRow(string CustomerGroupID, string CustomerGroupCode, string CustomerGroupName, string CreateTime, string CreateBy, string UpdateTime, string UpdateBy) {
                 customer_groupsRow rowcustomer_groupsRow = ((customer_groupsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         CustomerGroupID,
@@ -4695,7 +4710,7 @@ namespace BotCommon {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
-                this.columnCustomerGroupID = new global::System.Data.DataColumn("CustomerGroupID", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnCustomerGroupID = new global::System.Data.DataColumn("CustomerGroupID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerGroupID);
                 this.columnCustomerGroupCode = new global::System.Data.DataColumn("CustomerGroupCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCustomerGroupCode);
@@ -4709,6 +4724,9 @@ namespace BotCommon {
                 base.Columns.Add(this.columnUpdateTime);
                 this.columnUpdateBy = new global::System.Data.DataColumn("UpdateBy", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUpdateBy);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("customer_groupsKey1", new global::System.Data.DataColumn[] {
+                                this.columnCustomerGroupID}, false));
+                this.columnCustomerGroupID.Unique = true;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5193,9 +5211,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int ProductID {
+            public string ProductID {
                 get {
-                    return ((int)(this[this.tableproducts.ProductIDColumn]));
+                    return ((string)(this[this.tableproducts.ProductIDColumn]));
                 }
                 set {
                     this[this.tableproducts.ProductIDColumn] = value;
@@ -5236,10 +5254,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Price {
+            public decimal Price {
                 get {
                     try {
-                        return ((string)(this[this.tableproducts.PriceColumn]));
+                        return ((decimal)(this[this.tableproducts.PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'products\' is DBNull.", e);
@@ -5252,10 +5270,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Net {
+            public decimal Net {
                 get {
                     try {
-                        return ((string)(this[this.tableproducts.NetColumn]));
+                        return ((decimal)(this[this.tableproducts.NetColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Net\' in table \'products\' is DBNull.", e);
@@ -5284,10 +5302,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPrice {
+            public decimal GainPrice {
                 get {
                     try {
-                        return ((string)(this[this.tableproducts.GainPriceColumn]));
+                        return ((decimal)(this[this.tableproducts.GainPriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPrice\' in table \'products\' is DBNull.", e);
@@ -5300,10 +5318,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPercentage {
+            public decimal GainPercentage {
                 get {
                     try {
-                        return ((string)(this[this.tableproducts.GainPercentageColumn]));
+                        return ((decimal)(this[this.tableproducts.GainPercentageColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPercentage\' in table \'products\' is DBNull.", e);
@@ -5316,10 +5334,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CompanyID {
+            public string CompanyID {
                 get {
                     try {
-                        return ((int)(this[this.tableproducts.CompanyIDColumn]));
+                        return ((string)(this[this.tableproducts.CompanyIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CompanyID\' in table \'products\' is DBNull.", e);
@@ -5407,6 +5425,28 @@ namespace BotCommon {
                 }
                 set {
                     this[this.tableproducts.ProductTypeIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public productsRow productsRowParent {
+                get {
+                    return ((productsRow)(this.GetParentRow(this.Table.ParentRelations["products_products"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["products_products"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public companysRow companysRow {
+                get {
+                    return ((companysRow)(this.GetParentRow(this.Table.ParentRelations["companys_products"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["companys_products"]);
                 }
             }
             
@@ -5579,12 +5619,12 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public companysRow[] GetcompanysRows() {
-                if ((this.Table.ChildRelations["products_companys"] == null)) {
-                    return new companysRow[0];
+            public productsRow[] GetproductsRows() {
+                if ((this.Table.ChildRelations["products_products"] == null)) {
+                    return new productsRow[0];
                 }
                 else {
-                    return ((companysRow[])(base.GetChildRows(this.Table.ChildRelations["products_companys"])));
+                    return ((productsRow[])(base.GetChildRows(this.Table.ChildRelations["products_products"])));
                 }
             }
             
@@ -5616,9 +5656,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerID {
+            public string CustomerID {
                 get {
-                    return ((int)(this[this.tablecustomers.CustomerIDColumn]));
+                    return ((string)(this[this.tablecustomers.CustomerIDColumn]));
                 }
                 set {
                     this[this.tablecustomers.CustomerIDColumn] = value;
@@ -5883,10 +5923,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CompanyID {
+            public string CompanyID {
                 get {
                     try {
-                        return ((int)(this[this.tablecustomers.CompanyIDColumn]));
+                        return ((string)(this[this.tablecustomers.CompanyIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CompanyID\' in table \'customers\' is DBNull.", e);
@@ -5899,10 +5939,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int AddressID {
+            public string AddressID {
                 get {
                     try {
-                        return ((int)(this[this.tablecustomers.AddressIDColumn]));
+                        return ((string)(this[this.tablecustomers.AddressIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'AddressID\' in table \'customers\' is DBNull.", e);
@@ -5915,10 +5955,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerGroupID {
+            public string CustomerGroupID {
                 get {
                     try {
-                        return ((int)(this[this.tablecustomers.CustomerGroupIDColumn]));
+                        return ((string)(this[this.tablecustomers.CustomerGroupIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerGroupID\' in table \'customers\' is DBNull.", e);
@@ -5990,6 +6030,22 @@ namespace BotCommon {
                 }
                 set {
                     this[this.tablecustomers.UpdateByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Email {
+                get {
+                    try {
+                        return ((string)(this[this.tablecustomers.EmailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'customers\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablecustomers.EmailColumn] = value;
                 }
             }
             
@@ -6304,6 +6360,18 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmailNull() {
+                return this.IsNull(this.tablecustomers.EmailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmailNull() {
+                this[this.tablecustomers.EmailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public log_periadsRow[] Getlog_periadsRows() {
                 if ((this.Table.ChildRelations["customers_log_periads"] == null)) {
                     return new log_periadsRow[0];
@@ -6334,17 +6402,6 @@ namespace BotCommon {
                     return ((map_guaranteesRow[])(base.GetChildRows(this.Table.ChildRelations["customers_map_guarantees1"])));
                 }
             }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public invoicesRow[] GetinvoicesRows() {
-                if ((this.Table.ChildRelations["customers_invoices"] == null)) {
-                    return new invoicesRow[0];
-                }
-                else {
-                    return ((invoicesRow[])(base.GetChildRows(this.Table.ChildRelations["customers_invoices"])));
-                }
-            }
         }
         
         /// <summary>
@@ -6363,9 +6420,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int InvoiceID {
+            public string InvoiceID {
                 get {
-                    return ((int)(this[this.tableinvoices.InvoiceIDColumn]));
+                    return ((string)(this[this.tableinvoices.InvoiceIDColumn]));
                 }
                 set {
                     this[this.tableinvoices.InvoiceIDColumn] = value;
@@ -6390,10 +6447,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerID {
+            public string CustomerID {
                 get {
                     try {
-                        return ((int)(this[this.tableinvoices.CustomerIDColumn]));
+                        return ((string)(this[this.tableinvoices.CustomerIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'invoices\' is DBNull.", e);
@@ -6438,10 +6495,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Balance {
+            public decimal Balance {
                 get {
                     try {
-                        return ((string)(this[this.tableinvoices.BalanceColumn]));
+                        return ((decimal)(this[this.tableinvoices.BalanceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Balance\' in table \'invoices\' is DBNull.", e);
@@ -6454,10 +6511,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string PayFinePercentage {
+            public decimal PayFinePercentage {
                 get {
                     try {
-                        return ((string)(this[this.tableinvoices.PayFinePercentageColumn]));
+                        return ((decimal)(this[this.tableinvoices.PayFinePercentageColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'PayFinePercentage\' in table \'invoices\' is DBNull.", e);
@@ -6502,10 +6559,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CompanyID {
+            public string CompanyID {
                 get {
                     try {
-                        return ((int)(this[this.tableinvoices.CompanyIDColumn]));
+                        return ((string)(this[this.tableinvoices.CompanyIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CompanyID\' in table \'invoices\' is DBNull.", e);
@@ -6577,17 +6634,6 @@ namespace BotCommon {
                 }
                 set {
                     this[this.tableinvoices.UpdateByColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public customersRow customersRow {
-                get {
-                    return ((customersRow)(this.GetParentRow(this.Table.ParentRelations["customers_invoices"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["customers_invoices"]);
                 }
             }
             
@@ -6771,23 +6817,23 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public map_guaranteesRow[] Getmap_guaranteesRows() {
-                if ((this.Table.ChildRelations["invoices_map_guarantees"] == null)) {
-                    return new map_guaranteesRow[0];
-                }
-                else {
-                    return ((map_guaranteesRow[])(base.GetChildRows(this.Table.ChildRelations["invoices_map_guarantees"])));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public map_productsRow[] Getmap_productsRows() {
                 if ((this.Table.ChildRelations["invoices_map_products"] == null)) {
                     return new map_productsRow[0];
                 }
                 else {
                     return ((map_productsRow[])(base.GetChildRows(this.Table.ChildRelations["invoices_map_products"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public map_guaranteesRow[] Getmap_guaranteesRows() {
+                if ((this.Table.ChildRelations["invoices_map_guarantees"] == null)) {
+                    return new map_guaranteesRow[0];
+                }
+                else {
+                    return ((map_guaranteesRow[])(base.GetChildRows(this.Table.ChildRelations["invoices_map_guarantees"])));
                 }
             }
         }
@@ -6808,9 +6854,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int LogPeriadID {
+            public string LogPeriadID {
                 get {
-                    return ((int)(this[this.tablelog_periads.LogPeriadIDColumn]));
+                    return ((string)(this[this.tablelog_periads.LogPeriadIDColumn]));
                 }
                 set {
                     this[this.tablelog_periads.LogPeriadIDColumn] = value;
@@ -6819,10 +6865,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int InvoiceID {
+            public string InvoiceID {
                 get {
                     try {
-                        return ((int)(this[this.tablelog_periads.InvoiceIDColumn]));
+                        return ((string)(this[this.tablelog_periads.InvoiceIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'InvoiceID\' in table \'log_periads\' is DBNull.", e);
@@ -6867,10 +6913,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Price {
+            public decimal Price {
                 get {
                     try {
-                        return ((string)(this[this.tablelog_periads.PriceColumn]));
+                        return ((decimal)(this[this.tablelog_periads.PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'log_periads\' is DBNull.", e);
@@ -6883,10 +6929,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPrice {
+            public decimal GainPrice {
                 get {
                     try {
-                        return ((string)(this[this.tablelog_periads.GainPriceColumn]));
+                        return ((decimal)(this[this.tablelog_periads.GainPriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPrice\' in table \'log_periads\' is DBNull.", e);
@@ -6899,10 +6945,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPercentage {
+            public decimal GainPercentage {
                 get {
                     try {
-                        return ((string)(this[this.tablelog_periads.GainPercentageColumn]));
+                        return ((decimal)(this[this.tablelog_periads.GainPercentageColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPercentage\' in table \'log_periads\' is DBNull.", e);
@@ -6915,10 +6961,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerID {
+            public string CustomerID {
                 get {
                     try {
-                        return ((int)(this[this.tablelog_periads.CustomerIDColumn]));
+                        return ((string)(this[this.tablelog_periads.CustomerIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'log_periads\' is DBNull.", e);
@@ -6931,10 +6977,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string PayFine {
+            public decimal PayFine {
                 get {
                     try {
-                        return ((string)(this[this.tablelog_periads.PayFineColumn]));
+                        return ((decimal)(this[this.tablelog_periads.PayFineColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'PayFine\' in table \'log_periads\' is DBNull.", e);
@@ -6995,10 +7041,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CompanyID {
+            public string CompanyID {
                 get {
                     try {
-                        return ((int)(this[this.tablelog_periads.CompanyIDColumn]));
+                        return ((string)(this[this.tablelog_periads.CompanyIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CompanyID\' in table \'log_periads\' is DBNull.", e);
@@ -7075,12 +7121,12 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public customersRow customersRow {
+            public companysRow companysRow {
                 get {
-                    return ((customersRow)(this.GetParentRow(this.Table.ParentRelations["customers_log_periads"])));
+                    return ((companysRow)(this.GetParentRow(this.Table.ParentRelations["companys_log_periads"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["customers_log_periads"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["companys_log_periads"]);
                 }
             }
             
@@ -7097,12 +7143,12 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public companysRow companysRow {
+            public customersRow customersRow {
                 get {
-                    return ((companysRow)(this.GetParentRow(this.Table.ParentRelations["companys_log_periads"])));
+                    return ((customersRow)(this.GetParentRow(this.Table.ParentRelations["customers_log_periads"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["companys_log_periads"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["customers_log_periads"]);
                 }
             }
             
@@ -7315,9 +7361,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int MapGuaranteeID {
+            public string MapGuaranteeID {
                 get {
-                    return ((int)(this[this.tablemap_guarantees.MapGuaranteeIDColumn]));
+                    return ((string)(this[this.tablemap_guarantees.MapGuaranteeIDColumn]));
                 }
                 set {
                     this[this.tablemap_guarantees.MapGuaranteeIDColumn] = value;
@@ -7326,10 +7372,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerID {
+            public string CustomerID {
                 get {
                     try {
-                        return ((int)(this[this.tablemap_guarantees.CustomerIDColumn]));
+                        return ((string)(this[this.tablemap_guarantees.CustomerIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerID\' in table \'map_guarantees\' is DBNull.", e);
@@ -7342,10 +7388,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int InvoiceID {
+            public string InvoiceID {
                 get {
                     try {
-                        return ((int)(this[this.tablemap_guarantees.InvoiceIDColumn]));
+                        return ((string)(this[this.tablemap_guarantees.InvoiceIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'InvoiceID\' in table \'map_guarantees\' is DBNull.", e);
@@ -7358,10 +7404,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int GuaranteeCusID {
+            public string GuaranteeCusID {
                 get {
                     try {
-                        return ((int)(this[this.tablemap_guarantees.GuaranteeCusIDColumn]));
+                        return ((string)(this[this.tablemap_guarantees.GuaranteeCusIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GuaranteeCusID\' in table \'map_guarantees\' is DBNull.", e);
@@ -7570,9 +7616,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CompanyID {
+            public string CompanyID {
                 get {
-                    return ((int)(this[this.tablecompanys.CompanyIDColumn]));
+                    return ((string)(this[this.tablecompanys.CompanyIDColumn]));
                 }
                 set {
                     this[this.tablecompanys.CompanyIDColumn] = value;
@@ -7629,10 +7675,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int AddressID {
+            public string AddressID {
                 get {
                     try {
-                        return ((int)(this[this.tablecompanys.AddressIDColumn]));
+                        return ((string)(this[this.tablecompanys.AddressIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'AddressID\' in table \'companys\' is DBNull.", e);
@@ -7715,17 +7761,6 @@ namespace BotCommon {
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["address_companys"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public productsRow productsRow {
-                get {
-                    return ((productsRow)(this.GetParentRow(this.Table.ParentRelations["products_companys"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["products_companys"]);
                 }
             }
             
@@ -7849,6 +7884,17 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public productsRow[] GetproductsRows() {
+                if ((this.Table.ChildRelations["companys_products"] == null)) {
+                    return new productsRow[0];
+                }
+                else {
+                    return ((productsRow[])(base.GetChildRows(this.Table.ChildRelations["companys_products"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public invoicesRow[] GetinvoicesRows() {
                 if ((this.Table.ChildRelations["companys_invoices"] == null)) {
                     return new invoicesRow[0];
@@ -7875,9 +7921,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int AddressID {
+            public string AddressID {
                 get {
-                    return ((int)(this[this.tableaddress.AddressIDColumn]));
+                    return ((string)(this[this.tableaddress.AddressIDColumn]));
                 }
                 set {
                     this[this.tableaddress.AddressIDColumn] = value;
@@ -8174,22 +8220,6 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Email {
-                get {
-                    try {
-                        return ((string)(this[this.tableaddress.EmailColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'address\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableaddress.EmailColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string LineID {
                 get {
                     try {
@@ -8281,6 +8311,22 @@ namespace BotCommon {
                 }
                 set {
                     this[this.tableaddress.UpdateByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PostCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableaddress.PostCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PostCode\' in table \'address\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableaddress.PostCodeColumn] = value;
                 }
             }
             
@@ -8502,18 +8548,6 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsEmailNull() {
-                return this.IsNull(this.tableaddress.EmailColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetEmailNull() {
-                this[this.tableaddress.EmailColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsLineIDNull() {
                 return this.IsNull(this.tableaddress.LineIDColumn);
             }
@@ -8586,6 +8620,18 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsPostCodeNull() {
+                return this.IsNull(this.tableaddress.PostCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetPostCodeNull() {
+                this[this.tableaddress.PostCodeColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public customersRow[] GetcustomersRows() {
                 if ((this.Table.ChildRelations["address_customers"] == null)) {
                     return new customersRow[0];
@@ -8623,9 +8669,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int MapProductID {
+            public string MapProductID {
                 get {
-                    return ((int)(this[this.tablemap_products.MapProductIDColumn]));
+                    return ((string)(this[this.tablemap_products.MapProductIDColumn]));
                 }
                 set {
                     this[this.tablemap_products.MapProductIDColumn] = value;
@@ -8634,9 +8680,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int ProductID {
+            public string ProductID {
                 get {
-                    return ((int)(this[this.tablemap_products.ProductIDColumn]));
+                    return ((string)(this[this.tablemap_products.ProductIDColumn]));
                 }
                 set {
                     this[this.tablemap_products.ProductIDColumn] = value;
@@ -8645,9 +8691,9 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int InvoiceID {
+            public string InvoiceID {
                 get {
-                    return ((int)(this[this.tablemap_products.InvoiceIDColumn]));
+                    return ((string)(this[this.tablemap_products.InvoiceIDColumn]));
                 }
                 set {
                     this[this.tablemap_products.InvoiceIDColumn] = value;
@@ -8672,10 +8718,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Price {
+            public decimal Price {
                 get {
                     try {
-                        return ((string)(this[this.tablemap_products.PriceColumn]));
+                        return ((decimal)(this[this.tablemap_products.PriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Price\' in table \'map_products\' is DBNull.", e);
@@ -8688,10 +8734,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Net {
+            public decimal Net {
                 get {
                     try {
-                        return ((string)(this[this.tablemap_products.NetColumn]));
+                        return ((decimal)(this[this.tablemap_products.NetColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'Net\' in table \'map_products\' is DBNull.", e);
@@ -8704,10 +8750,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPrice {
+            public decimal GainPrice {
                 get {
                     try {
-                        return ((string)(this[this.tablemap_products.GainPriceColumn]));
+                        return ((decimal)(this[this.tablemap_products.GainPriceColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPrice\' in table \'map_products\' is DBNull.", e);
@@ -8720,10 +8766,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string GainPercentage {
+            public decimal GainPercentage {
                 get {
                     try {
-                        return ((string)(this[this.tablemap_products.GainPercentageColumn]));
+                        return ((decimal)(this[this.tablemap_products.GainPercentageColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'GainPercentage\' in table \'map_products\' is DBNull.", e);
@@ -8945,10 +8991,10 @@ namespace BotCommon {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public int CustomerGroupID {
+            public string CustomerGroupID {
                 get {
                     try {
-                        return ((int)(this[this.tablecustomer_groups.CustomerGroupIDColumn]));
+                        return ((string)(this[this.tablecustomer_groups.CustomerGroupIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'CustomerGroupID\' in table \'customer_groups\' is DBNull.", e);

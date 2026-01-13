@@ -279,8 +279,7 @@ namespace CreateInvoice {
                 var idObj = row.Cells["colCustomerGroupID"].Value;
                 if (idObj == null)
                     return;
-                if (!int.TryParse(idObj.ToString(), out int id))
-                    return;
+                string id = idObj.ToString();
 
                 string code = row.Cells["colCustomerGroupCode"].Value?.ToString();
                 string name = row.Cells["colCustomerGroupName"].Value?.ToString();
@@ -292,8 +291,7 @@ namespace CreateInvoice {
                 var idObj = row.Cells["colCustomerGroupID"].Value;
                 if (idObj == null)
                     return;
-                if (!int.TryParse(idObj.ToString(), out int id))
-                    return;
+                string id = idObj.ToString();
 
                 string name = row.Cells["colCustomerGroupName"].Value?.ToString();
                 var confirm = MessageBox.Show($"ยืนยันการลบกลุ่มลูกค้า '{name}' ?", "ยืนยัน", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -303,7 +301,7 @@ namespace CreateInvoice {
 
                     // ปรับข้อมูลใน DataTable cache แทนการโหลดจาก Firebase ใหม่
                     if (formMain != null && formMain.CustomerGroupsTable != null) {
-                        DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = {id}");
+                        DataRow[] rows = formMain.CustomerGroupsTable.Select($"CustomerGroupID = '{id}'");
                         foreach (var dr in rows) {
                             formMain.CustomerGroupsTable.Rows.Remove(dr);
                         }

@@ -18,7 +18,7 @@ namespace CreateInvoice {
 
         public ProductTypeListControl employeeControl = null;
 
-        private int? currentId = null;
+        private string currentId = null;
         private bool isEdit = false;
 
         public ProductTypeControl(FormMain pFormMain) {
@@ -150,7 +150,7 @@ namespace CreateInvoice {
             txtProductTypeName.Text = string.Empty;
         }
 
-        public void LoadForEdit(int id, string code, string name) {
+        public void LoadForEdit(string id, string code, string name) {
             isEdit = true;
             currentId = id;
             btnAdd.Text = "แก้ไข";
@@ -173,13 +173,13 @@ namespace CreateInvoice {
                 UpdateBy = Environment.UserName
             };
 
-            if (isEdit && currentId.HasValue) {
-                pt.ProductTypeID = currentId.Value;
+            if (isEdit && !string.IsNullOrEmpty(currentId)) {
+                pt.ProductTypeID = currentId;
                 product_types.ProductTypesMgr(pt, "EDIT");
 
                 // อัปเดตแถวใน DataTable cache
                 if (formMain != null && formMain.ProductTypesTable != null) {
-                    DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = {pt.ProductTypeID}");
+                    DataRow[] rows = formMain.ProductTypesTable.Select($"ProductTypeID = '{pt.ProductTypeID}'");
                     foreach (var dr in rows) {
                         dr["ProductTypeCode"] = pt.ProductTypeCode;
                         dr["ProductTypeName"] = pt.ProductTypeName;
@@ -203,7 +203,7 @@ namespace CreateInvoice {
                     }
                 }
 
-                pt.ProductTypeID = maxId + 1;
+                pt.ProductTypeID = (maxId + 1).ToString();
                 pt.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 pt.CreateBy = Environment.UserName;
                 product_types.ProductTypesMgr(pt, "ADD");

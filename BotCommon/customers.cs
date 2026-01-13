@@ -1,6 +1,6 @@
 namespace BotCommon {
     public class customers {
-        public int? CustomerID {
+        public string CustomerID {
             get; set;
         }
         public string CustomerCode {
@@ -51,13 +51,13 @@ namespace BotCommon {
         public string IdentityCard {
             get; set;
         }
-        public int? CompanyID {
+        public string CompanyID {
             get; set;
         }
-        public int? AddressID {
+        public string AddressID {
             get; set;
         }
-        public int? CustomerGroupID {
+        public string CustomerGroupID {
             get; set;
         }
         public string CreateTime {
@@ -70,6 +70,9 @@ namespace BotCommon {
             get; set;
         }
         public string UpdateBy {
+            get; set;
+        }
+        public string Email {
             get; set;
         }
 

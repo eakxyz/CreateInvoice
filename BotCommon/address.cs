@@ -1,6 +1,6 @@
 namespace BotCommon {
     public class address {
-        public int? AddressID {
+        public string AddressID {
             get; set;
         }
         public string AddressDetail {
@@ -57,9 +57,6 @@ namespace BotCommon {
         public string RefCode {
             get; set;
         }
-        public string Email {
-            get; set;
-        }
         public string LineID {
             get; set;
         }
@@ -76,6 +73,9 @@ namespace BotCommon {
             get; set;
         }
         public string UpdateBy {
+            get; set;
+        }
+        public string PostCode {
             get; set;
         }
 
