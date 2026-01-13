@@ -27,6 +27,9 @@ namespace BotCommon {
         public string CompanyID {
             get; set;
         }
+        public string ProductTypeID {
+            get; set;
+        }
         public string CreateTime {
             get; set;
         }
@@ -37,9 +40,6 @@ namespace BotCommon {
             get; set;
         }
         public string UpdateBy {
-            get; set;
-        }
-        public string ProductTypeID {
             get; set;
         }
 

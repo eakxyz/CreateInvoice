@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using BotCommon;
+using System.Data;
 
 namespace CreateInvoice {
     public class ProductDetailControl : UserControl {
@@ -10,27 +12,27 @@ namespace CreateInvoice {
         private Label label7;
         private ComboBox cboProductGroup;
         private Label label3;
-        private TextBox textBox2;
+        private TextBox txtProductName;
         private TabPage tabPage2;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox txtProductCode;
         private Label label2;
         private Button btnAddProduct;
         private DataGridViewButtonColumn colEdit;
         private Button btnCancel;
         public FormMain formMain = null;
         private Label label4;
-        private TextBox textBox5;
-        private TextBox textBox3;
-        private TextBox textBox6;
+        private TextBox txtTotal;
+        private TextBox txtPrice;
+        private TextBox txtGainPrice;
         private Label label8;
         private Label label6;
-        private ComboBox comboBox1;
-        private TextBox textBox7;
+        private ComboBox cboRefProduct;
+        private TextBox txtGainPercent;
         private Label label9;
         private GroupBox groupBox1;
         private Label label10;
-        private ComboBox comboBox2;
+        private ComboBox cboCompany;
         public ProductControl productControl = null;
 
         public ProductDetailControl(FormMain pFormMain) {
@@ -47,6 +49,14 @@ namespace CreateInvoice {
             };
             Controls.Add(lbl);
             InitializeComponent();
+            
+            // โหลดข้อมูลใน ComboBox
+            LoadComboBoxData();
+            
+            // ผูก event สำหรับคำนวณอัตโนมัติ
+            txtPrice.TextChanged += CalculateTotal;
+            txtGainPrice.TextChanged += CalculateGainPercentage;
+            txtGainPercent.TextChanged += CalculateGainPrice;
         }
 
         private void InitializeComponent() {
@@ -58,23 +68,23 @@ namespace CreateInvoice {
             this.label2 = new System.Windows.Forms.Label();
             this.btnAddProduct = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtProductCode = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cboProductGroup = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtProductName = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtPrice = new System.Windows.Forms.TextBox();
+            this.txtTotal = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboRefProduct = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtGainPrice = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.txtGainPercent = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cboCompany = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -113,22 +123,22 @@ namespace CreateInvoice {
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox7);
+            this.groupBox2.Controls.Add(this.txtGainPercent);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.textBox6);
+            this.groupBox2.Controls.Add(this.txtGainPrice);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.cboRefProduct);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.txtTotal);
+            this.groupBox2.Controls.Add(this.txtPrice);
             this.groupBox2.Controls.Add(this.btnCancel);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.btnAddProduct);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtProductCode);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.txtProductName);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(15, 17);
             this.groupBox2.Name = "groupBox2";
@@ -164,6 +174,7 @@ namespace CreateInvoice {
             this.btnAddProduct.TabIndex = 21;
             this.btnAddProduct.Text = "เพิ่ม";
             this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
             // label1
             // 
@@ -174,15 +185,15 @@ namespace CreateInvoice {
             this.label1.TabIndex = 12;
             this.label1.Text = "รหัสสินค้า";
             // 
-            // textBox1
+            // txtProductCode
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(39, 50);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(360, 35);
-            this.textBox1.TabIndex = 13;
+            this.txtProductCode.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtProductCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtProductCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtProductCode.Location = new System.Drawing.Point(39, 50);
+            this.txtProductCode.Name = "txtProductCode";
+            this.txtProductCode.Size = new System.Drawing.Size(360, 35);
+            this.txtProductCode.TabIndex = 13;
             // 
             // label7
             // 
@@ -214,15 +225,15 @@ namespace CreateInvoice {
             this.label3.TabIndex = 2;
             this.label3.Text = "ชื่อสินค้า";
             // 
-            // textBox2
+            // txtProductName
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(39, 110);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(360, 35);
-            this.textBox2.TabIndex = 3;
+            this.txtProductName.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtProductName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtProductName.Location = new System.Drawing.Point(39, 110);
+            this.txtProductName.Name = "txtProductName";
+            this.txtProductName.Size = new System.Drawing.Size(360, 35);
+            this.txtProductName.TabIndex = 3;
             // 
             // tabPage2
             // 
@@ -234,27 +245,27 @@ namespace CreateInvoice {
             this.tabPage2.Text = "ข้อมูล";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // txtPrice
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(39, 170);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(360, 35);
-            this.textBox3.TabIndex = 26;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPrice.BackColor = System.Drawing.SystemColors.Info;
+            this.txtPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPrice.Location = new System.Drawing.Point(39, 170);
+            this.txtPrice.Name = "txtPrice";
+            this.txtPrice.Size = new System.Drawing.Size(360, 35);
+            this.txtPrice.TabIndex = 26;
+            this.txtPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox5
+            // txtTotal
             // 
-            this.textBox5.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(39, 230);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(360, 35);
-            this.textBox5.TabIndex = 27;
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtTotal.BackColor = System.Drawing.SystemColors.Info;
+            this.txtTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotal.Location = new System.Drawing.Point(39, 230);
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.Size = new System.Drawing.Size(360, 35);
+            this.txtTotal.TabIndex = 27;
+            this.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label4
             // 
@@ -265,15 +276,15 @@ namespace CreateInvoice {
             this.label4.TabIndex = 28;
             this.label4.Text = "ราคารวม (บาท)";
             // 
-            // comboBox1
+            // cboRefProduct
             // 
-            this.comboBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(405, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(360, 37);
-            this.comboBox1.TabIndex = 29;
+            this.cboRefProduct.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.cboRefProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboRefProduct.FormattingEnabled = true;
+            this.cboRefProduct.Location = new System.Drawing.Point(405, 50);
+            this.cboRefProduct.Name = "cboRefProduct";
+            this.cboRefProduct.Size = new System.Drawing.Size(360, 37);
+            this.cboRefProduct.TabIndex = 29;
             // 
             // label6
             // 
@@ -294,16 +305,16 @@ namespace CreateInvoice {
             this.label8.TabIndex = 31;
             this.label8.Text = "กำไร (บาท)";
             // 
-            // textBox6
+            // txtGainPrice
             // 
-            this.textBox6.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.Location = new System.Drawing.Point(39, 290);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(200, 35);
-            this.textBox6.TabIndex = 32;
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtGainPrice.BackColor = System.Drawing.SystemColors.Info;
+            this.txtGainPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGainPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGainPrice.Location = new System.Drawing.Point(39, 290);
+            this.txtGainPrice.Name = "txtGainPrice";
+            this.txtGainPrice.Size = new System.Drawing.Size(200, 35);
+            this.txtGainPrice.TabIndex = 32;
+            this.txtGainPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label9
             // 
@@ -314,21 +325,21 @@ namespace CreateInvoice {
             this.label9.TabIndex = 33;
             this.label9.Text = "กำไร ( % )";
             // 
-            // textBox7
+            // txtGainPercent
             // 
-            this.textBox7.BackColor = System.Drawing.SystemColors.Info;
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox7.Location = new System.Drawing.Point(245, 290);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(200, 35);
-            this.textBox7.TabIndex = 34;
-            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtGainPercent.BackColor = System.Drawing.SystemColors.Info;
+            this.txtGainPercent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGainPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGainPercent.Location = new System.Drawing.Point(245, 290);
+            this.txtGainPercent.Name = "txtGainPercent";
+            this.txtGainPercent.Size = new System.Drawing.Size(200, 35);
+            this.txtGainPercent.TabIndex = 34;
+            this.txtGainPercent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.comboBox2);
+            this.groupBox1.Controls.Add(this.cboCompany);
             this.groupBox1.Controls.Add(this.cboProductGroup);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -339,16 +350,16 @@ namespace CreateInvoice {
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "ข้อมูล";
             // 
-            // comboBox2
+            // cboCompany
             // 
-            this.comboBox2.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(424, 55);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(360, 37);
-            this.comboBox2.TabIndex = 12;
+            this.cboCompany.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.cboCompany.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCompany.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboCompany.FormattingEnabled = true;
+            this.cboCompany.Location = new System.Drawing.Point(424, 55);
+            this.cboCompany.Name = "cboCompany";
+            this.cboCompany.Size = new System.Drawing.Size(360, 37);
+            this.cboCompany.TabIndex = 12;
             // 
             // label10
             // 
@@ -376,13 +387,195 @@ namespace CreateInvoice {
 
         }
 
-        private void button1_Click(object sender, EventArgs e) {
+        private void LoadComboBoxData() {
+            // โหลดข้อมูล Product Types
+            if (formMain != null && formMain.ProductTypesTable != null) {
+                cboProductGroup.DataSource = null;
+                cboProductGroup.DisplayMember = "ProductTypeName";
+                cboProductGroup.ValueMember = "ProductTypeID";
+                cboProductGroup.DataSource = formMain.ProductTypesTable;
+            }
+            
+            // โหลดข้อมูล Companies
+            if (formMain != null && formMain.CompanysTable != null) {
+                cboCompany.DataSource = null;
+                cboCompany.DisplayMember = "CompanyName";
+                cboCompany.ValueMember = "CompanyID";
+                cboCompany.DataSource = formMain.CompanysTable;
+            }
+            
+            // โหลดข้อมูล Products สำหรับ RefProduct (สินค้าลูก)
+            if (formMain != null && formMain.ProductsTable != null) {
+                cboRefProduct.DataSource = null;
+                cboRefProduct.DisplayMember = "ProductName";
+                cboRefProduct.ValueMember = "ProductID";
+                cboRefProduct.DataSource = formMain.ProductsTable;
+                
+                // เพิ่ม item ว่างเป็นตัวเลือกแรก
+                if (cboRefProduct.Items.Count > 0) {
+                    cboRefProduct.SelectedIndex = -1;
+                }
+            }
+        }
 
+        private void CalculateTotal(object sender, EventArgs e) {
+            decimal price = 0;
+            decimal gainPrice = 0;
+            
+            decimal.TryParse(txtPrice.Text, out price);
+            decimal.TryParse(txtGainPrice.Text, out gainPrice);
+            
+            decimal total = price + gainPrice;
+            txtTotal.Text = total.ToString("0.00");
+        }
+
+        private void CalculateGainPercentage(object sender, EventArgs e) {
+            decimal price = 0;
+            decimal gainPrice = 0;
+            
+            decimal.TryParse(txtPrice.Text, out price);
+            decimal.TryParse(txtGainPrice.Text, out gainPrice);
+            
+            if (price > 0) {
+                decimal percentage = (gainPrice / price) * 100;
+                txtGainPercent.Text = percentage.ToString("0.00");
+            }
+            
+            CalculateTotal(sender, e);
+        }
+
+        private void CalculateGainPrice(object sender, EventArgs e) {
+            // ป้องกันการวนซ้ำเมื่อคำนวณ
+            if (txtGainPercent.Focused) {
+                decimal price = 0;
+                decimal percentage = 0;
+                
+                decimal.TryParse(txtPrice.Text, out price);
+                decimal.TryParse(txtGainPercent.Text, out percentage);
+                
+                if (price > 0 && percentage > 0) {
+                    decimal gainPrice = (price * percentage) / 100;
+                    txtGainPrice.Text = gainPrice.ToString("0.00");
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
             productControl = new ProductControl(formMain);
             formMain.ShowView(productControl);
+        }
+
+        private void btnAddProduct_Click(object sender, EventArgs e) {
+            try {
+                // ตรวจสอบข้อมูลที่จำเป็น
+                if (string.IsNullOrWhiteSpace(txtProductCode.Text)) {
+                    MessageBox.Show("กรุณากรอกรหัสสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtProductCode.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtProductName.Text)) {
+                    MessageBox.Show("กรุณากรอกชื่อสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtProductName.Focus();
+                    return;
+                }
+
+                if (cboProductGroup.SelectedValue == null) {
+                    MessageBox.Show("กรุณาเลือกประเภทสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboProductGroup.Focus();
+                    return;
+                }
+
+                if (cboCompany.SelectedValue == null) {
+                    MessageBox.Show("กรุณาเลือกบริษัท", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboCompany.Focus();
+                    return;
+                }
+
+                // แปลงค่าตัวเลข
+                decimal price = 0;
+                decimal net = 0;
+                decimal gainPrice = 0;
+                decimal gainPercentage = 0;
+
+                if (!decimal.TryParse(txtPrice.Text, out price)) {
+                    MessageBox.Show("กรุณากรอกราคาสินค้าที่ถูกต้อง", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPrice.Focus();
+                    return;
+                }
+
+                decimal.TryParse(txtTotal.Text, out net);
+                decimal.TryParse(txtGainPrice.Text, out gainPrice);
+                decimal.TryParse(txtGainPercent.Text, out gainPercentage);
+
+                // generate ProductID: หา max id + 1 จาก DataTable
+                int maxId = 0;
+                if (formMain != null && formMain.ProductsTable != null) {
+                    foreach (DataRow row in formMain.ProductsTable.Rows) {
+                        if (row["ProductID"] != DBNull.Value) {
+                            int id;
+                            if (int.TryParse(row["ProductID"].ToString(), out id)) {
+                                if (id > maxId)
+                                    maxId = id;
+                            }
+                        }
+                    }
+                }
+
+                string newProductID = (maxId + 1).ToString();
+
+                // สร้าง object products
+                var product = new products {
+                    ProductID = newProductID,
+                    ProductCode = txtProductCode.Text.Trim(),
+                    ProductName = txtProductName.Text.Trim(),
+                    ProductTypeID = cboProductGroup.SelectedValue.ToString(),
+                    Price = price,
+                    Net = net,
+                    RefID = cboRefProduct.SelectedValue?.ToString() ?? "",
+                    GainPrice = gainPrice,
+                    GainPercentage = gainPercentage,
+                    CompanyID = cboCompany.SelectedValue.ToString(),
+                    CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateBy = Environment.UserName,
+                    UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    UpdateBy = Environment.UserName
+                };
+
+                // บันทึกลง Firebase
+                products.ProductsMgr(product, "ADD");
+
+                // เพิ่มข้อมูลใน DataTable cache ของ FormMain
+                if (formMain != null && formMain.ProductsTable != null) {
+                    var dt = formMain.ProductsTable;
+                    var newRow = dt.NewRow();
+                    newRow["ProductID"] = product.ProductID;
+                    newRow["ProductCode"] = product.ProductCode;
+                    newRow["ProductName"] = product.ProductName;
+                    newRow["Price"] = product.Price;
+                    newRow["Net"] = product.Net;
+                    newRow["RefID"] = product.RefID;
+                    newRow["GainPrice"] = product.GainPrice;
+                    newRow["GainPercentage"] = product.GainPercentage;
+                    newRow["CompanyID"] = product.CompanyID;
+                    newRow["CreateTime"] = product.CreateTime;
+                    newRow["CreateBy"] = product.CreateBy;
+                    newRow["UpdateTime"] = product.UpdateTime;
+                    newRow["UpdateBy"] = product.UpdateBy;
+                    dt.Rows.Add(newRow);
+                    dt.AcceptChanges();
+                }
+
+                MessageBox.Show("เพิ่มสินค้าเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // กลับไปหน้า ProductControl
+                productControl = new ProductControl(formMain);
+                productControl.productDetial = this;
+                formMain.ShowView(productControl);
+                
+            } catch (Exception ex) {
+                MessageBox.Show("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
