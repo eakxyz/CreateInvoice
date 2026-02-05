@@ -14,12 +14,15 @@ namespace CreateInvoice {
         private Button btnSearch;
         private Button btnAddGroup;
         private DataGridView dataGridView1;
+        public CompanyControl companyControl;
 
-        public CompanyListControl() {
+        private readonly FormMain formMain;
+
+        public CompanyListControl(FormMain pFormMain) {
             Dock = DockStyle.Fill;
             BackColor = Color.White;
             var lbl = new Label {
-                Text = "สร้างการขาย",
+                Text = "ข้อมูลบริษัท",
                 Dock = DockStyle.Top,
                 Height = 40,
                 Font = new Font("Segoe UI", 16F, FontStyle.Bold),
@@ -27,10 +30,15 @@ namespace CreateInvoice {
                 Padding = new Padding(10, 0, 0, 0)
             };
             Controls.Add(lbl);
+            formMain = pFormMain;
             InitializeComponent();
 
-            InitCustomerGridColumns();
+            InitCompanyGridColumns();
+            InitSearchCriteria();
             dataGridView1.DataSource = null;
+
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            btnSearch_Click(null, null);
         }
 
         private void InitializeComponent() {
@@ -49,6 +57,8 @@ namespace CreateInvoice {
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -61,6 +71,8 @@ namespace CreateInvoice {
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(35, 238);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 32;
             this.dataGridView1.Size = new System.Drawing.Size(1166, 469);
@@ -121,6 +133,8 @@ namespace CreateInvoice {
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "ชื่อบริษัท"});
             this.comboBox1.Location = new System.Drawing.Point(43, 74);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(200, 37);
@@ -131,10 +145,11 @@ namespace CreateInvoice {
             this.btnAddGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddGroup.Location = new System.Drawing.Point(35, 191);
             this.btnAddGroup.Name = "btnAddGroup";
-            this.btnAddGroup.Size = new System.Drawing.Size(120, 41);
+            this.btnAddGroup.Size = new System.Drawing.Size(160, 41);
             this.btnAddGroup.TabIndex = 22;
-            this.btnAddGroup.Text = "+ เพิ่มกลุ่ม";
+            this.btnAddGroup.Text = "+ เพิ่มบริษัท";
             this.btnAddGroup.UseVisualStyleBackColor = true;
+            this.btnAddGroup.Click += new System.EventHandler(this.btnAddGroup_Click);
             // 
             // CompanyListControl
             // 
@@ -150,105 +165,273 @@ namespace CreateInvoice {
 
         }
 
-        private void InitCustomerGridColumns() {
+        private void InitSearchCriteria() {
+            comboBox1.Items.Clear();
+            comboBox1.Items.Add("รหัสบริษัท");     // 0
+            comboBox1.Items.Add("ชื่อบริษัท");     // 1
+            comboBox1.Items.Add("รหัสที่อยู่");     // 2
+            comboBox1.SelectedIndex = 0;
+        }
+
+        private void InitCompanyGridColumns() {
+            if (dataGridView1.Columns.Count > 0)
+                return;
             dataGridView1.Columns.Clear();
             dataGridView1.AutoGenerateColumns = false;
 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "CustomerCode",
-                HeaderText = "รหัสลูกค้า",
-                Name = "colCustomerCode",
+                DataPropertyName = "CompanyID",
+                HeaderText = "รหัสบริษัท",
+                Name = "colCompanyID",
+                ReadOnly = true,
+                Visible = false
+            });
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
+                DataPropertyName = "CompanyCode",
+                HeaderText = "รหัสบริษัท",
+                Name = "colCompanyCode",
                 ReadOnly = true
             });
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "PrefixT",
-                HeaderText = "คำนำหน้า",
-                Name = "colPrefixT",
-                ReadOnly = true
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "FullName",
-                HeaderText = "ชื่อ-นามสกุล",
-                Name = "colFullName",
-                ReadOnly = true
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "RefCode",
-                HeaderText = "รหัสพนักงาน",
-                Name = "colRefCode",
-                ReadOnly = true
-            });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
-                DataPropertyName = "IdentityCard",
-                HeaderText = "เลขที่บัตร",
-                Name = "colIdentityCard",
+                DataPropertyName = "CompanyName",
+                HeaderText = "ชื่อบริษัท",
+                Name = "colCompanyName",
                 ReadOnly = true
             });
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
                 DataPropertyName = "AddressDetail",
-                HeaderText = "บ้านเลขที่",
+                HeaderText = "ที่อยู่",
                 Name = "colAddressDetail",
                 ReadOnly = true
             });
-
-            // History buttons
-            dataGridView1.Columns.Add(new DataGridViewButtonColumn {
-                HeaderText = "ประวัติการซื้อ",
-                Name = "colPurchaseHistory",
-                Text = "ดู",
-                UseColumnTextForButtonValue = true
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
+                DataPropertyName = "UpdateTime",
+                HeaderText = "แก้ไขล่าสุดเมื่อ",
+                Name = "colUpdateTime",
+                ReadOnly = true
             });
-            dataGridView1.Columns.Add(new DataGridViewButtonColumn {
-                HeaderText = "ประวัติการแก้ไข",
-                Name = "colEditHistory",
-                Text = "ดู",
-                UseColumnTextForButtonValue = true
-            });
-        }
 
-        private void btnSearch_Click(object sender, EventArgs e) {
             try {
-                // Ensure Invoice data is loaded from Firebase
-                InvoiceCommon.Refresh_customers_Wait();
-                InvoiceCommon.Refresh_address_Wait();
+                int iconSize = 16;
+                var editSrc = global::CreateInvoice.Properties.Resources.Edit.ToBitmap();
+                var deleteSrc = global::CreateInvoice.Properties.Resources.Remove.ToBitmap();
 
-                var customersTable = InvoiceCommon.customers;
-                var addressTable = InvoiceCommon.address;
+                Image editSmall = new Bitmap(editSrc, new Size(iconSize, iconSize));
+                Image deleteSmall = new Bitmap(deleteSrc, new Size(iconSize, iconSize));
 
-                // Build a view joined on AddressID
-                DataTable dt = new DataTable();
-                dt.Columns.Add("CustomerCode", typeof(string));
-                dt.Columns.Add("PrefixT", typeof(string));
-                dt.Columns.Add("FullName", typeof(string));
-                dt.Columns.Add("RefCode", typeof(string));
-                dt.Columns.Add("IdentityCard", typeof(string));
-                dt.Columns.Add("AddressDetail", typeof(string));
+                var colEditImg = new DataGridViewImageColumn {
+                    Name = "colEdit",
+                    HeaderText = "แก้ไข",
+                    Image = editSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
+                };
+                colEditImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colEditImg);
 
-                foreach (DataRow crow in customersTable.Rows) {
-                    DataRow arow = null;
-                    if (crow["AddressID"] != DBNull.Value) {
-                        var addrRows = addressTable.Select($"AddressID = {crow["AddressID"]}");
-                        if (addrRows.Length > 0)
-                            arow = addrRows[0];
+                var colDeleteImg = new DataGridViewImageColumn {
+                    Name = "colDelete",
+                    HeaderText = "ลบ",
+                    Image = deleteSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
+                };
+                colDeleteImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colDeleteImg);
+            } catch (Exception ex) {
+                MessageBox.Show("เกิดข้อผิดพลาดในการกำหนดค่าคอลัมน์: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0)
+                return;
+            var grid = dataGridView1;
+            var colName = grid.Columns[e.ColumnIndex].Name;
+            var row = grid.Rows[e.RowIndex];
+
+            if (colName == "colEdit") {
+                var idObj = row.Cells["colCompanyID"].Value;
+                if (idObj == null)
+                    return;
+                string id = idObj.ToString();
+
+                string code = row.Cells["colCompanyCode"].Value?.ToString();
+                string name = row.Cells["colCompanyName"].Value?.ToString();
+
+                companyControl = new CompanyControl(formMain, this);
+                companyControl.LoadForEdit(id, code, name);
+                formMain.ShowView(companyControl);
+            } else if (colName == "colDelete") {
+                var idObj = row.Cells["colCompanyID"].Value;
+                if (idObj == null)
+                    return;
+                string id = idObj.ToString();
+
+                string name = row.Cells["colCompanyName"].Value?.ToString();
+                var confirm = MessageBox.Show($"ยืนยันการลบบริษัท '{name}' ?", "ยืนยัน", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes) {
+                    var cg = new companys { CompanyID = id };
+                    companys.CompanysMgr(cg, "DELETE");
+
+                    // ปรับข้อมูลใน DataTable cache แทนการโหลดจาก Firebase ใหม่
+                    if (formMain != null && formMain.CompanysTable != null) {
+                        DataRow[] rows = formMain.CompanysTable.Select($"CompanyID = '{id}'");
+                        foreach (var dr in rows) {
+                            formMain.CompanysTable.Rows.Remove(dr);
+                        }
+                        formMain.CompanysTable.AcceptChanges();
                     }
 
-                    var row = dt.NewRow();
-                    row["CustomerCode"] = crow["CustomerCode"].ToString();
-                    row["PrefixT"] = crow["PrefixT"].ToString();
-                    row["FullName"] = $"{crow["FNameT"]} {crow["LNameT"]}".Trim();
-                    row["RefCode"] = crow["RefCode"].ToString();
-                    row["IdentityCard"] = crow.Table.Columns.Contains("IdentityCard") ? crow["IdentityCard"].ToString() : string.Empty;
-                    row["AddressDetail"] = arow != null ? arow["AddressDetail"].ToString() : string.Empty;
-                    dt.Rows.Add(row);
+                    // refresh grid จาก cache ที่อัปเดตแล้ว
+                    btnSearch_Click(null, null);
+                }
+            }
+        }
+        private void btnSearch_Click(object sender, EventArgs e) {
+            try {
+                var dtCompany = (formMain != null) ? formMain.CompanysTable : null;
+                var dtAddress = (formMain != null) ? formMain.AddressTable : null;
+
+                if (dtCompany == null) {
+                    MessageBox.Show("ยังไม่มีข้อมูลบริษัท กรุณาโหลดข้อมูลอีกครั้ง", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                // Init columns (field headers) once per bind
-                InitCustomerGridColumns();
+                var result = new DataTable();
+                result.Columns.Add("CompanyID", typeof(string));
+                result.Columns.Add("CompanyCode", typeof(string));
+                result.Columns.Add("CompanyName", typeof(string));
+                result.Columns.Add("AddressID", typeof(string));
+                result.Columns.Add("AddressDetail", typeof(string));
+                result.Columns.Add("UpdateTime", typeof(string));
 
-                dataGridView1.DataSource = dt;
+                string keyword = (textBox3.Text ?? string.Empty).Trim();
+                int searchMode = comboBox1.SelectedIndex;
+
+                foreach (DataRow cRow in dtCompany.Rows) {
+                    string companyId = cRow["CompanyID"].ToString();
+                    string companyCode = cRow["CompanyCode"].ToString();
+                    string companyName = cRow["CompanyName"].ToString();
+                    string UpdateTime = cRow["UpdateTime"].ToString();
+                    string addressId = cRow.Table.Columns.Contains("AddressID") ? cRow["AddressID"].ToString() : string.Empty;
+
+                    string addressDetail = string.Empty;
+                    string addressFull = string.Empty;
+                    if (dtAddress != null && !string.IsNullOrEmpty(addressId)) {
+                        DataRow[] addrRows = dtAddress.Select("AddressID = '" + addressId.Replace("'", "''") + "'");
+                        if (addrRows.Length > 0) {
+                            var a = addrRows[0];
+                            if (a.Table.Columns.Contains("AddressDetail"))
+                                addressDetail = a["AddressDetail"].ToString();
+
+                            // สร้างสตริงที่อยู่แบบรวมจากฟิลด์ต่าง ๆ
+                            var parts = new System.Collections.Generic.List<string>();
+                            void AddIf(string col) {
+                                if (a.Table.Columns.Contains(col)) {
+                                    var v = a[col]?.ToString();
+                                    if (!string.IsNullOrWhiteSpace(v)) {
+                                        switch (col) {
+                                            case "RoomNo":
+                                                v = "ห้อง " + v.Trim();
+                                                break;
+                                            case "Flood":
+                                                v = "ชั้น " + v.Trim();
+                                                break;
+                                            case "HouseNo":
+                                                v = "เลขที่ " + v.Trim();
+                                                break;
+                                            case "Moo":
+                                                v = "หมู่ " + v.Trim();
+                                                break;
+                                            case "Soi":
+                                                v = "ซ." + v.Trim();
+                                                break;
+                                            case "Road":
+                                                v = "ถ." + v.Trim();
+                                                break;
+                                            case "SubDistrict":
+                                                v = "ต." + v.Trim();
+                                                break;
+                                            case "District":
+                                                v = "อ." + v.Trim();
+                                                break;
+                                            case "Province":
+                                                v = "จ." + v.Trim();
+                                                break;
+                                            default:
+                                                v = v.Trim();
+                                                break;
+                                        }
+                                        parts.Add(v.Trim());
+                                    }
+                                }
+                            }
+                            //if (a["AddressDetail"].ToString().Length > 0) {
+                            //    AddIf("AddressDetail");
+                            //} else {  
+                            // ห้อง, ชั้น, เลขที่, หมู่, ซอย, ถนน
+                            AddIf("RoomNo");
+                            AddIf("Flood");
+                            AddIf("HouseNo");
+                            AddIf("Moo");
+                            AddIf("Soi");
+                            AddIf("Road");
+                            // ตำบล อำเภอ จังหวัด
+                            AddIf("SubDistrict");
+                            AddIf("District");
+                            AddIf("Province");
+                            AddIf("PostCode");
+                            //}
+
+                            if (parts.Count > 0)
+                                addressFull = string.Join(" ", parts);
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(keyword)) {
+                        string target = string.Empty;
+                        switch (searchMode) {
+                            case 0:
+                                target = companyCode;
+                                break;
+                            case 1:
+                                target = companyName;
+                                break;
+                            case 2:
+                                target = addressId;
+                                break;
+                        }
+                        if (string.IsNullOrEmpty(target) || target.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) < 0)
+                            continue;
+                    }
+
+                    var row = result.NewRow();
+                    row["CompanyID"] = companyId;
+                    row["CompanyCode"] = companyCode;
+                    row["CompanyName"] = companyName;
+                    row["AddressID"] = addressId;
+                    // แสดงข้อมูลที่อยู่แบบรวมในคอลัมน์ AddressID ตามคำขอ
+                    row["AddressID"] = string.IsNullOrEmpty(addressFull) ? addressId : addressFull;
+                    row["AddressDetail"] = addressDetail;
+                    row["UpdateTime"] = UpdateTime;
+                    result.Rows.Add(row);
+                }
+
+                InitCompanyGridColumns();
+                dataGridView1.DataSource = result;
             } catch (Exception ex) {
-                MessageBox.Show("โหลดข้อมูลลูกค้าไม่สำเร็จ: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("โหลดข้อมูลบริษัทไม่สำเร็จ: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnAddGroup_Click(object sender, EventArgs e) {
+            companyControl = new CompanyControl(formMain, this);
+            formMain.ShowView(companyControl);
+        }
+
+        public void LoadCompanyList() {
+            btnSearch_Click(null, null);
         }
     }
 }

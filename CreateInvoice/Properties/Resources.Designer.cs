@@ -61,6 +61,16 @@ namespace CreateInvoice.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
+        ///&lt;districts&gt;&lt;district&gt;&lt;id&gt;1001&lt;/id&gt;&lt;name_th&gt;เขตพระนคร&lt;/name_th&gt;&lt;name_en&gt;Khet Phra Nakhon&lt;/name_en&gt;&lt;province_id&gt;1&lt;/province_id&gt;&lt;created_at&gt;2019-08-09T03:33:09.000+07:00&lt;/created_at&gt;&lt;updated_at&gt;2025-09-20T06:31:26.000+07:00&lt;/updated_at&gt;&lt;deleted_at /&gt;&lt;/district&gt;&lt;district&gt;&lt;id&gt;1002&lt;/id&gt;&lt;name_th&gt;เขตดุสิต&lt;/name_th&gt;&lt;name_en&gt;Khet Dusit&lt;/name_en&gt;&lt;province_id&gt;1&lt;/province_id&gt;&lt;created_at&gt;2019-08-09T03:33:09.000+07:00&lt;/created_at&gt;&lt;updated_at&gt;2025-09-20T06:31:26.000+07:00&lt;/updated_at&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string districts {
+            get {
+                return ResourceManager.GetString("districts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Edit {
@@ -71,12 +81,32 @@ namespace CreateInvoice.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
+        ///&lt;provinces&gt;&lt;province&gt;&lt;id&gt;1&lt;/id&gt;&lt;name_th&gt;กรุงเทพมหานคร&lt;/name_th&gt;&lt;name_en&gt;Bangkok&lt;/name_en&gt;&lt;geography_id&gt;2&lt;/geography_id&gt;&lt;created_at&gt;2019-08-09T03:33:09.000+07:00&lt;/created_at&gt;&lt;updated_at&gt;2025-09-20T06:31:26.000+07:00&lt;/updated_at&gt;&lt;deleted_at /&gt;&lt;/province&gt;&lt;province&gt;&lt;id&gt;2&lt;/id&gt;&lt;name_th&gt;สมุทรปราการ&lt;/name_th&gt;&lt;name_en&gt;Samut Prakan&lt;/name_en&gt;&lt;geography_id&gt;2&lt;/geography_id&gt;&lt;created_at&gt;2019-08-09T03:33:09.000+07:00&lt;/created_at&gt;&lt;updated_at&gt;2025-09-20T06:31:26.000+07:00&lt;/updated_at&gt;&lt;d [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string provinces {
+            get {
+                return ResourceManager.GetString("provinces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Remove {
             get {
                 object obj = ResourceManager.GetObject("Remove", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
+        ///&lt;sub_districts&gt;&lt;sub_district&gt;&lt;id&gt;100101&lt;/id&gt;&lt;zip_code&gt;10200&lt;/zip_code&gt;&lt;name_th&gt;พระบรมมหาราชวัง&lt;/name_th&gt;&lt;name_en&gt;Phra Borom Maha Ratchawang&lt;/name_en&gt;&lt;district_id&gt;1001&lt;/district_id&gt;&lt;lat /&gt;&lt;long /&gt;&lt;created_at&gt;2019-08-09T03:33:09.000+07:00&lt;/created_at&gt;&lt;updated_at&gt;2025-09-20T06:31:26.000+07:00&lt;/updated_at&gt;&lt;deleted_at /&gt;&lt;/sub_district&gt;&lt;sub_district&gt;&lt;id&gt;100102&lt;/id&gt;&lt;zip_code&gt;10200&lt;/zip_code&gt;&lt;name_th&gt;วังบูรพาภิรมย์&lt;/name_th&gt;&lt;name_en&gt;Wang Burapha Phirom&lt;/name_en&gt;&lt;district_id&gt;10 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sub_districts {
+            get {
+                return ResourceManager.GetString("sub_districts", resourceCulture);
             }
         }
     }

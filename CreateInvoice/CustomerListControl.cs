@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace CreateInvoice {
     public class CustomerListControl : UserControl {
         private DataGridViewButtonColumn colEdit;
+        private DataGridViewButtonColumn colDelete;
         private GroupBox groupBox1;
         private Label label1;
         private ComboBox comboBox1;
@@ -19,7 +20,7 @@ namespace CreateInvoice {
         private Button btnAddCustomer;
         private DataGridView dataGridView1;
         public FormMain formMain = null;
-        public CustomersControl customersControl = new CustomersControl();
+        public CustomersControl customersControl = null;
 
         public CustomerListControl(FormMain pFormMain) {
             Dock = DockStyle.Fill;
@@ -39,14 +40,16 @@ namespace CreateInvoice {
             dataGridView1.DataSource = null;
 
             formMain = pFormMain;
+            customersControl = new CustomersControl(formMain, this);
+
+            btnSearch_Click(null, null);
         }
 
         private void InitializeComponent() {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colEdit = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -81,12 +84,7 @@ namespace CreateInvoice {
             this.dataGridView1.RowTemplate.Height = 32;
             this.dataGridView1.Size = new System.Drawing.Size(1474, 477);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // colEdit
-            // 
-            this.colEdit.MinimumWidth = 6;
-            this.colEdit.Name = "colEdit";
-            this.colEdit.Width = 125;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // groupBox1
             // 
@@ -218,7 +216,13 @@ namespace CreateInvoice {
 
             // ให้คอลัมน์ยืดเต็มความกว้างของ grid
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
+                DataPropertyName = "CustomerID",
+                HeaderText = "รหัสลูกค้า",
+                Name = "colCustomerID",
+                ReadOnly = true,
+                Visible = false
+            });
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn {
                 DataPropertyName = "CustomerCode",
                 HeaderText = "รหัสลูกค้า",
@@ -271,36 +275,49 @@ namespace CreateInvoice {
             //    UseColumnTextForButtonValue = true
             //});
 
-            // คอลัมน์ Edit icon
-            var colEdit = new DataGridViewImageColumn {
-                Name = "colEdit",
-                HeaderText = "แก้ไข",
-                Image = Properties.Resources.Edit.ToBitmap(),   // ไฟล์ไอคอนใน Resources
-                Width = 50
-            };
-            dataGridView1.Columns.Add(colEdit);
+            try {
+                int iconSize = 16;
+                var editSrc = global::CreateInvoice.Properties.Resources.Edit.ToBitmap();
+                var deleteSrc = global::CreateInvoice.Properties.Resources.Remove.ToBitmap();
 
-            // คอลัมน์ Delete icon
-            var colDelete = new DataGridViewImageColumn {
-                Name = "colDelete",
-                HeaderText = "ลบ",
-                Image = Properties.Resources.Remove.ToBitmap(), // ไฟล์ไอคอนใน Resources
-                Width = 50
-            };
-            dataGridView1.Columns.Add(colDelete);
+                Image editSmall = new Bitmap(editSrc, new Size(iconSize, iconSize));
+                Image deleteSmall = new Bitmap(deleteSrc, new Size(iconSize, iconSize));
+
+                var colEditImg = new DataGridViewImageColumn {
+                    Name = "colEdit",
+                    HeaderText = "แก้ไข",
+                    Image = editSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
+                };
+                colEditImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colEditImg);
+
+                var colDeleteImg = new DataGridViewImageColumn {
+                    Name = "colDelete",
+                    HeaderText = "ลบ",
+                    Image = deleteSmall,
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    Width = iconSize + 8
+                };
+                colDeleteImg.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView1.Columns.Add(colDeleteImg);
+            } catch (Exception ex) {
+                MessageBox.Show("เกิดข้อผิดพลาดในการกำหนดค่าคอลัมน์: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
             try {
-                // Ensure Invoice data is loaded from Firebase
-                InvoiceCommon.Refresh_customers_Wait();
-                InvoiceCommon.Refresh_address_Wait();
+                if (formMain == null || formMain.CustomersTable == null) {
+                    MessageBox.Show("ยังไม่มีข้อมูลลูกค้า กรุณาโหลดข้อมูลก่อน", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                var customersTable = InvoiceCommon.customers;
-                var addressTable = InvoiceCommon.address;
+                var customersTable = formMain.CustomersTable;
+                var addressTable = formMain.AddressTable; // อาจเป็น null ได้ ถ้ายังไม่โหลด
 
-                // Build a view joined on AddressID
                 DataTable dt = new DataTable();
                 dt.Columns.Add("CustomerCode", typeof(string));
                 dt.Columns.Add("PrefixT", typeof(string));
@@ -311,25 +328,23 @@ namespace CreateInvoice {
 
                 foreach (DataRow crow in customersTable.Rows) {
                     DataRow arow = null;
-                    if (crow["AddressID"] != DBNull.Value) {
-                        var addrRows = addressTable.Select($"AddressID = {crow["AddressID"]}");
+                    if (addressTable != null && crow["AddressID"] != DBNull.Value && !string.IsNullOrEmpty(crow["AddressID"].ToString())) {
+                        var addrRows = addressTable.Select("AddressID = '" + crow["AddressID"].ToString().Replace("'", "''") + "'");
                         if (addrRows.Length > 0)
                             arow = addrRows[0];
                     }
 
                     var row = dt.NewRow();
                     row["CustomerCode"] = crow["CustomerCode"].ToString();
-                    row["PrefixT"] = crow["PrefixT"].ToString();
-                    row["FullName"] = $"{crow["FNameT"]} {crow["LNameT"]}".Trim();
-                    row["RefCode"] = crow["RefCode"].ToString();
-                    row["IdentityCard"] = crow.Table.Columns.Contains("IdentityCard") ? crow["IdentityCard"].ToString() : string.Empty;
-                    row["AddressDetail"] = arow != null ? arow["AddressDetail"].ToString() : string.Empty;
+                    row["PrefixT"] = customersTable.Columns.Contains("PrefixT") ? crow["PrefixT"].ToString() : string.Empty;
+                    row["FullName"] = ($"{crow["FNameT"]} {crow["LNameT"]}").Trim();
+                    row["RefCode"] = customersTable.Columns.Contains("RefCode") ? crow["RefCode"].ToString() : string.Empty;
+                    row["IdentityCard"] = customersTable.Columns.Contains("IdentityCard") ? crow["IdentityCard"].ToString() : string.Empty;
+                    row["AddressDetail"] = arow != null && arow.Table.Columns.Contains("AddressDetail") ? arow["AddressDetail"].ToString() : string.Empty;
                     dt.Rows.Add(row);
                 }
 
-                // Init columns (field headers) once per bind
                 InitCustomerGridColumns();
-
                 dataGridView1.DataSource = dt;
             } catch (Exception ex) {
                 MessageBox.Show("โหลดข้อมูลลูกค้าไม่สำเร็จ: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -338,6 +353,119 @@ namespace CreateInvoice {
 
         private void btnAddCustomer_Click(object sender, EventArgs e) {
             formMain.ShowView(customersControl);
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0)
+                return;
+            if (dataGridView1.Columns[e.ColumnIndex] == colEdit) {
+                // Edit
+                var row = dataGridView1.Rows[e.RowIndex];
+                var customerIdObj = row.Cells["CustomerID"].Value;
+                if (customerIdObj == null)
+                    return;
+
+                string customerId = customerIdObj.ToString();
+                DataRow[] custRows = formMain.CustomersTable.Select($"CustomerID = '{customerId.Replace("'", "''")}'");
+                if (custRows.Length == 0)
+                    return;
+
+                var custRow = custRows[0];
+                var cust = new customers {
+                    CustomerID = customerId,
+                    CustomerCode = custRow["CustomerCode"].ToString(),
+                    FNameT = custRow["FNameT"].ToString(),
+                    LNameT = custRow["LNameT"].ToString(),
+                    FNameE = custRow.Table.Columns.Contains("FNameE") ? custRow["FNameE"].ToString() : string.Empty,
+                    LNameE = custRow.Table.Columns.Contains("LNameE") ? custRow["LNameE"].ToString() : string.Empty,
+                    ShortNameT = custRow.Table.Columns.Contains("ShortNameT") ? custRow["ShortNameT"].ToString() : string.Empty,
+                    ShortNameE = custRow.Table.Columns.Contains("ShortNameE") ? custRow["ShortNameE"].ToString() : string.Empty,
+                    FindName1 = custRow.Table.Columns.Contains("FindName1") ? custRow["FindName1"].ToString() : string.Empty,
+                    FindName2 = custRow.Table.Columns.Contains("FindName2") ? custRow["FindName2"].ToString() : string.Empty,
+                    IdentityCard = custRow.Table.Columns.Contains("IdentityCard") ? custRow["IdentityCard"].ToString() : string.Empty,
+                    Email = custRow.Table.Columns.Contains("Email") ? custRow["Email"].ToString() : string.Empty,
+                    Sex = custRow.Table.Columns.Contains("Sex") ? custRow["Sex"].ToString() : string.Empty,
+                    AddressID = custRow.Table.Columns.Contains("AddressID") ? custRow["AddressID"].ToString() : string.Empty,
+                    CustomerGroupID = custRow.Table.Columns.Contains("CustomerGroupID") ? custRow["CustomerGroupID"].ToString() : string.Empty
+                };
+
+                address addr = null;
+                if (!string.IsNullOrEmpty(cust.AddressID) && formMain.AddressTable != null && formMain.AddressTable.Columns.Contains("AddressID")) {
+                    var addrRows = formMain.AddressTable.Select($"AddressID = '{cust.AddressID.Replace("'", "''")}'");
+                    if (addrRows.Length > 0) {
+                        var aRow = addrRows[0];
+                        addr = new address {
+                            AddressID = cust.AddressID,
+                            AddressDetail = aRow.Table.Columns.Contains("AddressDetail") ? aRow["AddressDetail"].ToString() : string.Empty,
+                            RoomNo = aRow.Table.Columns.Contains("RoomNo") ? aRow["RoomNo"].ToString() : string.Empty,
+                            Flood = aRow.Table.Columns.Contains("Flood") ? aRow["Flood"].ToString() : string.Empty,
+                            HouseNo = aRow.Table.Columns.Contains("HouseNo") ? aRow["HouseNo"].ToString() : string.Empty,
+                            Moo = aRow.Table.Columns.Contains("Moo") ? aRow["Moo"].ToString() : string.Empty,
+                            Soi = aRow.Table.Columns.Contains("Soi") ? aRow["Soi"].ToString() : string.Empty,
+                            Road = aRow.Table.Columns.Contains("Road") ? aRow["Road"].ToString() : string.Empty,
+                            SubDistrict = aRow.Table.Columns.Contains("SubDistrict") ? aRow["SubDistrict"].ToString() : string.Empty,
+                            District = aRow.Table.Columns.Contains("District") ? aRow["District"].ToString() : string.Empty,
+                            Province = aRow.Table.Columns.Contains("Province") ? aRow["Province"].ToString() : string.Empty,
+                            PostCode = aRow.Table.Columns.Contains("PostCode") ? aRow["PostCode"].ToString() : string.Empty,
+                            GPS = aRow.Table.Columns.Contains("GPS") ? aRow["GPS"].ToString() : string.Empty,
+                            LineID = aRow.Table.Columns.Contains("LineID") ? aRow["LineID"].ToString() : string.Empty,
+                            LineContract = aRow.Table.Columns.Contains("LineContract") ? aRow["LineContract"].ToString() : string.Empty,
+                            Lang = aRow.Table.Columns.Contains("Lang") ? aRow["Lang"].ToString() : string.Empty,
+                            Phone = aRow.Table.Columns.Contains("Phone") ? aRow["Phone"].ToString() : string.Empty,
+                            Mobile = aRow.Table.Columns.Contains("Mobile") ? aRow["Mobile"].ToString() : string.Empty,
+                            PhoneTo = aRow.Table.Columns.Contains("PhoneTo") ? aRow["PhoneTo"].ToString() : string.Empty,
+                            Fax = aRow.Table.Columns.Contains("Fax") ? aRow["Fax"].ToString() : string.Empty,
+                            RefCode = aRow.Table.Columns.Contains("RefCode") ? aRow["RefCode"].ToString() : string.Empty
+                        };
+                    }
+                }
+
+                // แสดง CustomersControl และโหลดข้อมูลเพื่อแก้ไข
+                var custControl = new CustomersControl(formMain, this);
+                if (custControl != null) {
+                    custControl.LoadForEdit(cust, addr);
+                }
+            } else if (dataGridView1.Columns[e.ColumnIndex] == colDelete) {
+                // Delete
+                var row = dataGridView1.Rows[e.RowIndex];
+                var customerIdObj = row.Cells["CustomerID"].Value;
+                if (customerIdObj == null)
+                    return;
+
+                if (MessageBox.Show("ต้องการลบข้อมูลลูกค้านี้หรือไม่?", "ยืนยันการลบ", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                    return;
+
+                string customerId = customerIdObj.ToString();
+
+                // ลบจาก DataTable ลูกค้า
+                if (formMain.CustomersTable != null) {
+                    var rows = formMain.CustomersTable.Select($"CustomerID = '{customerId.Replace("'", "''")}'");
+                    foreach (var r in rows) {
+                        formMain.CustomersTable.Rows.Remove(r);
+                    }
+                }
+
+                // ลบที่อยู่ถ้ามี
+                if (formMain.AddressTable != null && formMain.CustomersTable != null && formMain.CustomersTable.Columns.Contains("AddressID")) {
+                    // หา AddressID จาก row เดิม
+                    var rows = formMain.CustomersTable.Select($"CustomerID = '{customerId.Replace("'", "''")}'");
+                    if (rows.Length > 0 && rows[0].Table.Columns.Contains("AddressID")) {
+                        var addrId = rows[0]["AddressID"].ToString();
+                        if (!string.IsNullOrEmpty(addrId)) {
+                            var addrRows = formMain.AddressTable.Select($"AddressID = '{addrId.Replace("'", "''")}'");
+                            foreach (var ar in addrRows) {
+                                formMain.AddressTable.Rows.Remove(ar);
+                            }
+                        }
+                    }
+                }
+
+                // อาจเรียก CustomersMgr/AddressMgr ด้วยโหมด DELETE ตามที่ระบบคุณรองรับ
+                // customers.CustomersMgr_Wait(ref someCustomer, "DELETE");
+                // address.AddressMgr_Wait(ref someAddress, "DELETE");
+
+                dataGridView1.Rows.RemoveAt(e.RowIndex);
+            }
         }
     }
 }

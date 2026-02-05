@@ -227,6 +227,8 @@ namespace CreateInvoice {
             MessageBox.Show("บันทึกข้อมูลเรียบร้อย", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // ไม่ต้อง LoadProductTypes อีก แค่กลับไปหน้า list ซึ่งจะใช้ DataTable ที่อัปเดตแล้ว
+            // ไม่ต้อง LoadCustomerGroups อีก แค่กลับไปหน้า list ซึ่งจะใช้ DataTable ที่อัปเดตแล้ว
+            employeeControl = new ProductTypeListControl(formMain);
             formMain.ShowView(employeeControl);
         }
 

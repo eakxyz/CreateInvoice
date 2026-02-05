@@ -6,36 +6,22 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace CreateInvoice {
-    public class CustomersControl : UserControl {
+    public class CompanyControl : UserControl {
         private Label label1;
-        private TextBox txtCustomerCode;
+        private TextBox txtCompanyCode;
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Button btnAddCustomerGroup;
         private GroupBox groupBox2;
-        private Label label7;
-        private ComboBox cboCustomerGroup;
-        private Label label6;
-        private TextBox txtLNameE;
         private Label label5;
-        private TextBox txtFNameE;
-        private Label label4;
-        private TextBox txtLNameT;
+        private TextBox txtCompanyNameE;
         private Label label3;
-        private TextBox txtFNameT;
+        private TextBox txtCompanyNameT;
         private GroupBox groupBox3;
         private Label label15;
         private TextBox txtFindName2;
         private Label label16;
         private TextBox txtFindName1;
-        private Label label10;
-        private TextBox txtShortNameE;
-        private Label label9;
-        private TextBox txtShortNameT;
-        private RadioButton rdoFamale;
-        private RadioButton rdoMale;
-        private Label label8;
         private GroupBox groupBox5;
         private Label label31;
         private TextBox txtEmail;
@@ -53,7 +39,7 @@ namespace CreateInvoice {
         private TextBox txtMobile;
         private Button btnAdd;
         private Label label11;
-        private TextBox txtIdentityCard;
+        private TextBox txtTaxId;
         private GroupBox groupBox6;
         private Label label34;
         private TextBox txtLineContract;
@@ -85,22 +71,17 @@ namespace CreateInvoice {
         private TextBox txtAddressDetail;
         private GroupBox groupBox1;
 
-        private readonly FormMain _formMain;
+        public FormMain formMain = null;
+        public CompanyListControl companyList = null;
 
-        private CustomerListControl customerList = null;
+        private string currentCompanyId = null;
+        private string currentAddressId = null;
+        private bool isEdit = false;
 
-        // edit mode tracking
-        private bool _isEdit = false;
-        private string _editingCustomerID;
-        private string _editingAddressID;
-
-        public CustomersControl(FormMain formMain, CustomerListControl pCustomerList) {
-            _formMain = formMain ?? throw new ArgumentNullException(nameof(formMain));
-
-            //Dock = DockStyle.Fill;
+        public CompanyControl(FormMain pFormMain, CompanyListControl pCompanyListControl) {
             BackColor = Color.White;
             var lbl = new Label {
-                Text = "ลูกค้า",
+                Text = "บริษัท",
                 Dock = DockStyle.Top,
                 Height = 40,
                 Font = new Font("Segoe UI", 16F, FontStyle.Bold),
@@ -110,149 +91,14 @@ namespace CreateInvoice {
             Controls.Add(lbl);
             InitializeComponent();
 
-            // เชื่อมต่อ event handler กับปุ่มเพิ่ม
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            formMain = pFormMain;
+            companyList = pCompanyListControl;
 
             InitThaiAddressCombo();
-            InitCustomerGroupCombo();
-
-            customerList = pCustomerList;
-
             cboProvince.SelectedItem = "เชียงใหม่"; // ตั้งค่าเริ่มต้นเป็นเชียงใหม่
             CboProvince_SelectedIndexChanged(null, null); // โหลดอำเภอสำหรับเชียงใหม่
             // เพิ่ม event สำหรับตำบล
             cboSubDistrict.SelectedIndexChanged += CboSubDistrict_SelectedIndexChanged;
-        }
-
-        /// <summary>
-        /// เตรียม control สำหรับการเพิ่มลูกค้าใหม่
-        /// </summary>
-        public void PrepareForAdd() {
-            ClearForm();
-            _isEdit = false;
-            _editingCustomerID = null;
-            _editingAddressID = null;
-            try {
-                btnAdd.Text = "เพิ่ม";
-            } catch { }
-        }
-
-        /// <summary>
-        /// โหลดข้อมูลลูกค้าที่ต้องการแก้ไขลงฟอร์ม
-        /// </summary>
-        public void LoadForEdit(customers existingCustomer, address existingAddress) {
-            if (existingCustomer == null)
-                throw new ArgumentNullException(nameof(existingCustomer));
-
-            _isEdit = true;
-            _editingCustomerID = existingCustomer.CustomerID;
-            _editingAddressID = existingAddress?.AddressID;
-
-            // โหลดข้อมูลลูกค้า
-            txtCustomerCode.Text = existingCustomer.CustomerCode;
-            txtFNameT.Text = existingCustomer.FNameT;
-            txtLNameT.Text = existingCustomer.LNameT;
-            txtFNameE.Text = existingCustomer.FNameE;
-            txtLNameE.Text = existingCustomer.LNameE;
-            txtShortNameT.Text = existingCustomer.ShortNameT;
-            txtShortNameE.Text = existingCustomer.ShortNameE;
-            txtFindName1.Text = existingCustomer.FindName1;
-            txtFindName2.Text = existingCustomer.FindName2;
-            txtIdentityCard.Text = existingCustomer.IdentityCard;
-            txtEmail.Text = existingCustomer.Email;
-            // เลือกกลุ่มลูกค้า
-            try {
-                if (!string.IsNullOrEmpty(existingCustomer.CustomerGroupID) && cboCustomerGroup.DataSource != null) {
-                    cboCustomerGroup.SelectedValue = existingCustomer.CustomerGroupID;
-                }
-            } catch { }
-
-            // โหลดข้อมูลที่อยู่
-            if (existingAddress != null) {
-                txtAddressDetail.Text = existingAddress.AddressDetail;
-                txtRoomNo.Text = existingAddress.RoomNo;
-                txtFlood.Text = existingAddress.Flood;
-                txtHouseNo.Text = existingAddress.HouseNo;
-                txtMoo.Text = existingAddress.Moo;
-                txtSoi.Text = existingAddress.Soi;
-                txtRoad.Text = existingAddress.Road;
-                txtPostCode.Text = existingAddress.PostCode;
-                txtGPS.Text = existingAddress.GPS;
-                txtLineID.Text = existingAddress.LineID;
-                txtLineContract.Text = existingAddress.LineContract;
-                cboLang.Text = existingAddress.Lang;
-                txtTel.Text = existingAddress.Phone;
-                txtMobile.Text = existingAddress.Mobile;
-                txtTelTo.Text = existingAddress.PhoneTo;
-                txtFax.Text = existingAddress.Fax;
-                txtRef.Text = existingAddress.RefCode;
-
-                // ตั้งค่า province/district/subdistrict โดยเรียก event loader
-                try {
-                    if (!string.IsNullOrEmpty(existingAddress.Province)) {
-                        cboProvince.Text = existingAddress.Province;
-                        CboProvince_SelectedIndexChanged(null, null);
-                    }
-                    if (!string.IsNullOrEmpty(existingAddress.District)) {
-                        cboDistrict.Text = existingAddress.District;
-                        CboDistrict_SelectedIndexChanged(null, null);
-                    }
-                    if (!string.IsNullOrEmpty(existingAddress.SubDistrict)) {
-                        // หา SubDistrictInfo ใน Items
-                        foreach (var item in cboSubDistrict.Items) {
-                            if (item is ThaiAddressData.SubDistrictInfo s && s.Name == existingAddress.SubDistrict) {
-                                cboSubDistrict.SelectedItem = item;
-                                break;
-                            }
-                            // ถ้าตรงกับ text ก็เซ็ต
-                            if (item is string str && str == existingAddress.SubDistrict) {
-                                cboSubDistrict.SelectedItem = item;
-                                break;
-                            }
-                        }
-                    }
-                } catch { }
-            }
-
-            // เลือกเพศ
-            if (!string.IsNullOrEmpty(existingCustomer.Sex)) {
-                if (existingCustomer.Sex.Contains("ชาย"))
-                    rdoMale.Checked = true;
-                else if (existingCustomer.Sex.Contains("หญิง"))
-                    rdoFamale.Checked = true;
-            }
-
-            // เปลี่ยนปุ่มเป็นบันทึก
-            try {
-                btnAdd.Text = "บันทึก";
-            } catch { }
-        }
-
-        private void InitCustomerGroupCombo() {
-            try {
-                cboCustomerGroup.DisplayMember = "CustomerGroupName";
-                cboCustomerGroup.ValueMember = "CustomerGroupID";
-
-                DataTable source = _formMain != null ? _formMain.CustomerGroupsTable : null;
-                if (source == null) {
-                    cboCustomerGroup.DataSource = null;
-                    return;
-                }
-
-                // Clone เพื่อไม่ให้แก้ไขตารางต้นฉบับ
-                DataTable dt = source.Copy();
-
-                // เพิ่มแถวว่างเป็นตัวเลือกแรก
-                DataRow emptyRow = dt.NewRow();
-                emptyRow["CustomerGroupID"] = string.Empty;
-                emptyRow["CustomerGroupName"] = string.Empty;
-                dt.Rows.InsertAt(emptyRow, 0);
-
-                cboCustomerGroup.DataSource = dt;
-            } catch (Exception ex) {
-                MessageBox.Show("ไม่สามารถโหลดกลุ่มบัญชีลูกค้าได้: " + ex.Message,
-                    "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void InitThaiAddressCombo() {
@@ -281,11 +127,184 @@ namespace CreateInvoice {
                 System.Diagnostics.Debug.WriteLine($"InitThaiAddressCombo Error: {ex.Message}");
             }
         }
+
+        private void CboProvince_SelectedIndexChanged(object sender, EventArgs e) {
+            try {
+                // ล้างข้อมูลอำเภอและตำบล
+                cboDistrict.SelectedIndexChanged -= CboDistrict_SelectedIndexChanged; // ปิด event ชั่วคราว
+
+                cboDistrict.Items.Clear();
+                cboSubDistrict.Items.Clear();
+                var prov = cboProvince.Text?.Trim();
+                if (string.IsNullOrEmpty(prov)) {
+                    cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // เปิด event
+                    return;
+                }
+
+                // โหลดอำเภอตามจังหวัดที่เลือก
+                if (ThaiAddressData.Data.TryGetValue(prov, out var districts)) {
+                    foreach (var d in districts.Keys.OrderBy(x => x)) {
+                        cboDistrict.Items.Add(d);
+                    }
+                    System.Diagnostics.Debug.WriteLine($"โหลดอำเภอใน {prov}: {districts.Count} อำเภอ");
+                }
+
+                cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // เปิด event
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"CboProvince_SelectedIndexChanged Error: {ex.Message}");
+                cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // ให้แน่ใจว่า event ถูกเปิดกลับ
+            }
+        }
+
+        private void CboDistrict_SelectedIndexChanged(object sender, EventArgs e) {
+            try {
+                // ล้างข้อมูลตำบล
+                cboSubDistrict.Items.Clear();
+                cboSubDistrict.Text = "";
+
+                var prov = cboProvince.Text?.Trim();
+                var dist = cboDistrict.Text?.Trim();
+
+                if (string.IsNullOrEmpty(prov) || string.IsNullOrEmpty(dist))
+                    return;
+
+                // โหลดตำบลตามจังหวัดและอำเภอที่เลือก
+                if (ThaiAddressData.Data.TryGetValue(prov, out var districts) &&
+                    districts.TryGetValue(dist, out var subs)) {
+                    cboSubDistrict.Items.Add(""); // เพิ่มตัวเลือกว่าง
+                    foreach (var s in subs.OrderBy(x => x.Name)) {
+                        cboSubDistrict.Items.Add(s); // เพิ่ม SubDistrictInfo object
+                    }
+                    System.Diagnostics.Debug.WriteLine($"โหลดตำบลใน {prov}/{dist}: {subs.Count} ตำบล");
+                }
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"CboDistrict_SelectedIndexChanged Error: {ex.Message}");
+            }
+        }
+        private void CboSubDistrict_SelectedIndexChanged(object sender, EventArgs e) {
+            try {
+                var selectedItem = cboSubDistrict.SelectedItem;
+
+                if (selectedItem is ThaiAddressData.SubDistrictInfo subInfo) {
+                    // ใส่รหัสไปรษณีย์อัตโนมัติ
+                    txtPostCode.Text = subInfo.ZipCode;
+                    System.Diagnostics.Debug.WriteLine($"ตั้งรหัสไปรษณีย์: {subInfo.Name} -> {subInfo.ZipCode}");
+                } else if (string.IsNullOrEmpty(cboSubDistrict.Text)) {
+                    // ถ้าเลือกรายการว่าง ให้ล้างรหัสไปรษณีย์
+                    txtPostCode.Clear();
+                }
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"CboSubDistrict_SelectedIndexChanged Error: {ex.Message}");
+            }
+        }
+
+        public void LoadForEdit(string companyId, string companyCode, string companyName) {
+            isEdit = true;
+            currentCompanyId = companyId;
+            btnAdd.Text = "แก้ไข";
+
+            // ดึงข้อมูล company จาก FormMain cache ถ้ามี
+            if (formMain != null && formMain.CompanysTable != null) {
+                DataRow[] rows = formMain.CompanysTable.Select("CompanyID = '" + companyId.Replace("'", "''") + "'");
+                if (rows.Length > 0) {
+                    var r = rows[0];
+                    txtCompanyCode.Text = r["CompanyCode"].ToString();
+                    txtCompanyNameT.Text = r["CompanyName"].ToString();
+                    currentAddressId = r.Table.Columns.Contains("AddressID") ? r["AddressID"].ToString() : null;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(currentAddressId) && formMain != null && formMain.AddressTable != null) {
+                DataRow[] arows = formMain.AddressTable.Select("AddressID = '" + currentAddressId.Replace("'", "''") + "'");
+                if (arows.Length > 0) {
+                    var a = arows[0];
+
+                    // โหลดข้อมูลที่อยู่ทั่วไป
+                    txtAddressDetail.Text = a["AddressDetail"].ToString();
+                    txtRoomNo.Text = a["RoomNo"].ToString();
+                    txtFlood.Text = a["Flood"].ToString();
+                    txtHouseNo.Text = a["HouseNo"].ToString();
+                    txtMoo.Text = a["Moo"].ToString();
+                    txtSoi.Text = a["Soi"].ToString();
+                    txtRoad.Text = a["Road"].ToString();
+
+                    // เก็บค่าจังหวัด อำเภอ ตำบล
+                    var province = a["Province"].ToString();
+                    var district = a["District"].ToString();
+                    var subDistrict = a["SubDistrict"].ToString();
+
+                    // ปิด event handlers ชั่วคราวเพื่อไม่ให้เกิดการ trigger ซ้ำซ้อน
+                    cboProvince.SelectedIndexChanged -= CboProvince_SelectedIndexChanged;
+                    cboDistrict.SelectedIndexChanged -= CboDistrict_SelectedIndexChanged;
+                    cboSubDistrict.SelectedIndexChanged -= CboSubDistrict_SelectedIndexChanged;
+
+                    try {
+                        // เลือกจังหวัด
+                        if (!string.IsNullOrEmpty(province)) {
+                            cboProvince.Text = province;
+
+                            // โหลดอำเภอสำหรับจังหวัดที่เลือก
+                            if (ThaiAddressData.Data.TryGetValue(province, out var districts)) {
+                                cboDistrict.Items.Clear();
+                                cboDistrict.Items.Add("");
+                                foreach (var d in districts.Keys.OrderBy(x => x)) {
+                                    cboDistrict.Items.Add(d);
+                                }
+                            }
+                        }
+
+                        // เลือกอำเภอ
+                        if (!string.IsNullOrEmpty(district)) {
+                            cboDistrict.Text = district;
+
+                            // โหลดตำบลสำหรับอำเภอที่เลือก
+                            if (!string.IsNullOrEmpty(province) &&
+                                ThaiAddressData.Data.TryGetValue(province, out var districts) &&
+                                districts.TryGetValue(district, out var subs)) {
+                                cboSubDistrict.Items.Clear();
+                                cboSubDistrict.Items.Add("");
+                                foreach (var s in subs.OrderBy(x => x.Name)) {
+                                    cboSubDistrict.Items.Add(s);
+                                }
+                            }
+                        }
+
+                        // เลือกตำบล
+                        if (!string.IsNullOrEmpty(subDistrict)) {
+                            // ค้นหา SubDistrictInfo ที่ตรงกับชื่อตำบล
+                            foreach (var item in cboSubDistrict.Items) {
+                                if (item is ThaiAddressData.SubDistrictInfo subInfo && subInfo.Name == subDistrict) {
+                                    cboSubDistrict.SelectedItem = item;
+                                    break;
+                                }
+                            }
+                        }
+                    } finally {
+                        // เปิด event handlers อีกครั้ง
+                        cboProvince.SelectedIndexChanged += CboProvince_SelectedIndexChanged;
+                        cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged;
+                        cboSubDistrict.SelectedIndexChanged += CboSubDistrict_SelectedIndexChanged;
+                    }
+
+                    // โหลดข้อมูลที่เหลือ
+                    txtPostCode.Text = a["PostCode"].ToString();
+                    txtGPS.Text = a["GPS"].ToString();
+                    txtLineID.Text = a["LineID"].ToString();
+                    txtLineContract.Text = a["LineContract"].ToString();
+                    cboLang.Text = a["Lang"].ToString();
+                    txtTel.Text = a["Phone"].ToString();
+                    txtMobile.Text = a["Mobile"].ToString();
+                    txtTelTo.Text = a["PhoneTo"].ToString();
+                    txtFax.Text = a["Fax"].ToString();
+                    txtRef.Text = a["RefCode"].ToString();
+                }
+            }
+        }
+
         private void InitializeComponent() {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnAddCustomerGroup = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtCustomerCode = new System.Windows.Forms.TextBox();
+            this.txtCompanyCode = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -310,24 +329,11 @@ namespace CreateInvoice {
             this.txtFindName1 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtIdentityCard = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtShortNameE = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtShortNameT = new System.Windows.Forms.TextBox();
-            this.rdoFamale = new System.Windows.Forms.RadioButton();
-            this.rdoMale = new System.Windows.Forms.RadioButton();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cboCustomerGroup = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtLNameE = new System.Windows.Forms.TextBox();
+            this.txtTaxId = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtFNameE = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtLNameT = new System.Windows.Forms.TextBox();
+            this.txtCompanyNameE = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtFNameT = new System.Windows.Forms.TextBox();
+            this.txtCompanyNameT = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label34 = new System.Windows.Forms.Label();
@@ -371,47 +377,34 @@ namespace CreateInvoice {
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnAddCustomerGroup);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtCustomerCode);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.cboCustomerGroup);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Controls.Add(this.txtCompanyCode);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.groupBox1.Location = new System.Drawing.Point(63, 44);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1159, 121);
+            this.groupBox1.Size = new System.Drawing.Size(1167, 121);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "รหัส / กลุ่มบัญชีลูกค้า";
-            // 
-            // btnAddCustomerGroup
-            // 
-            this.btnAddCustomerGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddCustomerGroup.Location = new System.Drawing.Point(773, 59);
-            this.btnAddCustomerGroup.Name = "btnAddCustomerGroup";
-            this.btnAddCustomerGroup.Size = new System.Drawing.Size(39, 39);
-            this.btnAddCustomerGroup.TabIndex = 4;
-            this.btnAddCustomerGroup.Text = "+";
-            this.btnAddCustomerGroup.UseVisualStyleBackColor = true;
+            this.groupBox1.Text = "รหัสบริษัท";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(54, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 20);
+            this.label1.Size = new System.Drawing.Size(68, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "รหัสลูกค้าทางธุรกิจ";
+            this.label1.Text = "รหัสบริษัท";
             // 
-            // txtCustomerCode
+            // txtCompanyCode
             // 
-            this.txtCustomerCode.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtCustomerCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCustomerCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCustomerCode.Location = new System.Drawing.Point(41, 60);
-            this.txtCustomerCode.Name = "txtCustomerCode";
-            this.txtCustomerCode.Size = new System.Drawing.Size(360, 35);
-            this.txtCustomerCode.TabIndex = 1;
+            this.txtCompanyCode.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtCompanyCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCompanyCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
+            this.txtCompanyCode.Location = new System.Drawing.Point(41, 60);
+            this.txtCompanyCode.Name = "txtCompanyCode";
+            this.txtCompanyCode.Size = new System.Drawing.Size(360, 35);
+            this.txtCompanyCode.TabIndex = 1;
             // 
             // tabControl1
             // 
@@ -421,7 +414,7 @@ namespace CreateInvoice {
             this.tabControl1.Location = new System.Drawing.Point(63, 171);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1163, 673);
+            this.tabControl1.Size = new System.Drawing.Size(1171, 601);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -433,7 +426,7 @@ namespace CreateInvoice {
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabPage1.Size = new System.Drawing.Size(1155, 638);
+            this.tabPage1.Size = new System.Drawing.Size(1163, 566);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "ข้อมูลทั่วไป";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -456,9 +449,9 @@ namespace CreateInvoice {
             this.groupBox5.Controls.Add(this.label33);
             this.groupBox5.Controls.Add(this.cboLang);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(15, 374);
+            this.groupBox5.Location = new System.Drawing.Point(15, 313);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1133, 242);
+            this.groupBox5.Size = new System.Drawing.Size(1135, 242);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "การติดต่อ";
@@ -592,6 +585,9 @@ namespace CreateInvoice {
             this.cboLang.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.cboLang.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboLang.FormattingEnabled = true;
+            this.cboLang.Items.AddRange(new object[] {
+            "ไทย",
+            "อังกฤษ"});
             this.cboLang.Location = new System.Drawing.Point(22, 56);
             this.cboLang.Name = "cboLang";
             this.cboLang.Size = new System.Drawing.Size(191, 37);
@@ -604,9 +600,9 @@ namespace CreateInvoice {
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.txtFindName1);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(15, 254);
+            this.groupBox3.Location = new System.Drawing.Point(15, 193);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1133, 114);
+            this.groupBox3.Size = new System.Drawing.Size(1135, 114);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "คำที่ใช้ในการค้นหา";
@@ -652,26 +648,15 @@ namespace CreateInvoice {
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.txtIdentityCard);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.txtShortNameE);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.txtShortNameT);
-            this.groupBox2.Controls.Add(this.rdoFamale);
-            this.groupBox2.Controls.Add(this.rdoMale);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.txtLNameE);
+            this.groupBox2.Controls.Add(this.txtTaxId);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.txtFNameE);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.txtLNameT);
+            this.groupBox2.Controls.Add(this.txtCompanyNameE);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.txtFNameT);
+            this.groupBox2.Controls.Add(this.txtCompanyNameT);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(15, 17);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1133, 231);
+            this.groupBox2.Size = new System.Drawing.Size(1135, 170);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ข้อมูลส่วนตัว";
@@ -679,187 +664,59 @@ namespace CreateInvoice {
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(34, 33);
+            this.label11.Location = new System.Drawing.Point(400, 27);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(124, 20);
+            this.label11.Size = new System.Drawing.Size(89, 20);
             this.label11.TabIndex = 19;
-            this.label11.Text = "เลขที่บัตรประชาชน";
+            this.label11.Text = "เลขที่เสียภาษี";
             // 
-            // txtIdentityCard
+            // txtTaxId
             // 
-            this.txtIdentityCard.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtIdentityCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtIdentityCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtIdentityCard.Location = new System.Drawing.Point(22, 55);
-            this.txtIdentityCard.Name = "txtIdentityCard";
-            this.txtIdentityCard.Size = new System.Drawing.Size(360, 35);
-            this.txtIdentityCard.TabIndex = 20;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(768, 153);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(105, 20);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "ชื่อเล่น (อังกฤษ)";
-            // 
-            // txtShortNameE
-            // 
-            this.txtShortNameE.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtShortNameE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortNameE.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtShortNameE.Location = new System.Drawing.Point(754, 175);
-            this.txtShortNameE.Name = "txtShortNameE";
-            this.txtShortNameE.Size = new System.Drawing.Size(360, 35);
-            this.txtShortNameE.TabIndex = 18;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(768, 93);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(88, 20);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "ชื่อเล่น (ไทย)";
-            // 
-            // txtShortNameT
-            // 
-            this.txtShortNameT.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtShortNameT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtShortNameT.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtShortNameT.Location = new System.Drawing.Point(754, 115);
-            this.txtShortNameT.Name = "txtShortNameT";
-            this.txtShortNameT.Size = new System.Drawing.Size(360, 35);
-            this.txtShortNameT.TabIndex = 16;
-            // 
-            // rdoFamale
-            // 
-            this.rdoFamale.AutoSize = true;
-            this.rdoFamale.Location = new System.Drawing.Point(495, 61);
-            this.rdoFamale.Name = "rdoFamale";
-            this.rdoFamale.Size = new System.Drawing.Size(55, 24);
-            this.rdoFamale.TabIndex = 14;
-            this.rdoFamale.TabStop = true;
-            this.rdoFamale.Text = "หญิง";
-            this.rdoFamale.UseVisualStyleBackColor = true;
-            // 
-            // rdoMale
-            // 
-            this.rdoMale.AutoSize = true;
-            this.rdoMale.Location = new System.Drawing.Point(438, 61);
-            this.rdoMale.Name = "rdoMale";
-            this.rdoMale.Size = new System.Drawing.Size(51, 24);
-            this.rdoMale.TabIndex = 13;
-            this.rdoMale.TabStop = true;
-            this.rdoMale.Text = "ชาย";
-            this.rdoMale.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Location = new System.Drawing.Point(439, 31);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 20);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "เพศ";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(419, 38);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(99, 20);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "กลุ่มบัญชีลูกค้า";
-            // 
-            // cboCustomerGroup
-            // 
-            this.cboCustomerGroup.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.cboCustomerGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboCustomerGroup.FormattingEnabled = true;
-            this.cboCustomerGroup.Location = new System.Drawing.Point(407, 60);
-            this.cboCustomerGroup.Name = "cboCustomerGroup";
-            this.cboCustomerGroup.Size = new System.Drawing.Size(360, 37);
-            this.cboCustomerGroup.TabIndex = 10;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(396, 153);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(116, 20);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "นามสกุล (อังกฤษ)";
-            // 
-            // txtLNameE
-            // 
-            this.txtLNameE.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtLNameE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLNameE.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLNameE.Location = new System.Drawing.Point(388, 175);
-            this.txtLNameE.Name = "txtLNameE";
-            this.txtLNameE.Size = new System.Drawing.Size(360, 35);
-            this.txtLNameE.TabIndex = 9;
+            this.txtTaxId.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtTaxId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTaxId.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTaxId.Location = new System.Drawing.Point(388, 49);
+            this.txtTaxId.Name = "txtTaxId";
+            this.txtTaxId.Size = new System.Drawing.Size(360, 35);
+            this.txtTaxId.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(35, 153);
+            this.label5.Location = new System.Drawing.Point(35, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 20);
             this.label5.TabIndex = 6;
             this.label5.Text = "ชื่อ (อังกฤษ)";
             // 
-            // txtFNameE
+            // txtCompanyNameE
             // 
-            this.txtFNameE.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtFNameE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtFNameE.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFNameE.Location = new System.Drawing.Point(22, 175);
-            this.txtFNameE.Name = "txtFNameE";
-            this.txtFNameE.Size = new System.Drawing.Size(360, 35);
-            this.txtFNameE.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(396, 93);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 20);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "นามสกุล (ไทย)";
-            // 
-            // txtLNameT
-            // 
-            this.txtLNameT.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtLNameT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLNameT.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLNameT.Location = new System.Drawing.Point(388, 115);
-            this.txtLNameT.Name = "txtLNameT";
-            this.txtLNameT.Size = new System.Drawing.Size(360, 35);
-            this.txtLNameT.TabIndex = 5;
+            this.txtCompanyNameE.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtCompanyNameE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCompanyNameE.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCompanyNameE.Location = new System.Drawing.Point(22, 109);
+            this.txtCompanyNameE.Name = "txtCompanyNameE";
+            this.txtCompanyNameE.Size = new System.Drawing.Size(360, 35);
+            this.txtCompanyNameE.TabIndex = 7;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(35, 93);
+            this.label3.Location = new System.Drawing.Point(35, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "ชื่อ (ไทย)";
             // 
-            // txtFNameT
+            // txtCompanyNameT
             // 
-            this.txtFNameT.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.txtFNameT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtFNameT.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFNameT.Location = new System.Drawing.Point(22, 115);
-            this.txtFNameT.Name = "txtFNameT";
-            this.txtFNameT.Size = new System.Drawing.Size(360, 35);
-            this.txtFNameT.TabIndex = 3;
+            this.txtCompanyNameT.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.txtCompanyNameT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCompanyNameT.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCompanyNameT.Location = new System.Drawing.Point(22, 49);
+            this.txtCompanyNameT.Name = "txtCompanyNameT";
+            this.txtCompanyNameT.Size = new System.Drawing.Size(360, 35);
+            this.txtCompanyNameT.TabIndex = 3;
             // 
             // tabPage2
             // 
@@ -867,7 +724,7 @@ namespace CreateInvoice {
             this.tabPage2.Location = new System.Drawing.Point(4, 31);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1155, 638);
+            this.tabPage2.Size = new System.Drawing.Size(1163, 566);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ที่อยู่";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -905,7 +762,7 @@ namespace CreateInvoice {
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox6.Location = new System.Drawing.Point(15, 23);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(1124, 428);
+            this.groupBox6.Size = new System.Drawing.Size(1130, 432);
             this.groupBox6.TabIndex = 3;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "ที่อยู่";
@@ -970,7 +827,7 @@ namespace CreateInvoice {
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(405, 218);
+            this.label37.Location = new System.Drawing.Point(412, 218);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(85, 20);
             this.label37.TabIndex = 27;
@@ -981,7 +838,7 @@ namespace CreateInvoice {
             this.txtPostCode.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.txtPostCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPostCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPostCode.Location = new System.Drawing.Point(388, 240);
+            this.txtPostCode.Location = new System.Drawing.Point(388, 241);
             this.txtPostCode.Name = "txtPostCode";
             this.txtPostCode.Size = new System.Drawing.Size(360, 35);
             this.txtPostCode.TabIndex = 26;
@@ -1005,13 +862,14 @@ namespace CreateInvoice {
             this.cboProvince.Location = new System.Drawing.Point(22, 178);
             this.cboProvince.Name = "cboProvince";
             this.cboProvince.Size = new System.Drawing.Size(360, 37);
+            this.cboProvince.Sorted = true;
             this.cboProvince.TabIndex = 24;
             // 
             // label39
             // 
             this.label39.AutoSize = true;
             this.label39.BackColor = System.Drawing.Color.Transparent;
-            this.label39.Location = new System.Drawing.Point(405, 156);
+            this.label39.Location = new System.Drawing.Point(412, 156);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(83, 20);
             this.label39.TabIndex = 23;
@@ -1032,7 +890,7 @@ namespace CreateInvoice {
             // 
             this.label40.AutoSize = true;
             this.label40.BackColor = System.Drawing.Color.Transparent;
-            this.label40.Location = new System.Drawing.Point(35, 216);
+            this.label40.Location = new System.Drawing.Point(35, 218);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(92, 20);
             this.label40.TabIndex = 21;
@@ -1044,7 +902,7 @@ namespace CreateInvoice {
             this.cboSubDistrict.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSubDistrict.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboSubDistrict.FormattingEnabled = true;
-            this.cboSubDistrict.Location = new System.Drawing.Point(22, 238);
+            this.cboSubDistrict.Location = new System.Drawing.Point(22, 240);
             this.cboSubDistrict.Name = "cboSubDistrict";
             this.cboSubDistrict.Size = new System.Drawing.Size(360, 37);
             this.cboSubDistrict.TabIndex = 20;
@@ -1184,21 +1042,22 @@ namespace CreateInvoice {
             // 
             // btnAdd
             // 
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(67, 850);
+            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnAdd.Location = new System.Drawing.Point(67, 778);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(120, 35);
             this.btnAdd.TabIndex = 21;
-            this.btnAdd.Text = "เพิ่ม";
+            this.btnAdd.Text = "บันทึก";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // CustomersControl
+            // CompanyControl
             // 
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
-            this.Name = "CustomersControl";
-            this.Size = new System.Drawing.Size(1722, 1221);
+            this.Name = "CompanyControl";
+            this.Size = new System.Drawing.Size(1381, 862);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -1216,104 +1075,35 @@ namespace CreateInvoice {
 
         }
 
-        private void tabPage1_Click(object sender, System.EventArgs e) {
-
+        private void tabPage1_Click(object sender, EventArgs e) {
         }
 
-        private void CboProvince_SelectedIndexChanged(object sender, EventArgs e) {
-            try {
-                // ล้างข้อมูลอำเภอและตำบล
-                cboDistrict.SelectedIndexChanged -= CboDistrict_SelectedIndexChanged; // ปิด event ชั่วคราว
-
-                cboDistrict.Items.Clear();
-                cboSubDistrict.Items.Clear();
-                var prov = cboProvince.Text?.Trim();
-                if (string.IsNullOrEmpty(prov)) {
-                    cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // เปิด event
-                    return;
-                }
-
-                // โหลดอำเภอตามจังหวัดที่เลือก
-                if (ThaiAddressData.Data.TryGetValue(prov, out var districts)) {
-                    foreach (var d in districts.Keys.OrderBy(x => x)) {
-                        cboDistrict.Items.Add(d);
-                    }
-                    System.Diagnostics.Debug.WriteLine($"โหลดอำเภอใน {prov}: {districts.Count} อำเภอ");
-                }
-
-                cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // เปิด event
-            } catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"CboProvince_SelectedIndexChanged Error: {ex.Message}");
-                cboDistrict.SelectedIndexChanged += CboDistrict_SelectedIndexChanged; // ให้แน่ใจว่า event ถูกเปิดกลับ
-            }
-        }
-
-        private void CboDistrict_SelectedIndexChanged(object sender, EventArgs e) {
-            try {
-                // ล้างข้อมูลตำบล
-                cboSubDistrict.Items.Clear();
-                cboSubDistrict.Text = "";
-
-                var prov = cboProvince.Text?.Trim();
-                var dist = cboDistrict.Text?.Trim();
-
-                if (string.IsNullOrEmpty(prov) || string.IsNullOrEmpty(dist))
-                    return;
-
-                // โหลดตำบลตามจังหวัดและอำเภอที่เลือก
-                if (ThaiAddressData.Data.TryGetValue(prov, out var districts) &&
-                    districts.TryGetValue(dist, out var subs)) {
-                    cboSubDistrict.Items.Add(""); // เพิ่มตัวเลือกว่าง
-                    foreach (var s in subs.OrderBy(x => x.Name)) {
-                        cboSubDistrict.Items.Add(s); // เพิ่ม SubDistrictInfo object
-                    }
-                    System.Diagnostics.Debug.WriteLine($"โหลดตำบลใน {prov}/{dist}: {subs.Count} ตำบล");
-                }
-            } catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"CboDistrict_SelectedIndexChanged Error: {ex.Message}");
-            }
-        }
-        private void CboSubDistrict_SelectedIndexChanged(object sender, EventArgs e) {
-            try {
-                var selectedItem = cboSubDistrict.SelectedItem;
-
-                if (selectedItem is ThaiAddressData.SubDistrictInfo subInfo) {
-                    // ใส่รหัสไปรษณีย์อัตโนมัติ
-                    txtPostCode.Text = subInfo.ZipCode;
-                    System.Diagnostics.Debug.WriteLine($"ตั้งรหัสไปรษณีย์: {subInfo.Name} -> {subInfo.ZipCode}");
-                } else if (string.IsNullOrEmpty(cboSubDistrict.Text)) {
-                    // ถ้าเลือกรายการว่าง ให้ล้างรหัสไปรษณีย์
-                    txtPostCode.Clear();
-                }
-            } catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"CboSubDistrict_SelectedIndexChanged Error: {ex.Message}");
-            }
-        }
         private void btnAdd_Click(object sender, EventArgs e) {
             try {
-                // ตรวจสอบข้อมูลที่จำเป็น
-                if (string.IsNullOrWhiteSpace(txtCustomerCode.Text)) {
-                    MessageBox.Show("กรุณากรอกรหัสลูกค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (string.IsNullOrWhiteSpace(txtCompanyCode.Text)) {
+                    MessageBox.Show("กรุณากรอกรหัสบริษัท", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(txtCompanyNameT.Text)) {
+                    MessageBox.Show("กรุณากรอกชื่อบริษัท (ไทย)", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(txtFNameT.Text)) {
-                    MessageBox.Show("กรุณากรอกชื่อ (ไทย)", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                if (!isEdit) {
+                    currentCompanyId = Guid.NewGuid().ToString();
+                    currentAddressId = Guid.NewGuid().ToString();
                 }
 
-                // ใช้ ID เดิมถ้าเป็นโหมดแก้ไข
-                string addressID = _isEdit && !string.IsNullOrEmpty(_editingAddressID)
-                    ? _editingAddressID
-                    : Guid.NewGuid().ToString();
+                // ดึงชื่อตำบลจาก SubDistrictInfo
+                string subDistrictName = "";
+                if (cboSubDistrict.SelectedItem is ThaiAddressData.SubDistrictInfo subInfo) {
+                    subDistrictName = subInfo.Name;
+                } else {
+                    subDistrictName = cboSubDistrict.Text?.Trim();
+                }
 
-                string customerID = _isEdit && !string.IsNullOrEmpty(_editingCustomerID)
-                    ? _editingCustomerID
-                    : Guid.NewGuid().ToString();
-
-                // สร้าง object address
-                address newAddress = new address {
-                    AddressID = addressID,
+                var newAddress = new address {
+                    AddressID = currentAddressId,
                     AddressDetail = txtAddressDetail.Text?.Trim(),
                     RoomNo = txtRoomNo.Text?.Trim(),
                     Flood = txtFlood.Text?.Trim(),
@@ -1321,7 +1111,7 @@ namespace CreateInvoice {
                     Moo = txtMoo.Text?.Trim(),
                     Soi = txtSoi.Text?.Trim(),
                     Road = txtRoad.Text?.Trim(),
-                    SubDistrict = cboSubDistrict.Text?.Trim(),
+                    SubDistrict = subDistrictName,
                     District = cboDistrict.Text?.Trim(),
                     Province = cboProvince.Text?.Trim(),
                     PostCode = txtPostCode.Text?.Trim(),
@@ -1340,230 +1130,217 @@ namespace CreateInvoice {
                     UpdateBy = "System"
                 };
 
-                // สร้าง object customers
-                customers newCustomer = new customers {
-                    CustomerID = customerID,
-                    CustomerCode = txtCustomerCode.Text?.Trim(),
-                    FNameT = txtFNameT.Text?.Trim(),
-                    LNameT = txtLNameT.Text?.Trim(),
-                    FNameE = txtFNameE.Text?.Trim(),
-                    LNameE = txtLNameE.Text?.Trim(),
-                    ShortNameT = txtShortNameT.Text?.Trim(),
-                    ShortNameE = txtShortNameE.Text?.Trim(),
-                    Sex = rdoMale.Checked ? "ชาย" : (rdoFamale.Checked ? "หญิง" : ""),
-                    FindName1 = txtFindName1.Text?.Trim(),
-                    FindName2 = txtFindName2.Text?.Trim(),
-                    IdentityCard = txtIdentityCard.Text?.Trim(),
-                    Email = txtEmail.Text?.Trim(),
-                    AddressID = addressID,
-                    CustomerGroupID = cboCustomerGroup.SelectedValue != null
-                        ? cboCustomerGroup.SelectedValue.ToString()
-                        : null,
+                var newCompany = new companys {
+                    CompanyID = currentCompanyId,
+                    CompanyCode = txtCompanyCode.Text?.Trim(),
+                    CompanyName = txtCompanyNameT.Text?.Trim(),
+                    AddressID = currentAddressId,
                     CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     CreateBy = "System",
                     UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     UpdateBy = "System"
                 };
 
-                // ชื่อเต็ม
-                newCustomer.CustomerName = $"{newCustomer.FNameT} {newCustomer.LNameT}".Trim();
+                address.AddressMgr_Wait(ref newAddress, isEdit ? "EDIT" : "ADD");
+                companys.CompanysMgr_Wait(ref newCompany, isEdit ? "EDIT" : "ADD");
 
-                // เรียกจัดการ DB
-                string mode = _isEdit ? "EDIT" : "ADD";
-                address.AddressMgr_Wait(ref newAddress, mode);
-                customers.CustomersMgr_Wait(ref newCustomer, mode);
+                // อัปเดต DataTable cache ของ formMain
+                if (formMain != null) {
+                    try {
+                        // ADD: เพิ่มแถวใหม่
+                        if (!isEdit) {
+                            // เพิ่ม address
+                            if (formMain.AddressTable != null) {
+                                var addrTable = formMain.AddressTable;
+                                var arow = addrTable.NewRow();
+                                if (addrTable.Columns.Contains("AddressID"))
+                                    arow["AddressID"] = newAddress.AddressID ?? "";
+                                if (addrTable.Columns.Contains("AddressDetail"))
+                                    arow["AddressDetail"] = newAddress.AddressDetail ?? "";
+                                if (addrTable.Columns.Contains("RoomNo"))
+                                    arow["RoomNo"] = newAddress.RoomNo ?? "";
+                                if (addrTable.Columns.Contains("Flood"))
+                                    arow["Flood"] = newAddress.Flood ?? "";
+                                if (addrTable.Columns.Contains("HouseNo"))
+                                    arow["HouseNo"] = newAddress.HouseNo ?? "";
+                                if (addrTable.Columns.Contains("Moo"))
+                                    arow["Moo"] = newAddress.Moo ?? "";
+                                if (addrTable.Columns.Contains("Soi"))
+                                    arow["Soi"] = newAddress.Soi ?? "";
+                                if (addrTable.Columns.Contains("Road"))
+                                    arow["Road"] = newAddress.Road ?? "";
+                                if (addrTable.Columns.Contains("SubDistrict"))
+                                    arow["SubDistrict"] = newAddress.SubDistrict ?? "";
+                                if (addrTable.Columns.Contains("District"))
+                                    arow["District"] = newAddress.District ?? "";
+                                if (addrTable.Columns.Contains("Province"))
+                                    arow["Province"] = newAddress.Province ?? "";
+                                if (addrTable.Columns.Contains("PostCode"))
+                                    arow["PostCode"] = newAddress.PostCode ?? "";
+                                if (addrTable.Columns.Contains("GPS"))
+                                    arow["GPS"] = newAddress.GPS ?? "";
+                                if (addrTable.Columns.Contains("LineID"))
+                                    arow["LineID"] = newAddress.LineID ?? "";
+                                if (addrTable.Columns.Contains("LineContract"))
+                                    arow["LineContract"] = newAddress.LineContract ?? "";
+                                if (addrTable.Columns.Contains("Lang"))
+                                    arow["Lang"] = newAddress.Lang ?? "";
+                                if (addrTable.Columns.Contains("Phone"))
+                                    arow["Phone"] = newAddress.Phone ?? "";
+                                if (addrTable.Columns.Contains("Mobile"))
+                                    arow["Mobile"] = newAddress.Mobile ?? "";
+                                if (addrTable.Columns.Contains("PhoneTo"))
+                                    arow["PhoneTo"] = newAddress.PhoneTo ?? "";
+                                if (addrTable.Columns.Contains("Fax"))
+                                    arow["Fax"] = newAddress.Fax ?? "";
+                                if (addrTable.Columns.Contains("RefCode"))
+                                    arow["RefCode"] = newAddress.RefCode ?? "";
+                                if (addrTable.Columns.Contains("CreateTime"))
+                                    arow["CreateTime"] = newAddress.CreateTime ?? "";
+                                if (addrTable.Columns.Contains("CreateBy"))
+                                    arow["CreateBy"] = newAddress.CreateBy ?? "";
+                                if (addrTable.Columns.Contains("UpdateTime"))
+                                    arow["UpdateTime"] = newAddress.UpdateTime ?? "";
+                                if (addrTable.Columns.Contains("UpdateBy"))
+                                    arow["UpdateBy"] = newAddress.UpdateBy ?? "";
+                                addrTable.Rows.Add(arow);
+                            }
 
-                // Sync DataTable ใน FormMain
-                try {
-                    if (_formMain != null) {
-                        // AddressTable
-                        var addrTable = _formMain.AddressTable;
-                        if (addrTable != null) {
-                            if (_isEdit) {
-                                var rows = addrTable.Select($"AddressID = '{newAddress.AddressID.Replace("'", "''")}'");
-                                DataRow row = rows != null && rows.Length > 0 ? rows[0] : addrTable.NewRow();
+                            // เพิ่ม company
+                            if (formMain.CompanysTable != null) {
+                                var compTable = formMain.CompanysTable;
+                                var crow = compTable.NewRow();
+                                if (compTable.Columns.Contains("CompanyID"))
+                                    crow["CompanyID"] = newCompany.CompanyID ?? "";
+                                if (compTable.Columns.Contains("CompanyCode"))
+                                    crow["CompanyCode"] = newCompany.CompanyCode ?? "";
+                                if (compTable.Columns.Contains("CompanyName"))
+                                    crow["CompanyName"] = newCompany.CompanyName ?? "";
+                                if (compTable.Columns.Contains("AddressID"))
+                                    crow["AddressID"] = newCompany.AddressID ?? "";
+                                if (compTable.Columns.Contains("CreateTime"))
+                                    crow["CreateTime"] = newCompany.CreateTime ?? "";
+                                if (compTable.Columns.Contains("CreateBy"))
+                                    crow["CreateBy"] = newCompany.CreateBy ?? "";
+                                if (compTable.Columns.Contains("UpdateTime"))
+                                    crow["UpdateTime"] = newCompany.UpdateTime ?? "";
+                                if (compTable.Columns.Contains("UpdateBy"))
+                                    crow["UpdateBy"] = newCompany.UpdateBy ?? "";
+                                compTable.Rows.Add(crow);
+                            }
+                        } else {
+                            // EDIT: อัปเดตรายการที่มีอยู่
+                            // อัปเดต address
+                            if (formMain.AddressTable != null && !string.IsNullOrEmpty(currentAddressId)) {
+                                try {
+                                    DataRow[] arows = formMain.AddressTable.Select("AddressID = '" + currentAddressId.Replace("'", "''") + "'");
+                                    if (arows.Length > 0) {
+                                        var arow = arows[0];
+                                        if (arow.Table.Columns.Contains("AddressDetail"))
+                                            arow["AddressDetail"] = newAddress.AddressDetail ?? "";
+                                        if (arow.Table.Columns.Contains("RoomNo"))
+                                            arow["RoomNo"] = newAddress.RoomNo ?? "";
+                                        if (arow.Table.Columns.Contains("Flood"))
+                                            arow["Flood"] = newAddress.Flood ?? "";
+                                        if (arow.Table.Columns.Contains("HouseNo"))
+                                            arow["HouseNo"] = newAddress.HouseNo ?? "";
+                                        if (arow.Table.Columns.Contains("Moo"))
+                                            arow["Moo"] = newAddress.Moo ?? "";
+                                        if (arow.Table.Columns.Contains("Soi"))
+                                            arow["Soi"] = newAddress.Soi ?? "";
+                                        if (arow.Table.Columns.Contains("Road"))
+                                            arow["Road"] = newAddress.Road ?? "";
+                                        if (arow.Table.Columns.Contains("SubDistrict"))
+                                            arow["SubDistrict"] = newAddress.SubDistrict ?? "";
+                                        if (arow.Table.Columns.Contains("District"))
+                                            arow["District"] = newAddress.District ?? "";
+                                        if (arow.Table.Columns.Contains("Province"))
+                                            arow["Province"] = newAddress.Province ?? "";
+                                        if (arow.Table.Columns.Contains("PostCode"))
+                                            arow["PostCode"] = newAddress.PostCode ?? "";
+                                        if (arow.Table.Columns.Contains("GPS"))
+                                            arow["GPS"] = newAddress.GPS ?? "";
+                                        if (arow.Table.Columns.Contains("LineID"))
+                                            arow["LineID"] = newAddress.LineID ?? "";
+                                        if (arow.Table.Columns.Contains("LineContract"))
+                                            arow["LineContract"] = newAddress.LineContract ?? "";
+                                        if (arow.Table.Columns.Contains("Lang"))
+                                            arow["Lang"] = newAddress.Lang ?? "";
+                                        if (arow.Table.Columns.Contains("Phone"))
+                                            arow["Phone"] = newAddress.Phone ?? "";
+                                        if (arow.Table.Columns.Contains("Mobile"))
+                                            arow["Mobile"] = newAddress.Mobile ?? "";
+                                        if (arow.Table.Columns.Contains("PhoneTo"))
+                                            arow["PhoneTo"] = newAddress.PhoneTo ?? "";
+                                        if (arow.Table.Columns.Contains("Fax"))
+                                            arow["Fax"] = newAddress.Fax ?? "";
+                                        if (arow.Table.Columns.Contains("RefCode"))
+                                            arow["RefCode"] = newAddress.RefCode ?? "";
+                                        if (arow.Table.Columns.Contains("UpdateTime"))
+                                            arow["UpdateTime"] = newAddress.UpdateTime ?? "";
+                                        if (arow.Table.Columns.Contains("UpdateBy"))
+                                            arow["UpdateBy"] = newAddress.UpdateBy ?? "";
+                                    }
+                                } catch (Exception ex) {
+                                    System.Diagnostics.Debug.WriteLine($"Error updating AddressTable: {ex.Message}");
+                                }
+                            }
 
-                                Action<string, object> SetAddr = (col, val) => {
-                                    if (!addrTable.Columns.Contains(col))
-                                        return;
-                                    row[col] = val ?? DBNull.Value;
-                                };
-
-                                SetAddr("AddressID", newAddress.AddressID);
-                                SetAddr("AddressDetail", newAddress.AddressDetail);
-                                SetAddr("RoomNo", newAddress.RoomNo);
-                                SetAddr("Flood", newAddress.Flood);
-                                SetAddr("HouseNo", newAddress.HouseNo);
-                                SetAddr("Moo", newAddress.Moo);
-                                SetAddr("Soi", newAddress.Soi);
-                                SetAddr("Road", newAddress.Road);
-                                SetAddr("SubDistrict", newAddress.SubDistrict);
-                                SetAddr("District", newAddress.District);
-                                SetAddr("Province", newAddress.Province);
-                                SetAddr("PostCode", newAddress.PostCode);
-                                SetAddr("GPS", newAddress.GPS);
-                                SetAddr("LineID", newAddress.LineID);
-                                SetAddr("LineContract", newAddress.LineContract);
-                                SetAddr("Lang", newAddress.Lang);
-                                SetAddr("Phone", newAddress.Phone);
-                                SetAddr("Mobile", newAddress.Mobile);
-                                SetAddr("PhoneTo", newAddress.PhoneTo);
-                                SetAddr("Fax", newAddress.Fax);
-                                SetAddr("RefCode", newAddress.RefCode);
-                                SetAddr("CreateTime", newAddress.CreateTime);
-                                SetAddr("CreateBy", newAddress.CreateBy);
-                                SetAddr("UpdateTime", newAddress.UpdateTime);
-                                SetAddr("UpdateBy", newAddress.UpdateBy);
-
-                                if (rows == null || rows.Length == 0)
-                                    addrTable.Rows.Add(row);
-                            } else {
-                                var row = addrTable.NewRow();
-                                Action<string, object> SetAddr = (col, val) => {
-                                    if (!addrTable.Columns.Contains(col))
-                                        return;
-                                    row[col] = val ?? DBNull.Value;
-                                };
-
-                                SetAddr("AddressID", newAddress.AddressID);
-                                SetAddr("AddressDetail", newAddress.AddressDetail);
-                                SetAddr("RoomNo", newAddress.RoomNo);
-                                SetAddr("Flood", newAddress.Flood);
-                                SetAddr("HouseNo", newAddress.HouseNo);
-                                SetAddr("Moo", newAddress.Moo);
-                                SetAddr("Soi", newAddress.Soi);
-                                SetAddr("Road", newAddress.Road);
-                                SetAddr("SubDistrict", newAddress.SubDistrict);
-                                SetAddr("District", newAddress.District);
-                                SetAddr("Province", newAddress.Province);
-                                SetAddr("PostCode", newAddress.PostCode);
-                                SetAddr("GPS", newAddress.GPS);
-                                SetAddr("LineID", newAddress.LineID);
-                                SetAddr("LineContract", newAddress.LineContract);
-                                SetAddr("Lang", newAddress.Lang);
-                                SetAddr("Phone", newAddress.Phone);
-                                SetAddr("Mobile", newAddress.Mobile);
-                                SetAddr("PhoneTo", newAddress.PhoneTo);
-                                SetAddr("Fax", newAddress.Fax);
-                                SetAddr("RefCode", newAddress.RefCode);
-                                SetAddr("CreateTime", newAddress.CreateTime);
-                                SetAddr("CreateBy", newAddress.CreateBy);
-                                SetAddr("UpdateTime", newAddress.UpdateTime);
-                                SetAddr("UpdateBy", newAddress.UpdateBy);
-
-                                addrTable.Rows.Add(row);
+                            // อัปเดต company
+                            if (formMain.CompanysTable != null && !string.IsNullOrEmpty(currentCompanyId)) {
+                                try {
+                                    DataRow[] crows = formMain.CompanysTable.Select("CompanyID = '" + currentCompanyId.Replace("'", "''") + "'");
+                                    if (crows.Length > 0) {
+                                        var crow = crows[0];
+                                        if (crow.Table.Columns.Contains("CompanyCode"))
+                                            crow["CompanyCode"] = newCompany.CompanyCode ?? "";
+                                        if (crow.Table.Columns.Contains("CompanyName"))
+                                            crow["CompanyName"] = newCompany.CompanyName ?? "";
+                                        if (crow.Table.Columns.Contains("AddressID"))
+                                            crow["AddressID"] = newCompany.AddressID ?? "";
+                                        if (crow.Table.Columns.Contains("UpdateTime"))
+                                            crow["UpdateTime"] = newCompany.UpdateTime ?? "";
+                                        if (crow.Table.Columns.Contains("UpdateBy"))
+                                            crow["UpdateBy"] = newCompany.UpdateBy ?? "";
+                                    }
+                                } catch (Exception ex) {
+                                    System.Diagnostics.Debug.WriteLine($"Error updating CompanysTable: {ex.Message}");
+                                }
                             }
                         }
-
-                        // CustomersTable
-                        var custTable = _formMain.CustomersTable;
-                        if (custTable != null) {
-                            if (_isEdit) {
-                                var rows = custTable.Select($"CustomerID = '{newCustomer.CustomerID.Replace("'", "''")}'");
-                                DataRow row = rows != null && rows.Length > 0 ? rows[0] : custTable.NewRow();
-
-                                Action<string, object> SetCust = (col, val) => {
-                                    if (!custTable.Columns.Contains(col))
-                                        return;
-                                    row[col] = val ?? DBNull.Value;
-                                };
-
-                                SetCust("CustomerID", newCustomer.CustomerID);
-                                SetCust("CustomerCode", newCustomer.CustomerCode);
-                                SetCust("FNameT", newCustomer.FNameT);
-                                SetCust("LNameT", newCustomer.LNameT);
-                                SetCust("FNameE", newCustomer.FNameE);
-                                SetCust("LNameE", newCustomer.LNameE);
-                                SetCust("ShortNameT", newCustomer.ShortNameT);
-                                SetCust("ShortNameE", newCustomer.ShortNameE);
-                                SetCust("Sex", newCustomer.Sex);
-                                SetCust("FindName1", newCustomer.FindName1);
-                                SetCust("FindName2", newCustomer.FindName2);
-                                SetCust("IdentityCard", newCustomer.IdentityCard);
-                                SetCust("Email", newCustomer.Email);
-                                SetCust("AddressID", newCustomer.AddressID);
-                                SetCust("CustomerGroupID", newCustomer.CustomerGroupID);
-                                SetCust("CreateTime", newCustomer.CreateTime);
-                                SetCust("CreateBy", newCustomer.CreateBy);
-                                SetCust("UpdateTime", newCustomer.UpdateTime);
-                                SetCust("UpdateBy", newCustomer.UpdateBy);
-                                SetCust("CustomerName", newCustomer.CustomerName);
-
-                                if (rows == null || rows.Length == 0)
-                                    custTable.Rows.Add(row);
-                            } else {
-                                var row = custTable.NewRow();
-
-                                Action<string, object> SetCust = (col, val) => {
-                                    if (!custTable.Columns.Contains(col))
-                                        return;
-                                    row[col] = val ?? DBNull.Value;
-                                };
-
-                                SetCust("CustomerID", newCustomer.CustomerID);
-                                SetCust("CustomerCode", newCustomer.CustomerCode);
-                                SetCust("FNameT", newCustomer.FNameT);
-                                SetCust("LNameT", newCustomer.LNameT);
-                                SetCust("FNameE", newCustomer.FNameE);
-                                SetCust("LNameE", newCustomer.LNameE);
-                                SetCust("ShortNameT", newCustomer.ShortNameT);
-                                SetCust("ShortNameE", newCustomer.ShortNameE);
-                                SetCust("Sex", newCustomer.Sex);
-                                SetCust("FindName1", newCustomer.FindName1);
-                                SetCust("FindName2", newCustomer.FindName2);
-                                SetCust("IdentityCard", newCustomer.IdentityCard);
-                                SetCust("Email", newCustomer.Email);
-                                SetCust("AddressID", newCustomer.AddressID);
-                                SetCust("CustomerGroupID", newCustomer.CustomerGroupID);
-                                SetCust("CreateTime", newCustomer.CreateTime);
-                                SetCust("CreateBy", newCustomer.CreateBy);
-                                SetCust("UpdateTime", newCustomer.UpdateTime);
-                                SetCust("UpdateBy", newCustomer.UpdateBy);
-                                SetCust("CustomerName", newCustomer.CustomerName);
-
-                                custTable.Rows.Add(row);
-                            }
-                        }
+                    } catch (Exception ex) {
+                        System.Diagnostics.Debug.WriteLine($"Error updating DataTables: {ex.Message}");
                     }
-                } catch (Exception exDt) {
-                    System.Diagnostics.Debug.WriteLine("ไม่สามารถ sync DataTable ลูกค้าได้: " + exDt.Message);
                 }
 
-                MessageBox.Show("บันทึกข้อมูลลูกค้าเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("บันทึกข้อมูลบริษัทเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // หลังบันทึก ให้กลับไปโหมดเพิ่มรายการใหม่
-                PrepareForAdd();
+                ClearForm();
+                isEdit = false;
+                currentCompanyId = null;
+                currentAddressId = null;
+                companyList.LoadCompanyList();
+                formMain.ShowView(companyList);
 
             } catch (Exception ex) {
                 MessageBox.Show($"เกิดข้อผิดพลาด: {ex.Message}", "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void ClearForm() {
-            txtCustomerCode.Clear();
-            txtFNameT.Clear();
-            txtLNameT.Clear();
-            txtFNameE.Clear();
-            txtLNameE.Clear();
-            txtShortNameT.Clear();
-            txtShortNameE.Clear();
-            txtIdentityCard.Clear();
+            txtCompanyCode.Clear();
+            txtCompanyNameT.Clear();
+            txtCompanyNameE.Clear();
+            txtTaxId.Clear();
             txtFindName1.Clear();
             txtFindName2.Clear();
+
+            cboLang.SelectedIndex = -1;
             txtEmail.Clear();
             txtMobile.Clear();
             txtTel.Clear();
             txtFax.Clear();
             txtTelTo.Clear();
             txtRef.Clear();
-
-            rdoMale.Checked = false;
-            rdoFamale.Checked = false;
-
-            if (cboCustomerGroup.Items.Count > 0)
-                cboCustomerGroup.SelectedIndex = 0;
-            if (cboLang.Items.Count > 0)
-                cboLang.SelectedIndex = 0;
 
             txtAddressDetail.Clear();
             txtRoomNo.Clear();
@@ -1572,24 +1349,14 @@ namespace CreateInvoice {
             txtMoo.Clear();
             txtSoi.Clear();
             txtRoad.Clear();
+            cboSubDistrict.SelectedIndex = -1;
+            cboDistrict.SelectedIndex = -1;
+            cboProvince.SelectedIndex = -1;
             txtPostCode.Clear();
             txtGPS.Clear();
             txtLineID.Clear();
             txtLineContract.Clear();
-
-            if (cboProvince.Items.Count > 0)
-                cboProvince.SelectedIndex = 0;
-            if (cboDistrict.Items.Count > 0)
-                cboDistrict.SelectedIndex = 0;
-            if (cboSubDistrict.Items.Count > 0)
-                cboSubDistrict.SelectedIndex = 0;
-
-            _isEdit = false;
-            _editingCustomerID = null;
-            _editingAddressID = null;
-            btnAdd.Text = "เพิ่ม";
         }
-
 
     }
 }

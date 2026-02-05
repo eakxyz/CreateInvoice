@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BotCommon;
+using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using BotCommon;
-using System.Data;
 
 namespace CreateInvoice {
     public class ProductDetailControl : UserControl {
@@ -33,10 +33,15 @@ namespace CreateInvoice {
         private GroupBox groupBox1;
         private Label label10;
         private ComboBox cboCompany;
-        public ProductControl productControl = null;
+        public ProductListControl productControl = null;
 
-        public ProductDetailControl(FormMain pFormMain) {
+        // track edit state
+        private bool _isEdit = false;
+        private string _editingProductID;
+
+        public ProductDetailControl(FormMain pFormMain, ProductListControl pProductList) {
             this.formMain = pFormMain;
+            this.productControl = pProductList;
             Dock = DockStyle.Fill;
             BackColor = Color.White;
             var lbl = new Label {
@@ -49,14 +54,69 @@ namespace CreateInvoice {
             };
             Controls.Add(lbl);
             InitializeComponent();
-            
+
             // โหลดข้อมูลใน ComboBox
             LoadComboBoxData();
-            
+
             // ผูก event สำหรับคำนวณอัตโนมัติ
             txtPrice.TextChanged += CalculateTotal;
             txtGainPrice.TextChanged += CalculateGainPercentage;
             txtGainPercent.TextChanged += CalculateGainPrice;
+        }
+
+        /// <summary>
+        /// โหลดข้อมูลสินค้าเพื่อแก้ไข
+        /// </summary>
+        public void LoadForEdit(DataRow productRow) {
+            if (productRow == null)
+                throw new ArgumentNullException(nameof(productRow));
+
+            _isEdit = true;
+            _editingProductID = productRow.Table.Columns.Contains("ProductID")
+                ? productRow["ProductID"].ToString()
+                : null;
+
+            // เติมค่าให้ textbox/combobox
+            if (productRow.Table.Columns.Contains("ProductCode"))
+                txtProductCode.Text = productRow["ProductCode"].ToString();
+            if (productRow.Table.Columns.Contains("ProductName"))
+                txtProductName.Text = productRow["ProductName"].ToString();
+            if (productRow.Table.Columns.Contains("Price"))
+                txtPrice.Text = Convert.ToString(productRow["Price"]);
+            if (productRow.Table.Columns.Contains("Net"))
+                txtTotal.Text = Convert.ToString(productRow["Net"]);
+            if (productRow.Table.Columns.Contains("GainPrice"))
+                txtGainPrice.Text = Convert.ToString(productRow["GainPrice"]);
+            if (productRow.Table.Columns.Contains("GainPercentage"))
+                txtGainPercent.Text = Convert.ToString(productRow["GainPercentage"]);
+
+            // ประเภทสินค้า
+            if (productRow.Table.Columns.Contains("ProductTypeID") && cboProductGroup.DataSource != null) {
+                try {
+                    cboProductGroup.SelectedValue = productRow["ProductTypeID"].ToString();
+                } catch { }
+            }
+
+            // บริษัท
+            if (productRow.Table.Columns.Contains("CompanyID") && cboCompany.DataSource != null) {
+                try {
+                    cboCompany.SelectedValue = productRow["CompanyID"].ToString();
+                } catch { }
+            }
+
+            // RefID (สินค้าลูกของ)
+            if (productRow.Table.Columns.Contains("RefID") && cboRefProduct.DataSource != null) {
+                try {
+                    var refId = productRow["RefID"].ToString();
+                    if (!string.IsNullOrEmpty(refId))
+                        cboRefProduct.SelectedValue = refId;
+                    else
+                        cboRefProduct.SelectedIndex = -1;
+                } catch { }
+            }
+
+            // เปลี่ยนข้อความปุ่ม
+            btnAddProduct.Text = "บันทึก";
         }
 
         private void InitializeComponent() {
@@ -394,37 +454,57 @@ namespace CreateInvoice {
                 cboProductGroup.DisplayMember = "ProductTypeName";
                 cboProductGroup.ValueMember = "ProductTypeID";
                 cboProductGroup.DataSource = formMain.ProductTypesTable;
+                if (cboProductGroup.Items.Count > 0)
+                    cboProductGroup.SelectedIndex = 0;
             }
-            
+
             // โหลดข้อมูล Companies
             if (formMain != null && formMain.CompanysTable != null) {
                 cboCompany.DataSource = null;
                 cboCompany.DisplayMember = "CompanyName";
                 cboCompany.ValueMember = "CompanyID";
                 cboCompany.DataSource = formMain.CompanysTable;
+                if (cboCompany.Items.Count > 0)
+                    cboCompany.SelectedIndex = 0;
             }
-            
+
             // โหลดข้อมูล Products สำหรับ RefProduct (สินค้าลูก)
             if (formMain != null && formMain.ProductsTable != null) {
+                // ทำสำเนา DataTable มาก่อน
+                DataTable src = formMain.ProductsTable;
+                DataTable dtRef = src.Clone();  // clone โครงสร้าง
+
+                // เพิ่มแถวพิเศษ 'ไม่มีสินค้าลูก'
+                DataRow first = dtRef.NewRow();
+                if (dtRef.Columns.Contains("ProductID"))
+                    first["ProductID"] = "0";
+                if (dtRef.Columns.Contains("ProductName"))
+                    first["ProductName"] = "ไม่มีสินค้าลูก";
+                dtRef.Rows.Add(first);
+
+                // คัดลอกข้อมูลสินค้าเดิมต่อจากแถวแรก
+                foreach (DataRow r in src.Rows) {
+                    dtRef.ImportRow(r);
+                }
+
                 cboRefProduct.DataSource = null;
                 cboRefProduct.DisplayMember = "ProductName";
                 cboRefProduct.ValueMember = "ProductID";
-                cboRefProduct.DataSource = formMain.ProductsTable;
-                
-                // เพิ่ม item ว่างเป็นตัวเลือกแรก
-                if (cboRefProduct.Items.Count > 0) {
-                    cboRefProduct.SelectedIndex = -1;
-                }
+                cboRefProduct.DataSource = dtRef;
+
+                // ให้ default เป็น 'ไม่มีสินค้าลูก'
+                if (cboRefProduct.Items.Count > 0)
+                    cboRefProduct.SelectedIndex = 0;
             }
         }
 
         private void CalculateTotal(object sender, EventArgs e) {
             decimal price = 0;
             decimal gainPrice = 0;
-            
+
             decimal.TryParse(txtPrice.Text, out price);
             decimal.TryParse(txtGainPrice.Text, out gainPrice);
-            
+
             decimal total = price + gainPrice;
             txtTotal.Text = total.ToString("0.00");
         }
@@ -432,15 +512,15 @@ namespace CreateInvoice {
         private void CalculateGainPercentage(object sender, EventArgs e) {
             decimal price = 0;
             decimal gainPrice = 0;
-            
+
             decimal.TryParse(txtPrice.Text, out price);
             decimal.TryParse(txtGainPrice.Text, out gainPrice);
-            
+
             if (price > 0) {
                 decimal percentage = (gainPrice / price) * 100;
                 txtGainPercent.Text = percentage.ToString("0.00");
             }
-            
+
             CalculateTotal(sender, e);
         }
 
@@ -449,10 +529,10 @@ namespace CreateInvoice {
             if (txtGainPercent.Focused) {
                 decimal price = 0;
                 decimal percentage = 0;
-                
+
                 decimal.TryParse(txtPrice.Text, out price);
                 decimal.TryParse(txtGainPercent.Text, out percentage);
-                
+
                 if (price > 0 && percentage > 0) {
                     decimal gainPrice = (price * percentage) / 100;
                     txtGainPrice.Text = gainPrice.ToString("0.00");
@@ -461,118 +541,178 @@ namespace CreateInvoice {
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
-            productControl = new ProductControl(formMain);
+            productControl = new ProductListControl(formMain);
             formMain.ShowView(productControl);
         }
 
         private void btnAddProduct_Click(object sender, EventArgs e) {
             try {
                 // ตรวจสอบข้อมูลที่จำเป็น
-                if (string.IsNullOrWhiteSpace(txtProductCode.Text)) {
-                    MessageBox.Show("กรุณากรอกรหัสสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtProductCode.Focus();
-                    return;
-                }
+                //if (string.IsNullOrWhiteSpace(txtProductCode.Text)) {
+                //    MessageBox.Show("กรุณากรอกรหัสสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtProductCode.Focus();
+                //    return;
+                //}
 
-                if (string.IsNullOrWhiteSpace(txtProductName.Text)) {
-                    MessageBox.Show("กรุณากรอกชื่อสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtProductName.Focus();
-                    return;
-                }
+                //if (string.IsNullOrWhiteSpace(txtProductName.Text)) {
+                //    MessageBox.Show("กรุณากรอกชื่อสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    txtProductName.Focus();
+                //    return;
+                //}
 
-                if (cboProductGroup.SelectedValue == null) {
-                    MessageBox.Show("กรุณาเลือกประเภทสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cboProductGroup.Focus();
-                    return;
-                }
-
-                if (cboCompany.SelectedValue == null) {
-                    MessageBox.Show("กรุณาเลือกบริษัท", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cboCompany.Focus();
-                    return;
-                }
+                //if (cboProductGroup.SelectedValue == null) {
+                //    MessageBox.Show("กรุณาเลือกประเภทสินค้า", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    cboProductGroup.Focus();
+                //    return;
+                //}
 
                 // แปลงค่าตัวเลข
-                decimal price = 0;
-                decimal net = 0;
-                decimal gainPrice = 0;
-                decimal gainPercentage = 0;
-
+                decimal price;
                 if (!decimal.TryParse(txtPrice.Text, out price)) {
                     MessageBox.Show("กรุณากรอกราคาสินค้าที่ถูกต้อง", "แจ้งเตือน", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPrice.Focus();
                     return;
                 }
 
+                decimal net = 0;
+                decimal gainPrice = 0;
+                decimal gainPercentage = 0;
                 decimal.TryParse(txtTotal.Text, out net);
                 decimal.TryParse(txtGainPrice.Text, out gainPrice);
                 decimal.TryParse(txtGainPercent.Text, out gainPercentage);
 
-                // generate ProductID: หา max id + 1 จาก DataTable
-                int maxId = 0;
-                if (formMain != null && formMain.ProductsTable != null) {
-                    foreach (DataRow row in formMain.ProductsTable.Rows) {
-                        if (row["ProductID"] != DBNull.Value) {
-                            int id;
-                            if (int.TryParse(row["ProductID"].ToString(), out id)) {
-                                if (id > maxId)
-                                    maxId = id;
-                            }
+                bool isEdit = _isEdit;
+                string productIdToUse = _editingProductID;
+
+                // ถ้ายังไม่ได้กำหนดจาก LoadForEdit ให้เช็คจาก ProductCode ใน DataTable อีกครั้ง
+                if (!isEdit && formMain != null && formMain.ProductsTable != null && !string.IsNullOrWhiteSpace(txtProductCode.Text)) {
+                    try {
+                        var escCode = txtProductCode.Text.Replace("'", "''");
+                        DataRow[] found = formMain.ProductsTable.Select("ProductCode = '" + escCode + "'");
+                        if (found.Length > 0) {
+                            isEdit = true;
+                            productIdToUse = found[0]["ProductID"]?.ToString();
                         }
+                    } catch (Exception ex) {
+                        System.Diagnostics.Debug.WriteLine($"Error searching ProductsTable: {ex.Message}");
                     }
                 }
 
-                string newProductID = (maxId + 1).ToString();
+                if (!isEdit || string.IsNullOrEmpty(productIdToUse)) {
+                    // generate ProductID: หา max id + 1 จาก DataTable
+                    int maxId = 0;
+                    if (formMain != null && formMain.ProductsTable != null) {
+                        foreach (DataRow row in formMain.ProductsTable.Rows) {
+                            if (row["ProductID"] != DBNull.Value) {
+                                int id;
+                                if (int.TryParse(row["ProductID"].ToString(), out id)) {
+                                    if (id > maxId)
+                                        maxId = id;
+                                }
+                            }
+                        }
+                    }
+                    productIdToUse = (maxId + 1).ToString();
+                    isEdit = false;
+                }
 
                 // สร้าง object products
                 var product = new products {
-                    ProductID = newProductID,
+                    ProductID = productIdToUse,
                     ProductCode = txtProductCode.Text.Trim(),
                     ProductName = txtProductName.Text.Trim(),
-                    ProductTypeID = cboProductGroup.SelectedValue.ToString(),
+                    ProductTypeID = cboProductGroup.SelectedValue?.ToString() ?? "",
                     Price = price,
                     Net = net,
-                    RefID = cboRefProduct.SelectedValue?.ToString() ?? "",
+                    RefID = (cboRefProduct.SelectedValue != null && cboRefProduct.SelectedValue.ToString() != "0") ? cboRefProduct.SelectedValue.ToString() : "",
                     GainPrice = gainPrice,
                     GainPercentage = gainPercentage,
-                    CompanyID = cboCompany.SelectedValue.ToString(),
+                    CompanyID = cboCompany.SelectedValue?.ToString() ?? "",
                     CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     CreateBy = Environment.UserName,
                     UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     UpdateBy = Environment.UserName
                 };
 
-                // บันทึกลง Firebase
-                products.ProductsMgr(product, "ADD");
+                // บันทึกลง backend (ใช้ ADD หรือ EDIT ตามสถานะ)
+                products.ProductsMgr(product, isEdit ? "EDIT" : "ADD");
 
-                // เพิ่มข้อมูลใน DataTable cache ของ FormMain
+                // อัปเดต DataTable cache ของ FormMain
                 if (formMain != null && formMain.ProductsTable != null) {
                     var dt = formMain.ProductsTable;
-                    var newRow = dt.NewRow();
-                    newRow["ProductID"] = product.ProductID;
-                    newRow["ProductCode"] = product.ProductCode;
-                    newRow["ProductName"] = product.ProductName;
-                    newRow["Price"] = product.Price;
-                    newRow["Net"] = product.Net;
-                    newRow["RefID"] = product.RefID;
-                    newRow["GainPrice"] = product.GainPrice;
-                    newRow["GainPercentage"] = product.GainPercentage;
-                    newRow["CompanyID"] = product.CompanyID;
-                    newRow["CreateTime"] = product.CreateTime;
-                    newRow["CreateBy"] = product.CreateBy;
-                    newRow["UpdateTime"] = product.UpdateTime;
-                    newRow["UpdateBy"] = product.UpdateBy;
-                    dt.Rows.Add(newRow);
+                    if (!isEdit) {
+                        var newRow = dt.NewRow();
+                        if (dt.Columns.Contains("ProductID"))
+                            newRow["ProductID"] = product.ProductID;
+                        if (dt.Columns.Contains("ProductCode"))
+                            newRow["ProductCode"] = product.ProductCode;
+                        if (dt.Columns.Contains("ProductName"))
+                            newRow["ProductName"] = product.ProductName;
+                        if (dt.Columns.Contains("ProductTypeID"))
+                            newRow["ProductTypeID"] = product.ProductTypeID;
+                        if (dt.Columns.Contains("Price"))
+                            newRow["Price"] = product.Price;
+                        if (dt.Columns.Contains("Net"))
+                            newRow["Net"] = product.Net;
+                        if (dt.Columns.Contains("RefID"))
+                            newRow["RefID"] = product.RefID;
+                        if (dt.Columns.Contains("GainPrice"))
+                            newRow["GainPrice"] = product.GainPrice;
+                        if (dt.Columns.Contains("GainPercentage"))
+                            newRow["GainPercentage"] = product.GainPercentage;
+                        if (dt.Columns.Contains("CompanyID"))
+                            newRow["CompanyID"] = product.CompanyID;
+                        if (dt.Columns.Contains("CreateTime"))
+                            newRow["CreateTime"] = product.CreateTime;
+                        if (dt.Columns.Contains("CreateBy"))
+                            newRow["CreateBy"] = product.CreateBy;
+                        if (dt.Columns.Contains("UpdateTime"))
+                            newRow["UpdateTime"] = product.UpdateTime;
+                        if (dt.Columns.Contains("UpdateBy"))
+                            newRow["UpdateBy"] = product.UpdateBy;
+                        dt.Rows.Add(newRow);
+                    } else {
+                        try {
+                            DataRow[] rows = dt.Select("ProductID = '" + product.ProductID.Replace("'", "''") + "'");
+                            if (rows.Length > 0) {
+                                var row = rows[0];
+                                if (row.Table.Columns.Contains("ProductCode"))
+                                    row["ProductCode"] = product.ProductCode;
+                                if (row.Table.Columns.Contains("ProductName"))
+                                    row["ProductName"] = product.ProductName;
+                                if (row.Table.Columns.Contains("ProductTypeID"))
+                                    row["ProductTypeID"] = product.ProductTypeID;
+                                if (row.Table.Columns.Contains("Price"))
+                                    row["Price"] = product.Price;
+                                if (row.Table.Columns.Contains("Net"))
+                                    row["Net"] = product.Net;
+                                if (row.Table.Columns.Contains("RefID"))
+                                    row["RefID"] = product.RefID;
+                                if (row.Table.Columns.Contains("GainPrice"))
+                                    row["GainPrice"] = product.GainPrice;
+                                if (row.Table.Columns.Contains("GainPercentage"))
+                                    row["GainPercentage"] = product.GainPercentage;
+                                if (row.Table.Columns.Contains("CompanyID"))
+                                    row["CompanyID"] = product.CompanyID;
+                                if (row.Table.Columns.Contains("UpdateTime"))
+                                    row["UpdateTime"] = product.UpdateTime;
+                                if (row.Table.Columns.Contains("UpdateBy"))
+                                    row["UpdateBy"] = product.UpdateBy;
+                            }
+                        } catch (Exception ex) {
+                            System.Diagnostics.Debug.WriteLine($"Error updating ProductsTable: {ex.Message}");
+                        }
+                    }
                     dt.AcceptChanges();
                 }
 
-                MessageBox.Show("เพิ่มสินค้าเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(isEdit ? "บันทึกสินค้าเรียบร้อยแล้ว" : "เพิ่มสินค้าเรียบร้อยแล้ว", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // กลับไปหน้า ProductControl
-                productControl = new ProductControl(formMain);
+                productControl = new ProductListControl(formMain);
                 productControl.productDetial = this;
                 formMain.ShowView(productControl);
-                
+
             } catch (Exception ex) {
                 MessageBox.Show("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + ex.Message, "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

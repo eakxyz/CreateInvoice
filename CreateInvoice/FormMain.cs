@@ -18,9 +18,9 @@ namespace CreateInvoice {
         // Persist views so you can place controls in each page and keep their state
         private readonly CustomerListControl customerListControl = null;
         private readonly CashControl cashControl = new CashControl();
-        private readonly CompanyListControl companyControl = new CompanyListControl();
+        private readonly CompanyListControl companyControl = null;
         private readonly CreateSaleControl createSaleControl = null;
-        private readonly ProductControl productControl = null;
+        private readonly ProductListControl productControl = null;
         private readonly EmployeeGroupListControl employeeGroupControl = null;
         private readonly ProductTypeListControl productTypeControl = null;
 
@@ -57,14 +57,20 @@ namespace CreateInvoice {
             get; private set;
         }
 
+        // เพิ่ม DataTable สำหรับข้อมูลภูมิศาสตร์ไทย
+        public DataTable ProvincesTable {
+            get; private set;
+        }
+        public DataTable DistrictsTable {
+            get; private set;
+        }
+        public DataTable SubDistrictsTable {
+            get; private set;
+        }
+
         public FormMain() {
             InitializeComponent();
 
-            createSaleControl = new CreateSaleControl((FormMain)this);
-            customerListControl = new CustomerListControl((FormMain)this);
-            employeeGroupControl = new EmployeeGroupListControl((FormMain)this);
-            productControl = new ProductControl((FormMain)this);
-            productTypeControl = new ProductTypeListControl((FormMain)this);
             // Start with expanded menu
             menuExpanded = true;
             panelMenu.Width = MenuExpandedWidth;
@@ -72,9 +78,17 @@ namespace CreateInvoice {
 
             InitToolTips();
             InitContentViews();
+            LoadAllMasterData();
+
+
+            createSaleControl = new CreateSaleControl((FormMain)this);
+            customerListControl = new CustomerListControl((FormMain)this);
+            employeeGroupControl = new EmployeeGroupListControl((FormMain)this);
+            productControl = new ProductListControl((FormMain)this);
+            productTypeControl = new ProductTypeListControl((FormMain)this);
+            companyControl = new CompanyListControl((FormMain)this);
             ShowView(customerListControl);
 
-            LoadAllMasterData();
         }
 
 
@@ -86,31 +100,53 @@ namespace CreateInvoice {
 
         private void UpdateMenuVisuals() {
             if (menuExpanded) {
+
+                btnToggleMenu.Text = "≡";
                 btnCustomers.Text = "ลูกค้า";
                 btnCreateSale.Text = "สร้างการขาย";
                 btnProducts.Text = "สินค้า";
                 btnMaster.Text = "ข้อมูลทั่วไป";
+                btnCustomerGroup.Text = "กลุ่มลูกค้า";
+                btnProductType.Text = "ประเภทสินค้า";
+                btnCompany.Text = "ที่อยู่บริษัท";
                 btnCash.Text = "การรับชำระ";
-                btnToggleMenu.Text = "≡";
+                btnSummary.Text = "สรุปยอด";
 
-                btnCustomers.TextAlign = ContentAlignment.MiddleLeft;
+
+
+                //btnCustomers.TextAlign = ContentAlignment.MiddleLeft;
                 btnCreateSale.TextAlign = ContentAlignment.MiddleLeft;
                 //btnProducts.TextAlign = ContentAlignment.MiddleLeft;
                 btnMaster.TextAlign = ContentAlignment.MiddleLeft;
                 btnCash.TextAlign = ContentAlignment.MiddleLeft;
+                ///////////////////////////////////////
+                btnCustomers.TextAlign = ContentAlignment.MiddleRight;
+                btnProducts.TextAlign = ContentAlignment.MiddleRight;
+                btnCustomerGroup.TextAlign = ContentAlignment.MiddleRight;
+                btnProductType.TextAlign = ContentAlignment.MiddleRight;
+                btnCompany.TextAlign = ContentAlignment.MiddleRight;
             } else {
-                btnCustomers.Text = "🧑";
-                btnCreateSale.Text = "🧾";
-                btnProducts.Text = "📦";
-                btnMaster.Text = "ℹ";
+                //🎉⏰⏱☏🔄☕︎🔐🔊🏠❖🧺↺🔧📥
+                //✉︎⚠︎★✶☁︎➜⚝☕︎❤︎❄︎ⓘ☠︎✰»→▶︎✈︎✎ᝰ𓃠⤿☀︎𝒾✔𓂃✍︎♻🔅🔗🔆☢💥✂🔁🎖️ℹ✉🗝
+                //🔥💲📩🚩⚛️🪧🪧🪧💀⚜️⚖ⓘ📜📝📌✍📋💡🗒✏️✉︎📢🚨✨✎ᝰ.📓🗒🔎🚀🎯📅📖
+                //🌐❓🏷️⏳🔔🛠️💸🎬💵🏆🔑🗐🛒📣
                 btnToggleMenu.Text = "≡";
+                btnCustomers.Text = "🧑";
+                btnCreateSale.Text = "🛒";
+                btnProducts.Text = "📦";
+                btnMaster.Text = "🛠️";
+                btnCustomerGroup.Text = "🏷️";
+                btnProductType.Text = "📌";
+                btnCompany.Text = "🏠";
+                btnCash.Text = "💲";
+                btnSummary.Text = "🔥";
 
-                btnCustomers.TextAlign = ContentAlignment.MiddleCenter;
-                btnCreateSale.TextAlign = ContentAlignment.MiddleCenter;
-                btnProducts.TextAlign = ContentAlignment.MiddleCenter;
-                btnMaster.TextAlign = ContentAlignment.MiddleCenter;
-                btnProductType.TextAlign = ContentAlignment.MiddleCenter;
-                btnCash.TextAlign = ContentAlignment.MiddleCenter;
+                btnCustomers.TextAlign = ContentAlignment.MiddleRight;
+                btnCreateSale.TextAlign = ContentAlignment.MiddleRight;
+                btnProducts.TextAlign = ContentAlignment.MiddleRight;
+                btnMaster.TextAlign = ContentAlignment.MiddleRight;
+                btnProductType.TextAlign = ContentAlignment.MiddleRight;
+                btnCash.TextAlign = ContentAlignment.MiddleRight;
             }
 
             // อัปเดตการแสดงผลปุ่มกลุ่มลูกค้าตาม flag ปัจจุบัน
@@ -167,10 +203,11 @@ namespace CreateInvoice {
             if (!panelContent.Controls.Contains(view)) {
                 panelContent.Controls.Add(view);
             }
-
-            view.Visible = true;
-            //view.Dock = DockStyle.Fill;
-            view.BringToFront();
+            if (view != null) {
+                view.Visible = true;
+                //view.Dock = DockStyle.Fill;
+                view.BringToFront();
+            }
         }
 
         private void btnCustomers_Click(object sender, EventArgs e) {
@@ -192,6 +229,7 @@ namespace CreateInvoice {
             // ถ้า flag เป็น true = ต้องการซ่อนปbutton -> ซ่อนตัวเอง
             // ถ้า flag เป็น false = ต้องการแสดงปbutton -> แสดงตัวเอง
             btnCustomerGroup.Visible = !customerGroupHidden;
+            btnCustomers.Visible = !customerGroupHidden;
             btnProducts.Visible = !customerGroupHidden;
             btnCompany.Visible = !customerGroupHidden;
             btnProductType.Visible = !customerGroupHidden;
@@ -236,6 +274,7 @@ namespace CreateInvoice {
         }
 
         private void LoadAllMasterData() {
+            LoadThaiAddress();  // โหลดข้อมูลภูมิศาสตร์ไทยก่อน
             LoadProductTypes();
             LoadCustomerGroups();
             LoadProducts();
@@ -246,6 +285,56 @@ namespace CreateInvoice {
             LoadAddress();
             LoadMapProducts();
             LoadMapGuarantees();
+        }
+
+        public void LoadThaiAddress() {
+            try {
+                var basePath = Application.StartupPath;
+                var resourcesPath = System.IO.Path.Combine(basePath, "Resources");
+
+                var provincesFile = System.IO.Path.Combine(resourcesPath, "provinces.xml");
+                var districtsFile = System.IO.Path.Combine(resourcesPath, "districts.xml");
+                var subDistrictsFile = System.IO.Path.Combine(resourcesPath, "sub_districts.xml");
+
+                // โหลด Provinces
+                if (System.IO.File.Exists(provincesFile)) {
+                    var dsProvinces = new DataSet();
+                    dsProvinces.ReadXml(provincesFile);
+                    if (dsProvinces.Tables.Count > 0) {
+                        ProvincesTable = dsProvinces.Tables[0];
+                    }
+                }
+
+                // โหลด Districts
+                if (System.IO.File.Exists(districtsFile)) {
+                    var dsDistricts = new DataSet();
+                    dsDistricts.ReadXml(districtsFile);
+                    if (dsDistricts.Tables.Count > 0) {
+                        DistrictsTable = dsDistricts.Tables[0];
+                    }
+                }
+
+                // โหลด SubDistricts
+                if (System.IO.File.Exists(subDistrictsFile)) {
+                    var dsSubDistricts = new DataSet();
+                    dsSubDistricts.ReadXml(subDistrictsFile);
+                    if (dsSubDistricts.Tables.Count > 0) {
+                        SubDistrictsTable = dsSubDistricts.Tables[0];
+                    }
+                }
+
+                // โหลดข้อมูลเข้า ThaiAddressData
+                if (ProvincesTable != null && DistrictsTable != null && SubDistrictsTable != null) {
+                    ThaiAddressData.LoadFromDataTables(ProvincesTable, DistrictsTable, SubDistrictsTable);
+                    System.Diagnostics.Debug.WriteLine($"FormMain: โหลดข้อมูลภูมิศาสตร์ไทยสำเร็จ - จังหวัด: {ThaiAddressData.Data.Count} แห่ง");
+                } else {
+                    System.Diagnostics.Debug.WriteLine("FormMain: ไม่สามารถโหลดข้อมูลภูมิศาสตร์ไทยได้");
+                }
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"FormMain LoadThaiAddress Error: {ex.Message}");
+                MessageBox.Show($"เกิดข้อผิดพลาดในการโหลดข้อมูลภูมิศาสตร์ไทย:\n{ex.Message}",
+                    "ข้อผิดพลาด", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public void LoadProductTypes() {
